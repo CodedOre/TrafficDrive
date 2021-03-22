@@ -1,0 +1,12 @@
+# Ignore import folder
+.import/
+
+# Ignore exported project
+export/
+export.cfg
+
+# Ignore translations
+*.translation
+
+# Ignore assets (as these are in a seperate project)
+assets
