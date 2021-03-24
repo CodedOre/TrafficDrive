@@ -8,8 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node",
+"class": "VehicleLight",
+"language": "GDScript",
+"path": "res://scripts/VehicleLight.gd"
+}, {
+"base": "Node",
+"class": "VehicleLightsManager",
+"language": "GDScript",
+"path": "res://scripts/VehicleLightsManager.gd"
+} ]
 _global_script_class_icons={
+"VehicleLight": "",
+"VehicleLightsManager": ""
 }
 
 [application]
