@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/models/vehicles/Police1.glb" type="PackedScene" id=1]
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/materials/VehicleLights/ReverseLightOff.material" type="Material" id=5]
 [ext_resource path="res://assets/materials/VehicleLights/TurningSignalOff.material" type="Material" id=6]
 [ext_resource path="res://assets/materials/VehicleLights/RearLightOff.material" type="Material" id=7]
+[ext_resource path="res://scripts/VehicleLight.gd" type="Script" id=8]
 
 [sub_resource type="ConvexPolygonShape" id=1]
 points = PoolVector3Array( -110.842, 64.8663, -118.057, -92.9838, -206.946, -51.6038, -92.9017, -172.764, -28.3696, -92.5719, 122.056, -30.3803, -92.5149, -201.582, -81.489, -89.8982, -214.309, -38.358, -88.9488, -203.28, -94.4644, -88.4058, -127.911, -23.8785, -88.4058, 167.988, -23.8785, -87.9294, 219.124, -51.7567, -85.684, -227.722, -60.0383, -84.2086, 237.493, -43.1057, -84.207, 224.718, -81.5212, -84.1713, 237.394, -64.4671, -83.8381, -116.146, -115.48, -81.393, -219.17, -90.4536, -76.6111, 253.274, -42.7826, -76.3713, -212.792, -103.193, -76.1172, -134.74, -115.971, -75.2056, 248.857, -64.4916, -70.9756, 231.912, -85.6828, -64.8875, -244.515, -42.2708, -57.021, -231.032, -23.8785, -55.2678, -240.731, -68.7223, -48.0509, 266.655, -23.8785, -46.4838, -227.182, -103.4, -45.3013, 264.674, -43.3853, -44.0733, 249.523, -85.134, -43.1593, 240.571, -88.8107, -41.7127, -220.247, -107.319, -32.0557, 227.027, -93.5975, 17.8619, 90.9242, -114.799, 34.3637, 227.484, -93.6602, 34.4808, 253.182, -85.3997, 37.1549, -163.804, -19.3873, 37.1549, -118.95, -19.3873, 43.8014, 267.067, -68.7223, 46.125, 266.655, -23.8785, 48.6505, -226.048, -103.238, 53.4081, -241.141, -68.7223, 59.5695, -204.151, -118.048, 59.5695, -118.95, -19.3873, 66.5277, -223.894, -99.2034, 67.3076, -244.315, -42.2911, 76.8245, 246.799, -64.5298, 77.5829, 223.556, -85.6927, 78.0007, -227.657, -38.8478, 78.03, 250.383, -43.1035, 80.0223, -233.884, -64.348, 82.8981, 226.269, -81.6161, 83.2159, -208.914, -98.9404, 85.9191, 231.652, -64.4965, 86.0258, -103.181, -115.401, 86.48, -127.911, -23.8785, 86.48, 167.988, -23.8785, 88.0317, -223.136, -60.0464, 90.6686, -197.488, -90.0277, 90.9758, -172.764, -28.3696, 90.9758, 212.842, -28.3696, 92.0182, -209.318, -38.4499, 92.0222, 123.606, -29.8043, 92.052, -83.8786, -29.7919, 92.5044, -210.493, -77.4115, 108.916, 64.8663, -118.057 )
@@ -56,6 +57,8 @@ material/0 = ExtResource( 3 )
 [node name="LightFrontLeft" parent="VehicleBody" index="1"]
 cast_shadow = 0
 material/0 = ExtResource( 4 )
+script = ExtResource( 8 )
+HeadLight = true
 
 [node name="HeadLightLeft" type="SpotLight" parent="VehicleBody/LightFrontLeft" index="0"]
 transform = Transform( 100, 0, 0, 0, -1.62921e-05, -100, 0, 100, -1.62921e-05, 58, 240, -73.2 )
@@ -67,6 +70,8 @@ spot_angle = 32.0
 [node name="LightFrontRight" parent="VehicleBody" index="2"]
 cast_shadow = 0
 material/0 = ExtResource( 4 )
+script = ExtResource( 8 )
+HeadLight = true
 
 [node name="HeadLightRight" type="SpotLight" parent="VehicleBody/LightFrontRight" index="0"]
 transform = Transform( 100, 0, 0, 0, -1.62921e-05, -100, 0, 100, -1.62921e-05, -58, 240, -73.2 )
@@ -78,6 +83,9 @@ spot_angle = 32.0
 [node name="LightRearLeft" parent="VehicleBody" index="3"]
 cast_shadow = 0
 material/0 = ExtResource( 7 )
+script = ExtResource( 8 )
+RearLight = true
+TurningSignal = 1
 
 [node name="RearLightLeft" type="OmniLight" parent="VehicleBody/LightRearLeft" index="0"]
 transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, 80, -220, -90 )
@@ -87,6 +95,9 @@ shadow_enabled = true
 [node name="LightRearRight" parent="VehicleBody" index="4"]
 cast_shadow = 0
 material/0 = ExtResource( 7 )
+script = ExtResource( 8 )
+RearLight = true
+TurningSignal = 2
 
 [node name="RearLightRight" type="OmniLight" parent="VehicleBody/LightRearRight" index="0"]
 transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, -80, -220, -90 )
@@ -96,6 +107,8 @@ shadow_enabled = true
 [node name="LightReverseLeft" parent="VehicleBody" index="5"]
 cast_shadow = 0
 material/0 = ExtResource( 5 )
+script = ExtResource( 8 )
+ReverseLight = true
 
 [node name="ReverseLightLeft" type="OmniLight" parent="VehicleBody/LightReverseLeft" index="0"]
 transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, 29, -226, -88 )
@@ -106,6 +119,8 @@ omni_attenuation = 2.0
 [node name="LightReverseRight" parent="VehicleBody" index="6"]
 cast_shadow = 0
 material/0 = ExtResource( 5 )
+script = ExtResource( 8 )
+ReverseLight = true
 
 [node name="ReverseLightRight" type="OmniLight" parent="VehicleBody/LightReverseRight" index="0"]
 transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, -29, -226, -88 )
@@ -116,6 +131,8 @@ omni_attenuation = 2.0
 [node name="LightTurningLeft" parent="VehicleBody" index="7"]
 cast_shadow = 0
 material/0 = ExtResource( 6 )
+script = ExtResource( 8 )
+TurningSignal = 1
 
 [node name="TurningSignalLeft" type="OmniLight" parent="VehicleBody/LightTurningLeft" index="0"]
 transform = Transform( -50, 0, -86.6025, 86.6025, 0, -50, 0, -100, 0, 73, 241.5, -73 )
@@ -127,6 +144,8 @@ omni_attenuation = 5.0
 [node name="LightTurningRight" parent="VehicleBody" index="8"]
 cast_shadow = 0
 material/0 = ExtResource( 6 )
+script = ExtResource( 8 )
+TurningSignal = 2
 
 [node name="TurningSignalRight" type="OmniLight" parent="VehicleBody/LightTurningRight" index="0"]
 transform = Transform( -50, 0, -86.6025, 86.6025, 0, -50, 0, -100, 0, -73, 241.5, -73 )
