@@ -16,16 +16,32 @@ points = PoolVector3Array( -83.3105, -109.513, -119.773, -79.6029, -122.824, -11
 
 [node name="Police1" instance=ExtResource( 1 )]
 
+[node name="WheelFrontLeft " parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.744977, 0.361439, 1.63227 )
+
 [node name="WheelFrontLeft " parent="WheelFrontLeft " index="0"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 material/0 = ExtResource( 2 )
+
+[node name="WheelFrontRight " parent="." index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.744977, 0.361439, 1.63227 )
 
 [node name="WheelFrontRight " parent="WheelFrontRight " index="0"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 material/0 = ExtResource( 2 )
+
+[node name="WheelRearLeft " parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.744977, 0.361439, -1.24979 )
 
 [node name="WheelRearLeft " parent="WheelRearLeft " index="0"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 material/0 = ExtResource( 2 )
 
+[node name="WheelRearRight " parent="." index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.744977, 0.361439, -1.24979 )
+
 [node name="WheelRearRight " parent="WheelRearRight " index="0"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 material/0 = ExtResource( 2 )
 
 [node name="VehicleBody" parent="." index="4"]
