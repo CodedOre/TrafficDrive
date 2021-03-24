@@ -59,7 +59,7 @@ spot_range = 30.0
 spot_angle = 32.0
 
 [node name="HighBeamLeft" type="SpotLight" parent="." index="7"]
-transform = Transform( 1, 0, 0, 0, -1, 1.62921e-07, 0, -1.62921e-07, -1, 0.61, 0.73752, 2.442 )
+transform = Transform( 1, 0, 0, 0, -1, 1.62921e-07, 0, -1.62921e-07, -1, 0.613485, 0.73752, 2.44312 )
 light_energy = 8.0
 shadow_enabled = true
 spot_range = 60.0
@@ -72,14 +72,28 @@ shadow_enabled = true
 spot_range = 60.0
 spot_angle = 32.0
 
-[node name="CollisionShape1" type="CollisionShape" parent="." index="9"]
+[node name="TurningSignalLeft" type="OmniLight" parent="." index="9"]
+transform = Transform( -0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, 0.73, 0.73, 2.415 )
+light_color = Color( 1, 0.654902, 0, 1 )
+light_energy = 4.0
+shadow_enabled = true
+omni_attenuation = 5.0
+
+[node name="TurningSignalRight" type="OmniLight" parent="." index="10"]
+transform = Transform( -0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -0.73, 0.73, 2.415 )
+light_color = Color( 1, 0.654902, 0, 1 )
+light_energy = 4.0
+shadow_enabled = true
+omni_attenuation = 5.0
+
+[node name="CollisionShape1" type="CollisionShape" parent="." index="11"]
 transform = Transform( 0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0 )
 shape = SubResource( 1 )
 
-[node name="CollisionShape2" type="CollisionShape" parent="." index="10"]
+[node name="CollisionShape2" type="CollisionShape" parent="." index="12"]
 transform = Transform( 0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0 )
 shape = SubResource( 2 )
 
-[node name="CollisionShape3" type="CollisionShape" parent="." index="11"]
+[node name="CollisionShape3" type="CollisionShape" parent="." index="13"]
 transform = Transform( 0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0 )
 shape = SubResource( 3 )
