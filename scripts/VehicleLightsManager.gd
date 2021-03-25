@@ -13,17 +13,20 @@ enum NightLightMode {OFF, ON, FAR}
 # -- Properties --
 
 # - Light Settings -
-const HeadLightRange   = 30
-const HeadLightEnergy  = 4
-const HighBeamRange    = 60
-const HighBeamEnergy   = 8
-const RearLightEnergy  = 2
-const BrakeLightEnergy = 4
+const HeadLightRange     =  30
+const HeadLightEnergy    =   4
+const HighBeamRange      =  60
+const HighBeamEnergy     =   8
+const RearLightEnergy    =   2
+const BrakeLightEnergy   =   4
+const TurnSignalInterval = .75
 
 # - Light States -
-var nightlights          setget set_nightlights,   get_nightlights
-var brakelights   : bool setget set_brakelights,   get_brakelights
-var reverselights : bool setget set_reverselights, get_reverselights
+var     NightLights        setget set_nightlights,     get_nightlights
+var     BrakeLights : bool setget set_brakelights,     get_brakelights
+var   ReverseLights : bool setget set_reverselights,   get_reverselights
+var  TurnLeftLights : bool setget set_turnleftlights,  get_turnleftlights
+var TurnRightLights : bool setget set_turnrightlights, get_turnrightlights
 
 # -- Variables --
 
@@ -54,13 +57,22 @@ var    reverse_nodes = Array()
 var _night_state
 var _brake_state
 var _reverse_state
+var _turnleft_state
+var _turnright_state
+
+# - Internal variables for state calculation
+var _turning_timer = Timer.new()
+var _turning_state
+var _turning_left
+var _turning_right
 
 # -- Functions --
 
 # - Init the class -
-func _init(all_lights):
+func _init(parent, all_lights):
+	# Launch init functions
 	process_nodes(all_lights)
-	preset_lights()
+	preset_lights(parent)
 
 # - Places all nodes into the wanted arrays -
 func process_nodes(all_lights):
@@ -118,9 +130,15 @@ func process_nodes(all_lights):
 		push_error("VehicleLightsManager: Processed node has invalid configuration!")
 
 # - Initial settings for the lights -
-func preset_lights():
+func preset_lights(parent):
 	set_nightlights(NightLightMode.OFF)
 	set_brakelights(false)
+	set_reverselights(false)
+	set_turnleftlights(false)
+	set_turnrightlights(false)
+	_turning_timer.wait_time = TurnSignalInterval
+	_turning_timer.connect("timeout", self, "set_turn_signals")
+	parent.add_child(_turning_timer)
 
 # - Set night lights -
 func set_nightlights(mode):
@@ -145,6 +163,45 @@ func set_reverselights(value):
 
 func get_reverselights():
 	return _reverse_state
+
+# - Set turn signals -
+func set_turnleftlights(value):
+	_turning_left = value
+	set_turn_timer()
+
+func set_turnrightlights(value):
+	_turning_right = value
+	set_turn_timer()
+
+func get_turnleftlights():
+	return _turning_left
+
+func get_turnrightlights():
+	return _turning_right
+
+func set_turn_timer():
+	# If no turn signal is on, stop the timer
+	if ! _turning_left && ! _turning_right:
+		_turning_timer.stop()
+		set_turn_signals()
+	# Start timer if not running
+	elif _turning_timer.is_stopped():
+		_turning_timer.start()
+		_turning_state = true
+		set_turn_signals()
+
+func set_turn_signals():
+	# Called by the timer, automatically cycles the light states
+	_turning_state = ! _turning_state
+	if _turning_left:
+		_turnleft_state = ! _turning_state
+	else:
+		_turnleft_state = false
+	if _turning_right:
+		_turnright_state = ! _turning_state
+	else:
+		_turnright_state = false
+	set_lights()
 
 # - Sets all lights according to it's states
 func set_lights():
@@ -185,6 +242,27 @@ func set_lights():
 					node.material_override       = material_rear_on
 					node.light_node.light_energy = RearLightEnergy
 					node.light_node.visible      = true
+	# Set TurnSignals
+	for node in turnleft_nodes:
+		if ! node.RearLight:
+			if _turnleft_state:
+				# Enables the light and sets the material to "on"
+				node.material_override  = material_turning_on
+				node.light_node.visible = true
+			else:
+				# Disables the light and sets the material to "off"
+				node.material_override  = material_turning_off
+				node.light_node.visible = false
+	for node in turnright_nodes:
+		if ! node.RearLight:
+			if _turnright_state:
+				# Enables the light and sets the material to "on"
+				node.material_override  = material_turning_on
+				node.light_node.visible = true
+			else:
+				# Disables the light and sets the material to "off"
+				node.material_override  = material_turning_off
+				node.light_node.visible = false
 	# Set ReverseLights
 	for node in reverse_nodes:
 		if _reverse_state:
@@ -192,6 +270,6 @@ func set_lights():
 			node.material_override  = material_reverse_on
 			node.light_node.visible = true
 		else:
-			# Disables the light and sets the material to "on"
+			# Disables the light and sets the material to "off"
 			node.material_override  = material_reverse_off
 			node.light_node.visible = false
