@@ -13,14 +13,17 @@ enum NightLightMode {OFF, ON, FAR}
 # -- Properties --
 
 # - FrontLight Settings -
-const HeadLightRange  = 30
-const HeadLightEnergy = 4
-const HighBeamRange   = 60
-const HighBeamEnergy  = 8
+const HeadLightRange   = 30
+const HeadLightEnergy  = 4
+const HighBeamRange    = 60
+const HighBeamEnergy   = 8
+const RearLightEnergy  = 2
+const BrakeLightEnergy = 4
 
 # -- Variables --
 
 var nightlights setget set_nightlights, get_nightlights
+var brakelights setget set_brakelights, get_brakelights
 
 # - All lights materials
 # FrontLight
@@ -47,6 +50,7 @@ var    reverse_nodes = Array()
 
 # - Internal light states -
 var _night_state
+var _brake_state
 
 # -- Functions --
 
@@ -113,13 +117,29 @@ func process_nodes(all_lights):
 # - Initial settings for the lights -
 func preset_lights():
 	set_nightlights(NightLightMode.OFF)
+	set_brakelights(false)
 
-# - Set front lights -
+# - Set night lights -
 func set_nightlights(mode):
 	_night_state = mode
+	set_lights()
+
+func get_nightlights():
+	return _night_state
+
+# - Set brake lights -
+func set_brakelights(value):
+	_brake_state = value
+	set_lights()
+
+func get_brakelights():
+	return _brake_state
+
+# - Sets all lights according to it's states
+func set_lights():
 	# Set FrontLights
 	for node in frontlight_nodes:
-		match mode:
+		match _night_state:
 			NightLightMode.OFF:
 				# Disables the light and set the material to "off"
 				node.material_override  = material_front_off
@@ -127,26 +147,30 @@ func set_nightlights(mode):
 			NightLightMode.ON:
 				# Sets the light range and energy and the material to "on"
 				node.material_override       = material_front_on
-				node.light_node.visible      = true
 				node.light_node.spot_range   = HeadLightRange
 				node.light_node.light_energy = HeadLightEnergy
+				node.light_node.visible      = true
 			NightLightMode.FAR:
 				# Sets the light range and energy and the material to "highbeam"
 				node.material_override       = material_front_high
-				node.light_node.visible      = true
 				node.light_node.spot_range   = HighBeamRange
 				node.light_node.light_energy = HighBeamEnergy
+				node.light_node.visible      = true
 	# Set RearLights
 	for node in rearlight_nodes:
-		match mode:
-			NightLightMode.OFF:
-				# Disables the light and set the material to "off"
-				node.material_override  = material_rear_off
-				node.light_node.visible = false
-			NightLightMode.ON, NightLightMode.FAR:
-				# Enables the light and set the material to "on"
-				node.material_override  = material_rear_on
-				node.light_node.visible = false
-
-func get_nightlights():
-	return _night_state
+		if _brake_state:
+			# Sets the light energy and the material to "highbeam"
+			node.material_override       = material_rear_brake
+			node.light_node.light_energy = BrakeLightEnergy
+			node.light_node.visible      = true
+		else:
+			match _night_state:
+				NightLightMode.OFF:
+					# Disables the light and sets the material to "off"
+					node.material_override  = material_rear_off
+					node.light_node.visible = false
+				NightLightMode.ON, NightLightMode.FAR:
+					# Enables the light and sets the material to "on"
+					node.material_override       = material_rear_on
+					node.light_node.light_energy = RearLightEnergy
+					node.light_node.visible      = true

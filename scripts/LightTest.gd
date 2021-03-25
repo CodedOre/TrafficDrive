@@ -18,3 +18,6 @@ func toggle_nightlight():
 			light_managment.nightlights = VehicleLightsManager.NightLightMode.FAR
 		VehicleLightsManager.NightLightMode.FAR:
 			light_managment.nightlights = VehicleLightsManager.NightLightMode.OFF
+
+func toggle_brakelights():
+	light_managment.brakelights = ! light_managment.brakelights
