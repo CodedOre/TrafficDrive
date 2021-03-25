@@ -12,7 +12,7 @@ enum NightLightMode {OFF, ON, FAR}
 
 # -- Properties --
 
-# - FrontLight Settings -
+# - Light Settings -
 const HeadLightRange   = 30
 const HeadLightEnergy  = 4
 const HighBeamRange    = 60
@@ -20,10 +20,12 @@ const HighBeamEnergy   = 8
 const RearLightEnergy  = 2
 const BrakeLightEnergy = 4
 
-# -- Variables --
+# - Light States -
+var nightlights          setget set_nightlights,   get_nightlights
+var brakelights   : bool setget set_brakelights,   get_brakelights
+var reverselights : bool setget set_reverselights, get_reverselights
 
-var nightlights setget set_nightlights, get_nightlights
-var brakelights setget set_brakelights, get_brakelights
+# -- Variables --
 
 # - All lights materials
 # FrontLight
@@ -51,6 +53,7 @@ var    reverse_nodes = Array()
 # - Internal light states -
 var _night_state
 var _brake_state
+var _reverse_state
 
 # -- Functions --
 
@@ -135,6 +138,14 @@ func set_brakelights(value):
 func get_brakelights():
 	return _brake_state
 
+# - Set reverse lights -
+func set_reverselights(value):
+	_reverse_state = value
+	set_lights()
+
+func get_reverselights():
+	return _reverse_state
+
 # - Sets all lights according to it's states
 func set_lights():
 	# Set FrontLights
@@ -174,3 +185,13 @@ func set_lights():
 					node.material_override       = material_rear_on
 					node.light_node.light_energy = RearLightEnergy
 					node.light_node.visible      = true
+	# Set ReverseLights
+	for node in reverse_nodes:
+		if _reverse_state:
+			# Enables the light and sets the material to "on"
+			node.material_override  = material_reverse_on
+			node.light_node.visible = true
+		else:
+			# Disables the light and sets the material to "on"
+			node.material_override  = material_reverse_off
+			node.light_node.visible = false
