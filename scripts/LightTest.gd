@@ -21,3 +21,6 @@ func toggle_nightlight():
 
 func toggle_brakelights():
 	light_managment.brakelights = ! light_managment.brakelights
+
+func toggle_reverselights():
+	light_managment.reverselights = ! light_managment.reverselights
