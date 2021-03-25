@@ -9,14 +9,12 @@ func _ready():
 	for path in all_lights:
 		all_light_nodes.append(get_node(path))
 	light_managment = VehicleLightsManager.new(all_light_nodes)
-#	light_managment.frontlight_mode = VehicleLightsManager.FrontLightMode.OFF
 
-func _process(_delta):
-	if Input.is_action_just_pressed("ui_up"):
-		match light_managment.frontlight_mode:
-			VehicleLightsManager.FrontLightMode.OFF:
-				light_managment.frontlight_mode = VehicleLightsManager.FrontLightMode.HEADLIGHT
-			VehicleLightsManager.FrontLightMode.HEADLIGHT:
-				light_managment.frontlight_mode = VehicleLightsManager.FrontLightMode.HIGHBEAM
-			VehicleLightsManager.FrontLightMode.HIGHBEAM:
-				light_managment.frontlight_mode = VehicleLightsManager.FrontLightMode.OFF
+func toggle_nightlight():
+	match light_managment.nightlights:
+		VehicleLightsManager.NightLightMode.OFF:
+			light_managment.nightlights = VehicleLightsManager.NightLightMode.ON
+		VehicleLightsManager.NightLightMode.ON:
+			light_managment.nightlights = VehicleLightsManager.NightLightMode.FAR
+		VehicleLightsManager.NightLightMode.FAR:
+			light_managment.nightlights = VehicleLightsManager.NightLightMode.OFF
