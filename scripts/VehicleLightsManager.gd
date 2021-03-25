@@ -33,8 +33,12 @@ var    reverse_nodes = Array()
 
 # -- Functions --
 
+# - Init the class -
 func _init(all_lights):
-	print_debug("VehicleLightsManager: Begin node processing...")
+	process_nodes(all_lights)
+
+# - Places all nodes into the wanted arrays -
+func process_nodes(all_lights):
 	for node in all_lights:
 		# Get node from path and verify it's an VehicleLight with attached Light
 		if ! node is Node:
@@ -43,9 +47,9 @@ func _init(all_lights):
 		if ! node is VehicleLight:
 			push_error("VehicleLightsManager: Processed node is not a VehicleLight!")
 			continue
-#		if node.light_node != null:
-#			push_error("VehicleLightsManager: Processed node doesn't contain a light node!")
-#			continue
+		if node.light_node == null:
+			push_error("VehicleLightsManager: Processed node doesn't contain a light node!")
+			continue
 		# Check the set states and assign it to the right arrays
 		# Also pushes an error if an light is in conflicting groups
 		if node.HeadLight:
@@ -87,6 +91,5 @@ func _init(all_lights):
 			reverse_nodes.append(node)
 			continue
 		push_error("VehicleLightsManager: Processed node has invalid configuration!")
-	print_debug("VehicleLightsManager: Node processing finished!")
 
 # - Set front lights -

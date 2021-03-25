@@ -7,12 +7,18 @@
 extends Node
 class_name VehicleLight
 
-# -- Variables --
+# -- Enums --
+
 enum Side {NONE, LEFT, RIGHT}
-onready var light_node = $Light
 
 # -- Properties --
+
+# - The usecases for this light -
 export (bool) var HeadLight
 export (bool) var RearLight
 export (Side) var TurningSignal
 export (bool) var ReverseLight
+
+# -- Variables --
+
+onready var light_node = $Light
