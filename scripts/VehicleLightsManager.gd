@@ -226,8 +226,49 @@ func set_lights():
 				node.light_node.visible      = true
 	# Set RearLights
 	for node in rearlight_nodes:
+		# Check if lights performs turn signal duties as well
+		if node.TurningSignal == VehicleLight.Side.LEFT:
+			if _turning_left:
+				# Wenn turn signal is active, override brake states
+				if _turnleft_state:
+					# Sets the light energy and the material to "brake"
+					node.material_override       = material_rear_brake
+					node.light_node.light_energy = BrakeLightEnergy
+					node.light_node.visible      = true
+				else:
+					match _night_state:
+						NightLightMode.OFF:
+							# Disables the light and sets the material to "off"
+							node.material_override  = material_rear_off
+							node.light_node.visible = false
+						NightLightMode.ON, NightLightMode.FAR:
+							# Enables the light and sets the material to "on"
+							node.material_override       = material_rear_on
+							node.light_node.light_energy = RearLightEnergy
+							node.light_node.visible      = true
+				continue
+		if node.TurningSignal == VehicleLight.Side.RIGHT:
+			if _turning_right:
+				# Wenn turn signal is active, override brake states
+				if _turnright_state:
+					# Sets the light energy and the material to "brake"
+					node.material_override       = material_rear_brake
+					node.light_node.light_energy = BrakeLightEnergy
+					node.light_node.visible      = true
+				else:
+					match _night_state:
+						NightLightMode.OFF:
+							# Disables the light and sets the material to "off"
+							node.material_override  = material_rear_off
+							node.light_node.visible = false
+						NightLightMode.ON, NightLightMode.FAR:
+							# Enables the light and sets the material to "on"
+							node.material_override       = material_rear_on
+							node.light_node.light_energy = RearLightEnergy
+							node.light_node.visible      = true
+				continue
 		if _brake_state:
-			# Sets the light energy and the material to "highbeam"
+			# Sets the light energy and the material to "brake"
 			node.material_override       = material_rear_brake
 			node.light_node.light_energy = BrakeLightEnergy
 			node.light_node.visible      = true
