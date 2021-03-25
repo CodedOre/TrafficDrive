@@ -8,7 +8,7 @@ class_name VehicleLightsManager
 
 # -- Enums --
 
-enum FrontLightMode {OFF, HEADLIGHT, HIGHBEAM}
+enum NightLightMode {OFF, ON, FAR}
 
 # -- Properties --
 
@@ -20,7 +20,7 @@ const HighBeamEnergy  = 8
 
 # -- Variables --
 
-var frontlight_mode setget set_frontlights, get_frontlights
+var nightlights setget set_nightlights, get_nightlights
 
 # - All lights materials
 # FrontLight
@@ -46,7 +46,7 @@ var  turnright_nodes = Array()
 var    reverse_nodes = Array()
 
 # - Internal light states -
-var _front_state
+var _night_state
 
 # -- Functions --
 
@@ -112,29 +112,41 @@ func process_nodes(all_lights):
 
 # - Initial settings for the lights -
 func preset_lights():
-	set_frontlights(FrontLightMode.OFF)
+	set_nightlights(NightLightMode.OFF)
 
 # - Set front lights -
-func set_frontlights(mode):
-	_front_state = mode
+func set_nightlights(mode):
+	_night_state = mode
+	# Set FrontLights
 	for node in frontlight_nodes:
 		match mode:
-			FrontLightMode.OFF:
+			NightLightMode.OFF:
 				# Disables the light and set the material to "off"
 				node.material_override  = material_front_off
 				node.light_node.visible = false
-			FrontLightMode.HEADLIGHT:
+			NightLightMode.ON:
 				# Sets the light range and energy and the material to "on"
 				node.material_override       = material_front_on
 				node.light_node.visible      = true
 				node.light_node.spot_range   = HeadLightRange
 				node.light_node.light_energy = HeadLightEnergy
-			FrontLightMode.HIGHBEAM:
+			NightLightMode.FAR:
 				# Sets the light range and energy and the material to "highbeam"
 				node.material_override       = material_front_high
 				node.light_node.visible      = true
 				node.light_node.spot_range   = HighBeamRange
 				node.light_node.light_energy = HighBeamEnergy
+	# Set RearLights
+	for node in rearlight_nodes:
+		match mode:
+			NightLightMode.OFF:
+				# Disables the light and set the material to "off"
+				node.material_override  = material_rear_off
+				node.light_node.visible = false
+			NightLightMode.ON, NightLightMode.FAR:
+				# Enables the light and set the material to "on"
+				node.material_override  = material_rear_on
+				node.light_node.visible = false
 
-func get_frontlights():
-	return _front_state
+func get_nightlights():
+	return _night_state
