@@ -6,9 +6,6 @@
 extends Node
 class_name VehicleLightsManager
 
-# -- Properties --
-onready var lights_paths
-
 # -- Variables --
 
 # - All lights materials
@@ -36,54 +33,60 @@ var    reverse_nodes = Array()
 
 # -- Functions --
 
-# - Startup function -
-func _ready():
-	for path in lights_paths:
+func _init(all_lights):
+	print_debug("VehicleLightsManager: Begin node processing...")
+	for node in all_lights:
 		# Get node from path and verify it's an VehicleLight with attached Light
-		var node = get_node(path)
-		if node != VehicleLight:
+		if ! node is Node:
+			push_error("VehicleLightsManager: Array does not contain nodes!")
+			break
+		if ! node is VehicleLight:
 			push_error("VehicleLightsManager: Processed node is not a VehicleLight!")
-			break
-		if node.light_node != null:
-			push_error("VehicleLightsManager: Processed node doesn't contain a light node!")
-			break
+			continue
+#		if node.light_node != null:
+#			push_error("VehicleLightsManager: Processed node doesn't contain a light node!")
+#			continue
 		# Check the set states and assign it to the right arrays
 		# Also pushes an error if an light is in conflicting groups
 		if node.HeadLight:
 			# Headlights can only be Headlights
-			if node.RearLight || ! node.TurningSignal.None || node.ReverseLight:
+			if node.RearLight || ! node.TurningSignal == node.Side.NONE || node.ReverseLight:
 				push_error("VehicleLightsManager: Processed node has invalid configuration!")
-				break
+				continue
 			frontlight_nodes.append(node)
-			break
+			continue
 		if node.RearLight:
 			# RearLights can't be Headlights or ReverseLights
 			if node.HeadLight || node.ReverseLight:
 				push_error("VehicleLightsManager: Processed node has invalid configuration!")
-				break
+				continue
 			# If RearLight also works as TurningSignal, then append to the right group too
-			if node.TurningSignal.Left:
-				turnleft_nodes.append(node)
-			if node.TurningSignal.Right:
-				turnright_nodes.append(node)
+			match node.TurningSignal:
+				node.Side.LEFT:
+					turnleft_nodes.append(node)
+				node.Side.RIGHT:
+					turnright_nodes.append(node)
 			rearlight_nodes.append(node)
-			break
-		if ! node.TurningSignal.None:
+			continue
+		if ! node.TurningSignal == node.Side.NONE:
 			# TurningSignals can't be Headlights or ReverseLights
 			if node.HeadLight || node.ReverseLight:
 				push_error("VehicleLightsManager: Processed node has invalid configuration!")
-				break
-			if node.TurningSignal.Left:
-				turnleft_nodes.append(node)
-			if node.TurningSignal.Right:
-				turnright_nodes.append(node)
-			break
+				continue
+			match node.TurningSignal:
+				node.Side.LEFT:
+					turnleft_nodes.append(node)
+				node.Side.RIGHT:
+					turnright_nodes.append(node)
+			continue
 		if node.ReverseLight:
 			# ReverseLights can't be Headlights or RearLights
-			if node.HeadLight || node.RearLight:
+			if node.HeadLight || ! node.TurningSignal == node.Side.NONE || node.RearLight:
 				push_error("VehicleLightsManager: Processed node has invalid configuration!")
-				break
+				continue
 			reverse_nodes.append(node)
-			break
+			continue
+		push_error("VehicleLightsManager: Processed node has invalid configuration!")
+	print_debug("VehicleLightsManager: Node processing finished!")
 
 # - Set front lights -
