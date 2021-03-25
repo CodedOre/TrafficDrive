@@ -27,6 +27,12 @@ _global_script_class_icons={
 [application]
 
 config/name="TrafficDrive"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="TrafficDrive"
+
+[autoload]
+
+GameSettings="*res://scripts/GameSettings.gd"
 
 [physics]
 
