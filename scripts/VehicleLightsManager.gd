@@ -6,17 +6,31 @@
 extends Node
 class_name VehicleLightsManager
 
+# -- Enums --
+
+enum FrontLightMode {OFF, HEADLIGHT, HIGHBEAM}
+
+# -- Properties --
+
+# - FrontLight Settings -
+const HeadLightRange  = 30
+const HeadLightEnergy = 4
+const HighBeamRange   = 60
+const HighBeamEnergy  = 8
+
 # -- Variables --
+
+var frontlight_mode setget set_frontlights, get_frontlights
 
 # - All lights materials
 # FrontLight
-const material_front_on   = preload("res://assets/materials/VehicleLights/FrontLightOff.material")
-const material_front_off  = preload("res://assets/materials/VehicleLights/FrontLightOn.material")
-const material_front_high = preload("res://assets/materials/VehicleLights/FrontLightHighBeam.material")
+const material_front_off   = preload("res://assets/materials/VehicleLights/FrontLightOff.material")
+const material_front_on    = preload("res://assets/materials/VehicleLights/FrontLightOn.material")
+const material_front_high  = preload("res://assets/materials/VehicleLights/FrontLightHighBeam.material")
 # RearLights
-const material_rear_off   = preload("res://assets/materials/VehicleLights/RearLightOff.material")
-const material_rear_on    = preload("res://assets/materials/VehicleLights/RearLightOn.material")
-const material_rear_brake = preload("res://assets/materials/VehicleLights/RearLightBrake.material")
+const material_rear_off    = preload("res://assets/materials/VehicleLights/RearLightOff.material")
+const material_rear_on     = preload("res://assets/materials/VehicleLights/RearLightOn.material")
+const material_rear_brake  = preload("res://assets/materials/VehicleLights/RearLightBrake.material")
 # ReverseLights
 const material_reverse_off = preload("res://assets/materials/VehicleLights/ReverseLightOff.material")
 const material_reverse_on  = preload("res://assets/materials/VehicleLights/ReverseLightOn.material")
@@ -31,11 +45,15 @@ var   turnleft_nodes = Array()
 var  turnright_nodes = Array()
 var    reverse_nodes = Array()
 
+# - Internal light states -
+var _front_state
+
 # -- Functions --
 
 # - Init the class -
 func _init(all_lights):
 	process_nodes(all_lights)
+	preset_lights()
 
 # - Places all nodes into the wanted arrays -
 func process_nodes(all_lights):
@@ -92,4 +110,31 @@ func process_nodes(all_lights):
 			continue
 		push_error("VehicleLightsManager: Processed node has invalid configuration!")
 
+# - Initial settings for the lights -
+func preset_lights():
+	set_frontlights(FrontLightMode.OFF)
+
 # - Set front lights -
+func set_frontlights(mode):
+	_front_state = mode
+	for node in frontlight_nodes:
+		match mode:
+			FrontLightMode.OFF:
+				# Disables the light and set the material to "off"
+				node.material_override  = material_front_off
+				node.light_node.visible = false
+			FrontLightMode.HEADLIGHT:
+				# Sets the light range and energy and the material to "on"
+				node.material_override       = material_front_on
+				node.light_node.visible      = true
+				node.light_node.spot_range   = HeadLightRange
+				node.light_node.light_energy = HeadLightEnergy
+			FrontLightMode.HIGHBEAM:
+				# Sets the light range and energy and the material to "highbeam"
+				node.material_override       = material_front_high
+				node.light_node.visible      = true
+				node.light_node.spot_range   = HighBeamRange
+				node.light_node.light_energy = HighBeamEnergy
+
+func get_frontlights():
+	return _front_state
