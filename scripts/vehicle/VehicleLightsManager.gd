@@ -211,19 +211,19 @@ func set_lights():
 			NightLightMode.OFF:
 				# Disables the light and set the material to "off"
 				node.material_override  = material_front_off
-				node.light_node.visible = false
+				node.light_active       = false
 			NightLightMode.ON:
 				# Sets the light range and energy and the material to "on"
 				node.material_override       = material_front_on
 				node.light_node.spot_range   = HeadLightRange
 				node.light_node.light_energy = HeadLightEnergy
-				node.light_node.visible      = true
+				node.light_active            = true
 			NightLightMode.FAR:
 				# Sets the light range and energy and the material to "highbeam"
 				node.material_override       = material_front_high
 				node.light_node.spot_range   = HighBeamRange
 				node.light_node.light_energy = HighBeamEnergy
-				node.light_node.visible      = true
+				node.light_active            = true
 	# Set RearLights
 	for node in rearlight_nodes:
 		# Check if lights performs turn signal duties as well
@@ -234,18 +234,18 @@ func set_lights():
 					# Sets the light energy and the material to "brake"
 					node.material_override       = material_rear_brake
 					node.light_node.light_energy = BrakeLightEnergy
-					node.light_node.visible      = true
+					node.light_active            = true
 				else:
 					match _night_state:
 						NightLightMode.OFF:
 							# Disables the light and sets the material to "off"
 							node.material_override  = material_rear_off
-							node.light_node.visible = false
+							node.light_active       = false
 						NightLightMode.ON, NightLightMode.FAR:
 							# Enables the light and sets the material to "on"
 							node.material_override       = material_rear_on
 							node.light_node.light_energy = RearLightEnergy
-							node.light_node.visible      = true
+							node.light_active            = true
 				continue
 		if node.TurningSignal == VehicleLight.Side.RIGHT:
 			if _turning_right:
@@ -254,63 +254,63 @@ func set_lights():
 					# Sets the light energy and the material to "brake"
 					node.material_override       = material_rear_brake
 					node.light_node.light_energy = BrakeLightEnergy
-					node.light_node.visible      = true
+					node.light_active            = true
 				else:
 					match _night_state:
 						NightLightMode.OFF:
 							# Disables the light and sets the material to "off"
 							node.material_override  = material_rear_off
-							node.light_node.visible = false
+							node.light_active       = false
 						NightLightMode.ON, NightLightMode.FAR:
 							# Enables the light and sets the material to "on"
 							node.material_override       = material_rear_on
 							node.light_node.light_energy = RearLightEnergy
-							node.light_node.visible      = true
+							node.light_active            = true
 				continue
 		if _brake_state:
 			# Sets the light energy and the material to "brake"
 			node.material_override       = material_rear_brake
 			node.light_node.light_energy = BrakeLightEnergy
-			node.light_node.visible      = true
+			node.light_active            = true
 		else:
 			match _night_state:
 				NightLightMode.OFF:
 					# Disables the light and sets the material to "off"
 					node.material_override  = material_rear_off
-					node.light_node.visible = false
+					node.light_active       = false
 				NightLightMode.ON, NightLightMode.FAR:
 					# Enables the light and sets the material to "on"
 					node.material_override       = material_rear_on
 					node.light_node.light_energy = RearLightEnergy
-					node.light_node.visible      = true
+					node.light_active            = true
 	# Set TurnSignals
 	for node in turnleft_nodes:
 		if ! node.RearLight:
 			if _turnleft_state:
 				# Enables the light and sets the material to "on"
 				node.material_override  = material_turning_on
-				node.light_node.visible = true
+				node.light_active       = true
 			else:
 				# Disables the light and sets the material to "off"
 				node.material_override  = material_turning_off
-				node.light_node.visible = false
+				node.light_active       = false
 	for node in turnright_nodes:
 		if ! node.RearLight:
 			if _turnright_state:
 				# Enables the light and sets the material to "on"
 				node.material_override  = material_turning_on
-				node.light_node.visible = true
+				node.light_active       = true
 			else:
 				# Disables the light and sets the material to "off"
 				node.material_override  = material_turning_off
-				node.light_node.visible = false
+				node.light_active       = false
 	# Set ReverseLights
 	for node in reverse_nodes:
 		if _reverse_state:
 			# Enables the light and sets the material to "on"
 			node.material_override  = material_reverse_on
-			node.light_node.visible = true
+			node.light_active       = true
 		else:
 			# Disables the light and sets the material to "off"
 			node.material_override  = material_reverse_off
-			node.light_node.visible = false
+			node.light_active       = false
