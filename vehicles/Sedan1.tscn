@@ -48,28 +48,86 @@ material/0 = ExtResource( 6 )
 material/0 = ExtResource( 7 )
 
 [node name="LIghtFrontLeft" parent="VehicleBody" index="1"]
+cast_shadow = 0
 material/0 = ExtResource( 3 )
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LIghtFrontLeft" index="0"]
+transform = Transform( 100, 0, 0, 0, -1.62921e-05, -100, 0, 100, -1.62921e-05, 58, 240, -73.2 )
+light_energy = 4.0
+shadow_enabled = true
+spot_range = 30.0
+spot_angle = 32.0
 
 [node name="LIghtFrontRight" parent="VehicleBody" index="2"]
+cast_shadow = 0
 material/0 = ExtResource( 3 )
 
+[node name="Light" type="SpotLight" parent="VehicleBody/LIghtFrontRight" index="0"]
+transform = Transform( 100, 0, 0, 0, -1.62921e-05, -100, 0, 100, -1.62921e-05, -58, 240, -73.2 )
+light_energy = 4.0
+shadow_enabled = true
+spot_range = 30.0
+spot_angle = 32.0
+
 [node name="LightRearLeft" parent="VehicleBody" index="3"]
+cast_shadow = 0
 material/0 = ExtResource( 2 )
+
+[node name="Light" type="OmniLight" parent="VehicleBody/LightRearLeft" index="0"]
+transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, 80, -220, -90 )
+light_color = Color( 1, 0, 0, 1 )
+shadow_enabled = true
 
 [node name="LightRearRight" parent="VehicleBody" index="4"]
+cast_shadow = 0
 material/0 = ExtResource( 2 )
 
+[node name="Light" type="OmniLight" parent="VehicleBody/LightRearRight" index="0"]
+transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, -80, -220, -90 )
+light_color = Color( 1, 0, 0, 1 )
+shadow_enabled = true
+
 [node name="LightReverseLeft" parent="VehicleBody" index="5"]
+cast_shadow = 0
 material/0 = ExtResource( 4 )
+
+[node name="Light" type="OmniLight" parent="VehicleBody/LightReverseLeft" index="0"]
+transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, 29, -226, -88 )
+light_energy = 4.0
+shadow_enabled = true
+omni_attenuation = 2.0
 
 [node name="LightReverseRight" parent="VehicleBody" index="6"]
+cast_shadow = 0
 material/0 = ExtResource( 4 )
 
+[node name="Light" type="OmniLight" parent="VehicleBody/LightReverseRight" index="0"]
+transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, -29, -226, -88 )
+light_energy = 4.0
+shadow_enabled = true
+omni_attenuation = 2.0
+
 [node name="LightTurningLeft" parent="VehicleBody" index="7"]
+cast_shadow = 0
 material/0 = ExtResource( 5 )
 
+[node name="Light" type="OmniLight" parent="VehicleBody/LightTurningLeft" index="0"]
+transform = Transform( -50, 0, -86.6025, 86.6025, 0, -50, 0, -100, 0, 73, 241.5, -73 )
+light_color = Color( 1, 0.654902, 0, 1 )
+light_energy = 4.0
+shadow_enabled = true
+omni_attenuation = 5.0
+
 [node name="LightTurningRight" parent="VehicleBody" index="8"]
+cast_shadow = 0
 material/0 = ExtResource( 5 )
+
+[node name="Light" type="OmniLight" parent="VehicleBody/LightTurningRight" index="0"]
+transform = Transform( -50, 0, -86.6025, 86.6025, 0, -50, 0, -100, 0, -73, 241.5, -73 )
+light_color = Color( 1, 0.654902, 0, 1 )
+light_energy = 4.0
+shadow_enabled = true
+omni_attenuation = 5.0
 
 [node name="Plates" parent="VehicleBody" index="9"]
 material/0 = ExtResource( 6 )
