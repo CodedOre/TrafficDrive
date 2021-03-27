@@ -91,7 +91,7 @@ func process_nodes(all_lights):
 		# Also pushes an error if an light is in conflicting groups
 		if node.HeadLight:
 			# Headlights can only be Headlights
-			if node.RearLight || ! node.TurningSignal == node.Side.NONE || node.ReverseLight:
+			if node.RearLight || node.BrakeLight || ! node.TurningSignal == node.Side.NONE || node.ReverseLight:
 				push_error("VehicleLightsManager: Processed node has invalid configuration!")
 				continue
 			frontlight_nodes.append(node)
@@ -122,7 +122,7 @@ func process_nodes(all_lights):
 			continue
 		if node.ReverseLight:
 			# ReverseLights can't be Headlights or RearLights
-			if node.HeadLight || ! node.TurningSignal == node.Side.NONE || node.RearLight:
+			if node.HeadLight || ! node.TurningSignal == node.Side.NONE || node.RearLight || node.BrakeLight:
 				push_error("VehicleLightsManager: Processed node has invalid configuration!")
 				continue
 			reverse_nodes.append(node)
@@ -268,21 +268,23 @@ func set_lights():
 							node.light_active            = true
 				continue
 		if _brake_state:
-			# Sets the light energy and the material to "brake"
-			node.material_override       = material_rear_brake
-			node.light_node.light_energy = BrakeLightEnergy
-			node.light_active            = true
+			if node.BrakeLight:
+				# Sets the light energy and the material to "brake"
+				node.material_override       = material_rear_brake
+				node.light_node.light_energy = BrakeLightEnergy
+				node.light_active            = true
 		else:
-			match _night_state:
-				NightLightMode.OFF:
-					# Disables the light and sets the material to "off"
-					node.material_override  = material_rear_off
-					node.light_active       = false
-				NightLightMode.ON, NightLightMode.FAR:
-					# Enables the light and sets the material to "on"
-					node.material_override       = material_rear_on
-					node.light_node.light_energy = RearLightEnergy
-					node.light_active            = true
+			if node.RearLight:
+				match _night_state:
+					NightLightMode.OFF:
+						# Disables the light and sets the material to "off"
+						node.material_override  = material_rear_off
+						node.light_active       = false
+					NightLightMode.ON, NightLightMode.FAR:
+						# Enables the light and sets the material to "on"
+						node.material_override       = material_rear_on
+						node.light_node.light_energy = RearLightEnergy
+						node.light_active            = true
 	# Set TurnSignals
 	for node in turnleft_nodes:
 		if ! node.RearLight:
