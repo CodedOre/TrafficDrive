@@ -16,6 +16,7 @@ enum Side {NONE, LEFT, RIGHT}
 # - The usecases for this light -
 export (bool) var HeadLight
 export (bool) var RearLight
+export (bool) var BrakeLight
 export (Side) var TurningSignal
 export (bool) var ReverseLight
 

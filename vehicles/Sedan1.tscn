@@ -54,6 +54,8 @@ material/0 = ExtResource( 7 )
 [node name="LightBrakeLight" parent="VehicleBody" index="1"]
 cast_shadow = 0
 material/0 = ExtResource( 2 )
+script = ExtResource( 9 )
+BrakeLight = true
 
 [node name="Light" type="OmniLight" parent="VehicleBody/LightBrakeLight" index="0"]
 transform = Transform( 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, -148.57, -113.857 )
@@ -92,6 +94,7 @@ cast_shadow = 0
 material/0 = ExtResource( 2 )
 script = ExtResource( 9 )
 RearLight = true
+BrakeLight = true
 TurningSignal = 1
 
 [node name="Light" type="OmniLight" parent="VehicleBody/LightRearLeft" index="0"]
@@ -104,6 +107,7 @@ cast_shadow = 0
 material/0 = ExtResource( 2 )
 script = ExtResource( 9 )
 RearLight = true
+BrakeLight = true
 TurningSignal = 2
 
 [node name="Light" type="OmniLight" parent="VehicleBody/LightRearRight" index="0"]
