@@ -121,11 +121,12 @@ material/0 = ExtResource( 4 )
 script = ExtResource( 9 )
 ReverseLight = true
 
-[node name="Light" type="OmniLight" parent="VehicleBody/LightReverseLeft" index="0"]
-transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, 29, -226, -88 )
+[node name="Light" type="SpotLight" parent="VehicleBody/LightReverseLeft" index="0"]
+transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, 29, -233, -88 )
 light_energy = 4.0
 shadow_enabled = true
-omni_attenuation = 2.0
+spot_range = 4.0
+spot_angle = 75.0
 
 [node name="LightReverseRight" parent="VehicleBody" index="7"]
 cast_shadow = 0
@@ -133,11 +134,12 @@ material/0 = ExtResource( 4 )
 script = ExtResource( 9 )
 ReverseLight = true
 
-[node name="Light" type="OmniLight" parent="VehicleBody/LightReverseRight" index="0"]
-transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, -29, -226, -88 )
+[node name="Light" type="SpotLight" parent="VehicleBody/LightReverseRight" index="0"]
+transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, -29, -233, -88 )
 light_energy = 4.0
 shadow_enabled = true
-omni_attenuation = 2.0
+spot_range = 4.0
+spot_angle = 75.0
 
 [node name="LightTurningLeft" parent="VehicleBody" index="8"]
 cast_shadow = 0
