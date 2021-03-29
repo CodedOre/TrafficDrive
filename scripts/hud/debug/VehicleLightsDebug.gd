@@ -60,17 +60,46 @@ func _update_static_labels():
 # - Updates LightModes select when the timer changes -
 func _cycle_modes():
 	_mode_select = (_mode_select + 1) % 5
+	var labeltext : String = ""
+	var nodetext  : String = ""
 	match _mode_select:
 		0:
 			$LightModeLabel.text = "NightLights:"
+			labeltext = "NightLights Nodes:"
+			for node in _debug_manager.frontlight_nodes:
+				labeltext += "\n"
+				nodetext  += str(node.get_name()) + "\n"
+			for node in _debug_manager.rearlight_nodes:
+				if node.RearLight:
+					labeltext += "\n"
+					nodetext  += str(node.get_name()) + "\n"
 		1:
 			$LightModeLabel.text = "BrakeLights:"
+			labeltext = "BrakeLights Nodes:"
+			for node in _debug_manager.rearlight_nodes:
+				if node.BrakeLight:
+					labeltext += "\n"
+					nodetext  += str(node.get_name()) + "\n"
 		2:
-			$LightModeLabel.text = "ReverseLights:"
+			$LightModeLabel.text  = "ReverseLights:"
+			labeltext = "ReverseLights Nodes:"
+			for node in _debug_manager.reverse_nodes:
+				labeltext += "\n"
+				nodetext  += str(node.get_name()) + "\n"
 		3:
-			$LightModeLabel.text = "TurnLeftLights:"
+			$LightModeLabel.text  = "TurnLeftLights:"
+			labeltext = "TurnLeftLights Nodes:"
+			for node in _debug_manager.turnleft_nodes:
+				labeltext += "\n"
+				nodetext  += str(node.get_name()) + "\n"
 		4:
-			$LightModeLabel.text = "TurnRightLights:"
+			$LightModeLabel.text  = "TurnRightLights:"
+			labeltext = "TurnRightLights Nodes:"
+			for node in _debug_manager.turnright_nodes:
+				labeltext += "\n"
+				nodetext  += str(node.get_name()) + "\n"
+	$ModeLightsLabel.text = labeltext
+	$ModeLightsValue.text =  nodetext
 
 # - Processes interactive changes on runtime -
 func _process(_delta):
