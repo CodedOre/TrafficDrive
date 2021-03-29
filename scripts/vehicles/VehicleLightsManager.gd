@@ -285,6 +285,10 @@ func set_lights():
 						node.material_override       = material_rear_on
 						node.light_node.light_energy = RearLightEnergy
 						node.light_active            = true
+			else:
+				# Disables the light and sets the material to "off"
+				node.material_override  = material_rear_off
+				node.light_active       = false
 	# Set TurnSignals
 	for node in turnleft_nodes:
 		if ! node.RearLight:
