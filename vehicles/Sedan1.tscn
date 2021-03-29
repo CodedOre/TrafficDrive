@@ -147,12 +147,13 @@ material/0 = ExtResource( 5 )
 script = ExtResource( 9 )
 TurningSignal = 1
 
-[node name="Light" type="OmniLight" parent="VehicleBody/LightTurningLeft" index="0"]
-transform = Transform( -50, 0, -86.6025, 86.6025, 0, -50, 0, -100, 0, 73, 241.5, -73 )
+[node name="Light" type="SpotLight" parent="VehicleBody/LightTurningLeft" index="0"]
+transform = Transform( 57.3577, -6.94732e-06, -81.9152, -81.9152, -1.33457e-05, -57.3577, -6.94732e-06, 100, -1.33457e-05, 75, 242, -73 )
 light_color = Color( 1, 0.654902, 0, 1 )
-light_energy = 4.0
+light_energy = 2.0
 shadow_enabled = true
-omni_attenuation = 5.0
+spot_range = 3.0
+spot_angle = 85.0
 
 [node name="LightTurningRight" parent="VehicleBody" index="9"]
 cast_shadow = 0
@@ -160,12 +161,13 @@ material/0 = ExtResource( 5 )
 script = ExtResource( 9 )
 TurningSignal = 2
 
-[node name="Light" type="OmniLight" parent="VehicleBody/LightTurningRight" index="0"]
-transform = Transform( -50, 0, -86.6025, 86.6025, 0, -50, 0, -100, 0, -73, 241.5, -73 )
+[node name="Light" type="SpotLight" parent="VehicleBody/LightTurningRight" index="0"]
+transform = Transform( -57.3577, -2.56368e-05, 81.9152, -81.9152, -1.33457e-05, -57.3577, 2.56368e-05, -100, -1.33457e-05, -75, 242, -73 )
 light_color = Color( 1, 0.654902, 0, 1 )
-light_energy = 4.0
+light_energy = 2.0
 shadow_enabled = true
-omni_attenuation = 5.0
+spot_range = 3.0
+spot_angle = 85.0
 
 [node name="Plates" parent="VehicleBody" index="10"]
 material/0 = ExtResource( 6 )
