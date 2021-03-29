@@ -12,12 +12,12 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "VehicleLight",
 "language": "GDScript",
-"path": "res://scripts/vehicle/VehicleLight.gd"
+"path": "res://scripts/vehicles/VehicleLight.gd"
 }, {
 "base": "Node",
 "class": "VehicleLightsManager",
 "language": "GDScript",
-"path": "res://scripts/vehicle/VehicleLightsManager.gd"
+"path": "res://scripts/vehicles/VehicleLightsManager.gd"
 } ]
 _global_script_class_icons={
 "VehicleLight": "",
