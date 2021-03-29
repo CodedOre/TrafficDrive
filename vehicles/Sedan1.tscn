@@ -70,11 +70,11 @@ script = ExtResource( 9 )
 HeadLight = true
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightFrontLeft" index="0"]
-transform = Transform( 100, 0, 0, 0, -1.62921e-05, -100, 0, 100, -1.62921e-05, 58, 240, -73.2 )
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, 57, 255, -73.5 )
 light_energy = 4.0
 shadow_enabled = true
 spot_range = 30.0
-spot_angle = 32.0
+spot_angle = 20.0
 
 [node name="LightFrontRight" parent="VehicleBody" index="3"]
 cast_shadow = 0
@@ -83,11 +83,11 @@ script = ExtResource( 9 )
 HeadLight = true
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightFrontRight" index="0"]
-transform = Transform( 100, 0, 0, 0, -1.62921e-05, -100, 0, 100, -1.62921e-05, -58, 240, -73.2 )
+transform = Transform( 100, 0, 0, 0, -1.62921e-05, -100, 0, 100, -1.62921e-05, -57, 255, -73.5 )
 light_energy = 4.0
 shadow_enabled = true
 spot_range = 30.0
-spot_angle = 32.0
+spot_angle = 20.0
 
 [node name="LightRearLeft" parent="VehicleBody" index="4"]
 cast_shadow = 0
