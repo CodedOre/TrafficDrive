@@ -34,3 +34,31 @@ margin_left = 147.0
 margin_top = 18.0
 margin_right = 147.0
 margin_bottom = 32.0
+
+[node name="LightModeLabel" type="Label" parent="."]
+margin_top = 36.0
+margin_right = 143.0
+margin_bottom = 50.0
+align = 2
+
+[node name="LightModeValue" type="Label" parent="."]
+margin_left = 147.0
+margin_top = 36.0
+margin_right = 147.0
+margin_bottom = 50.0
+
+[node name="ModeLightsLabel" type="Label" parent="."]
+margin_top = 54.0
+margin_right = 143.0
+margin_bottom = 68.0
+text = "Active light nodes:"
+align = 2
+
+[node name="ModeLightsValue" type="Label" parent="."]
+margin_left = 147.0
+margin_top = 54.0
+margin_right = 147.0
+margin_bottom = 68.0
+
+[node name="LightModeTimer" type="Timer" parent="."]
+wait_time = 4.0
