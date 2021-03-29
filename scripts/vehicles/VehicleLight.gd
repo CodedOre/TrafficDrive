@@ -30,7 +30,6 @@ onready var light_node = $Light
 
 # - Internal variables -
 var _show_light = true
-var _show_shadow = true
 
 # -- Functions --
 
@@ -53,19 +52,15 @@ func _modify_light():
 		GameSettings.VehicleLightNode.FULL:
 			_show_light = true
 	# Adapt to "VehicleLightShadows" setting
-	match GameSettings.get_setting("Performance", "VehicleLightShadows"):
-		GameSettings.VehicleLightShadows.OFF:
-			_show_shadow = false
-		GameSettings.VehicleLightShadows.SPOT:
-			if HeadLight:
-				_show_shadow = true
-			else:
-				_show_shadow = false
-		GameSettings.VehicleLightShadows.FULL:
-			_show_shadow = true
+	if HeadLight:
+		var show_shadows : bool
+		if GameSettings.get_setting("Performance", "VehicleLightShadows"):
+			show_shadows = true
+		else:
+			show_shadows = false
+		light_node.shadow_enabled = show_shadows
 	if ! _show_light:
 		light_node.visible = _show_light
-	light_node.shadow_enabled = _show_shadow
 
 # - Setter and Getter for light visibility -
 # Is affected by a performance setting
