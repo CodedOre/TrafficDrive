@@ -61,7 +61,6 @@ BrakeLight = true
 transform = Transform( 100, 0, 0, 0, -1.62921e-05, 100, 0, -100, -1.62921e-05, 0, -148, -115 )
 light_color = Color( 1, 0, 0, 1 )
 light_energy = 8.0
-shadow_enabled = true
 spot_range = 1.0
 
 [node name="LightFrontLeft" parent="VehicleBody" index="2"]
@@ -75,7 +74,7 @@ transform = Transform( 100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, 5
 light_energy = 4.0
 shadow_enabled = true
 spot_range = 30.0
-spot_angle = 20.0
+spot_angle = 35.0
 
 [node name="LightFrontRight" parent="VehicleBody" index="3"]
 cast_shadow = 0
@@ -88,7 +87,7 @@ transform = Transform( 100, 0, 0, 0, -1.62921e-05, -100, 0, 100, -1.62921e-05, -
 light_energy = 4.0
 shadow_enabled = true
 spot_range = 30.0
-spot_angle = 20.0
+spot_angle = 35.0
 
 [node name="LightRearLeft" parent="VehicleBody" index="4"]
 cast_shadow = 0
@@ -101,7 +100,6 @@ TurningSignal = 1
 [node name="Light" type="SpotLight" parent="VehicleBody/LightRearLeft" index="0"]
 transform = Transform( 78.8011, 3.45374e-06, -61.5661, 61.5661, -1.00304e-05, 78.8011, -3.45374e-06, -100, -1.00304e-05, 74, -215, -84 )
 light_color = Color( 1, 0, 0, 1 )
-shadow_enabled = true
 light_energy = 4.0
 spot_range = 3.0
 spot_angle = 75.0
@@ -117,7 +115,6 @@ TurningSignal = 2
 [node name="Light" type="SpotLight" parent="VehicleBody/LightRearRight" index="0"]
 transform = Transform( -78.8011, 2.91304e-05, 61.5661, 61.5661, -1.00304e-05, 78.8011, 2.91304e-05, 100, -1.00304e-05, -74, -215, -84 )
 light_color = Color( 1, 0, 0, 1 )
-shadow_enabled = true
 light_energy = 4.0
 spot_range = 3.0
 spot_angle = 75.0
@@ -131,7 +128,6 @@ ReverseLight = true
 [node name="Light" type="SpotLight" parent="VehicleBody/LightReverseLeft" index="0"]
 transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, 29, -233, -88 )
 light_energy = 4.0
-shadow_enabled = true
 spot_range = 4.0
 spot_angle = 75.0
 
@@ -144,7 +140,6 @@ ReverseLight = true
 [node name="Light" type="SpotLight" parent="VehicleBody/LightReverseRight" index="0"]
 transform = Transform( 100, 0, 0, 0, 0, 100, 0, -100, 0, -29, -233, -88 )
 light_energy = 4.0
-shadow_enabled = true
 spot_range = 4.0
 spot_angle = 75.0
 
@@ -158,7 +153,6 @@ TurningSignal = 1
 transform = Transform( 57.3577, -6.94732e-06, -81.9152, -81.9152, -1.33457e-05, -57.3577, -6.94732e-06, 100, -1.33457e-05, 75, 242, -73 )
 light_color = Color( 1, 0.654902, 0, 1 )
 light_energy = 2.0
-shadow_enabled = true
 spot_range = 3.0
 spot_angle = 85.0
 
@@ -172,7 +166,6 @@ TurningSignal = 2
 transform = Transform( -57.3577, -2.56368e-05, 81.9152, -81.9152, -1.33457e-05, -57.3577, 2.56368e-05, -100, -1.33457e-05, -75, 242, -73 )
 light_color = Color( 1, 0.654902, 0, 1 )
 light_energy = 2.0
-shadow_enabled = true
 spot_range = 3.0
 spot_angle = 85.0
 
