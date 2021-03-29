@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/hud/debug/VehicleLightsDebug.gd" type="Script" id=1]
+
+[node name="VehicleLightsDebug" type="GridContainer"]
+margin_top = 36.0
+margin_right = 197.0
+margin_bottom = 36.0
+columns = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ManagerLabel" type="Label" parent="."]
+margin_right = 143.0
+margin_bottom = 14.0
+text = "VehicleLightsManager:"
+align = 2
+
+[node name="ManagerValue" type="Label" parent="."]
+margin_left = 147.0
+margin_right = 147.0
+margin_bottom = 14.0
+
+[node name="LightSumLabel" type="Label" parent="."]
+margin_top = 18.0
+margin_right = 143.0
+margin_bottom = 32.0
+text = "All lights in vehicle:"
+align = 2
+
+[node name="LightSumValue" type="Label" parent="."]
+margin_left = 147.0
+margin_top = 18.0
+margin_right = 147.0
+margin_bottom = 32.0
