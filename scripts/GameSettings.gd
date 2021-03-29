@@ -9,7 +9,6 @@ extends Node
 
 # - Performance Settings -
 enum VehicleLightNode    {OFF, SPOT, FULL}
-enum VehicleLightShadows {OFF, SPOT, FULL}
 
 # -- Constants --
 
