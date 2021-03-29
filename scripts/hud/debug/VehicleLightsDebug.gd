@@ -28,7 +28,6 @@ func _process(_delta):
 
 # - Set's a debugged vehicle after a check -
 func set_debug_vehicle(value):
-	print("HELP!")
 	_valid_vehicle = false
 	_debug_vehicle = null
 	_debug_manager = null
