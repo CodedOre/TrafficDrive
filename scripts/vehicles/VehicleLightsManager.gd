@@ -96,7 +96,7 @@ func process_nodes(all_lights):
 				continue
 			frontlight_nodes.append(node)
 			continue
-		if node.RearLight:
+		if node.RearLight || node.BrakeLight:
 			# RearLights can't be Headlights or ReverseLights
 			if node.HeadLight || node.ReverseLight:
 				push_error("VehicleLightsManager: Processed node has invalid configuration!")
