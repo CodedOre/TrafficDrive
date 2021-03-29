@@ -137,7 +137,7 @@ func preset_lights(parent):
 	set_turnleftlights(false)
 	set_turnrightlights(false)
 	_turning_timer.wait_time = TurnSignalInterval
-	_turning_timer.connect("timeout", self, "set_turn_signals")
+	_turning_timer.connect("timeout", self, "_set_turn_signals")
 	parent.add_child(_turning_timer)
 
 # - Set night lights -
@@ -183,14 +183,14 @@ func set_turn_timer():
 	# If no turn signal is on, stop the timer
 	if ! _turning_left && ! _turning_right:
 		_turning_timer.stop()
-		set_turn_signals()
+		_set_turn_signals()
 	# Start timer if not running
 	elif _turning_timer.is_stopped():
 		_turning_timer.start()
 		_turning_state = true
-		set_turn_signals()
+		_set_turn_signals()
 
-func set_turn_signals():
+func _set_turn_signals():
 	# Called by the timer, automatically cycles the light states
 	_turning_state = ! _turning_state
 	if _turning_left:
