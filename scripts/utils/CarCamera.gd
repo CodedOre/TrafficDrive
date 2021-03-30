@@ -14,9 +14,8 @@ const RESET_THRESHOLD : float = 0.01
 # -- Properties --
 
 # - Camera position -
-export (float) var CameraDistance = 4.5
-export (float) var CameraHeight   = 1
-export (int)   var CameraAngle    = 15
+export (float) onready var CameraDistance = 0
+export (int)   onready var CameraAngle    = 0
 
 # - Active camera indicator -
 export (bool) var current = false setget set_current, is_current
@@ -27,10 +26,12 @@ export (bool) var current = false setget set_current, is_current
 onready var _camera_node : Camera  = $InnerGimbal/Camera
 onready var _gimbal_node : Spatial = $InnerGimbal
 
-# - Internal variables -
+# - Variables set by GameSettings -
 onready var _x_dir             : int   =   -1 if GameSettings.get_setting("Input", "MouseXInverted") else  1
 onready var _y_dir             : int   =    1 if GameSettings.get_setting("Input", "MouseYInverted") else -1
 onready var _mouse_sensitivity : float = 0.001 * GameSettings.get_setting("Input", "MouseSensitivity")
+
+# - Internal variables for positions -
 var _original_outer_transform  : Transform
 var _original_inner_transform  : Transform
 
@@ -42,6 +43,10 @@ var _resetting_camera : bool = false
 # - Runs at startup -
 func _ready() -> void:
 	GameSettings.connect("setting_changed", self, "_modify_settings")
+	# CameraDistance and CameraAngle are once set at start
+	_camera_node.transform.origin.z = -1 * CameraDistance
+	_gimbal_node.rotation_degrees = Vector3(CameraAngle, 0, 0)
+	# Storing current transforms as reset transforms
 	_original_outer_transform = transform
 	_original_inner_transform = _gimbal_node.transform
 
