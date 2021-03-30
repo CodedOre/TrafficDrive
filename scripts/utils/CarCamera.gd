@@ -14,8 +14,8 @@ const RESET_THRESHOLD : float = 0.01
 # -- Properties --
 
 # - Camera position -
-export (float) onready var CameraDistance = 0
-export (int)   onready var CameraAngle    = 0
+export (float) onready var CameraDistance
+export (int)   onready var CameraAngle
 
 # - Active camera indicator -
 export (bool) var current = false setget set_current, is_current
@@ -32,16 +32,20 @@ onready var _y_dir             : int   =    1 if GameSettings.get_setting("Input
 onready var _mouse_sensitivity : float = 0.001 * GameSettings.get_setting("Input", "MouseSensitivity")
 
 # - Internal variables for positions -
-var _original_outer_transform  : Transform
-var _original_inner_transform  : Transform
+var _original_outer_transform : Transform
+var _original_inner_transform : Transform
+var   _behind_outer_transform : Transform
 
 # - States at runtime -
+var _view_at_origin   : bool = true
 var _resetting_camera : bool = false
+var _looking_behind   : bool = false
 
 # -- Functions --
 
 # - Runs at startup -
 func _ready() -> void:
+	# warning-ignore:return_value_discarded
 	GameSettings.connect("setting_changed", self, "_modify_settings")
 	# CameraDistance and CameraAngle are once set at start
 	_camera_node.transform.origin.z = -1 * CameraDistance
@@ -49,11 +53,15 @@ func _ready() -> void:
 	# Storing current transforms as reset transforms
 	_original_outer_transform = transform
 	_original_inner_transform = _gimbal_node.transform
+	# Create and store transform for behind view
+	_behind_outer_transform = _original_outer_transform.rotated(Vector3.UP, PI/1)
 
 # - Runs every frame -
-func _process(delta) -> void:
+func _process(delta : float) -> void:
 	if _resetting_camera:
-		process_reset(delta)
+		_move_camera(delta, _original_outer_transform, _original_inner_transform)
+	if _looking_behind:
+		_move_camera(delta, _behind_outer_transform, _original_inner_transform)
 
 # - Change internal variables when settings were modified -
 func _modify_settings() -> void:
@@ -65,6 +73,7 @@ func _modify_settings() -> void:
 func _input(event) -> void:
 	if is_current():
 		if event is InputEventMouseMotion:
+			_view_at_origin   = false
 			_resetting_camera = false
 			if event.relative.x != 0:
 				rotate_object_local(Vector3.UP, _y_dir * event.relative.x * _mouse_sensitivity)
@@ -74,22 +83,31 @@ func _input(event) -> void:
 # - Resets the camera to original position -
 func reset_camera() -> void:
 	_resetting_camera = true
+	_looking_behind   = false
 
-func process_reset(delta) -> void:
+# - Camera looks behind -
+func look_behind() -> void:
+	_looking_behind   = true
+	_resetting_camera = false
+
+# - Move the Camera to a point -
+func _move_camera(delta : float, outer_target : Transform, inner_target : Transform) -> void:
 	# Check if Gimbals are reset
-	var reset_gimbals : int = 0
-	if _reset_near_enough(transform.basis, _original_outer_transform.basis, RESET_THRESHOLD):
-		reset_gimbals += 1
-	if _reset_near_enough(_gimbal_node.transform.basis, _original_inner_transform.basis, RESET_THRESHOLD):
-		reset_gimbals += 1
-	if reset_gimbals == 2:
+	var moving_done : int = 0
+	if _close_transforms(transform, outer_target, RESET_THRESHOLD):
+		moving_done += 1
+	if _close_transforms(_gimbal_node.transform, inner_target, RESET_THRESHOLD):
+		moving_done += 1
+	if moving_done == 2:
 		_resetting_camera = false
+		_looking_behind   = false
 		return
 	# Interpolate further reset
-	transform = transform.interpolate_with(_original_outer_transform, RESET_SPEED * delta)
-	_gimbal_node.transform = _gimbal_node.transform.interpolate_with(_original_inner_transform, RESET_SPEED * delta)
+	transform = transform.interpolate_with(outer_target, RESET_SPEED * delta)
+	_gimbal_node.transform = _gimbal_node.transform.interpolate_with(inner_target, RESET_SPEED * delta)
 
-func _reset_near_enough(a: Transform, b: Transform, threshold: float) -> bool:
+# - If a transform is near of another -
+func _close_transforms(a: Transform, b: Transform, threshold: float) -> bool:
 	return (
 		(a.basis.x - b.basis.x).length() < threshold
 		and (a.basis.y - b.basis.y).length() < threshold
@@ -97,7 +115,7 @@ func _reset_near_enough(a: Transform, b: Transform, threshold: float) -> bool:
 	)
 
 # - Active camera property -
-func set_current(value) -> void:
+func set_current(value : bool) -> void:
 	_camera_node.set_current(value)
 
 func make_current() -> void:
