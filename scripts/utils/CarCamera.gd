@@ -5,6 +5,12 @@
 
 extends Spatial
 
+# -- Constants --
+
+# - Speed the camera resets -
+const RESET_SPEED     : float = 4.0
+const RESET_THRESHOLD : float = 0.01
+
 # -- Properties --
 
 # - Camera position -
@@ -28,13 +34,21 @@ onready var _mouse_sensitivity = 0.001 * GameSettings.get_setting("Input", "Mous
 var _original_outer_transform : Transform
 var _original_inner_transform : Transform
 
+# - States at runtime -
+var _resetting_camera : bool = false
+
 # -- Functions --
 
-# - Run at startup -
+# - Runs at startup -
 func _ready():
 	GameSettings.connect("setting_changed", self, "_modify_settings")
 	_original_outer_transform = transform
 	_original_inner_transform = _gimbal_node.transform
+
+# - Runs every frame -
+func _process(delta):
+	if _resetting_camera:
+		process_reset(delta)
 
 # - Change internal variables when settings were modified -
 func _modify_settings():
@@ -46,6 +60,7 @@ func _modify_settings():
 func _input(event):
 	if is_current():
 		if event is InputEventMouseMotion:
+			_resetting_camera = false
 			if event.relative.x != 0:
 				rotate_object_local(Vector3.UP, _y_dir * event.relative.x * _mouse_sensitivity)
 			if event.relative.y != 0:
@@ -53,8 +68,28 @@ func _input(event):
 
 # - Resets the camera to original position -
 func reset_camera():
-	transform = _original_outer_transform
-	_gimbal_node.transform = _original_inner_transform
+	_resetting_camera = true
+
+func process_reset(delta):
+	# Check if Gimbals are reset
+	var reset_gimbals = 0
+	if _reset_near_enough(transform.basis, _original_outer_transform.basis, RESET_THRESHOLD):
+		reset_gimbals += 1
+	if _reset_near_enough(_gimbal_node.transform.basis, _original_inner_transform.basis, RESET_THRESHOLD):
+		reset_gimbals += 1
+	if reset_gimbals == 2:
+		_resetting_camera = false
+		return
+	# Interpolate further reset
+	transform = transform.interpolate_with(_original_outer_transform, RESET_SPEED * delta)
+	_gimbal_node.transform = _gimbal_node.transform.interpolate_with(_original_inner_transform, RESET_SPEED * delta)
+
+func _reset_near_enough(a: Transform, b: Transform, threshold: float):
+	return (
+		(a.basis.x - b.basis.x).length() < threshold
+		and (a.basis.y - b.basis.y).length() < threshold
+		and (a.basis.z - b.basis.z).length() < threshold
+	)
 
 # - Active camera property -
 func set_current(value):
