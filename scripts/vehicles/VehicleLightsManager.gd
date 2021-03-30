@@ -54,7 +54,7 @@ var  turnright_nodes : Array = Array()
 var    reverse_nodes : Array = Array()
 
 # - Internal light states -
-var _night_state     : bool
+var _night_state     # NightLightMode
 var _brake_state     : bool
 var _reverse_state   : bool
 var _turnleft_state  : bool
