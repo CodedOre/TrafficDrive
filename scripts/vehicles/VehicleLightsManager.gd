@@ -13,13 +13,13 @@ enum NightLightMode {OFF, ON, FAR}
 # -- Properties --
 
 # - Light Settings -
-const HeadLightRange     =  30
-const HeadLightEnergy    =   4
-const HighBeamRange      =  60
-const HighBeamEnergy     =   8
-const RearLightEnergy    =   2
-const BrakeLightEnergy   =   4
-const TurnSignalInterval = .75
+const HeadLightRange     : int   =  30
+const HeadLightEnergy    : int   =   4
+const HighBeamRange      : int   =  60
+const HighBeamEnergy     : int   =   8
+const RearLightEnergy    : int   =   2
+const BrakeLightEnergy   : int   =   4
+const TurnSignalInterval : float = .75
 
 # - Light States -
 var     NightLights        setget set_nightlights,     get_nightlights
@@ -32,50 +32,50 @@ var TurnRightLights : bool setget set_turnrightlights, get_turnrightlights
 
 # - All lights materials
 # FrontLight
-const material_front_off   = preload("res://assets/materials/VehicleLights/FrontLightOff.material")
-const material_front_on    = preload("res://assets/materials/VehicleLights/FrontLightOn.material")
-const material_front_high  = preload("res://assets/materials/VehicleLights/FrontLightHighBeam.material")
+const material_front_off  : Material = preload("res://assets/materials/VehicleLights/FrontLightOff.material")
+const material_front_on   : Material  = preload("res://assets/materials/VehicleLights/FrontLightOn.material")
+const material_front_high : Material  = preload("res://assets/materials/VehicleLights/FrontLightHighBeam.material")
 # RearLights
-const material_rear_off    = preload("res://assets/materials/VehicleLights/RearLightOff.material")
-const material_rear_on     = preload("res://assets/materials/VehicleLights/RearLightOn.material")
-const material_rear_brake  = preload("res://assets/materials/VehicleLights/RearLightBrake.material")
+const material_rear_off   : Material  = preload("res://assets/materials/VehicleLights/RearLightOff.material")
+const material_rear_on    : Material  = preload("res://assets/materials/VehicleLights/RearLightOn.material")
+const material_rear_brake : Material  = preload("res://assets/materials/VehicleLights/RearLightBrake.material")
 # ReverseLights
-const material_reverse_off = preload("res://assets/materials/VehicleLights/ReverseLightOff.material")
-const material_reverse_on  = preload("res://assets/materials/VehicleLights/ReverseLightOn.material")
+const material_reverse_off : Material = preload("res://assets/materials/VehicleLights/ReverseLightOff.material")
+const material_reverse_on  : Material = preload("res://assets/materials/VehicleLights/ReverseLightOn.material")
 # TurningSignal
-const material_turning_off = preload("res://assets/materials/VehicleLights/TurningSignalOff.material")
-const material_turning_on  = preload("res://assets/materials/VehicleLights/TurningSignalOn.material")
+const material_turning_off : Material = preload("res://assets/materials/VehicleLights/TurningSignalOff.material")
+const material_turning_on  : Material = preload("res://assets/materials/VehicleLights/TurningSignalOn.material")
 
 # - All lights to manage -
-var frontlight_nodes = Array()
-var  rearlight_nodes = Array()
-var   turnleft_nodes = Array()
-var  turnright_nodes = Array()
-var    reverse_nodes = Array()
+var frontlight_nodes : Array = Array()
+var  rearlight_nodes : Array = Array()
+var   turnleft_nodes : Array = Array()
+var  turnright_nodes : Array = Array()
+var    reverse_nodes : Array = Array()
 
 # - Internal light states -
-var _night_state
-var _brake_state
-var _reverse_state
-var _turnleft_state
-var _turnright_state
+var _night_state     : bool
+var _brake_state     : bool
+var _reverse_state   : bool
+var _turnleft_state  : bool
+var _turnright_state : bool
 
 # - Internal variables for state calculation
-var _turning_timer = Timer.new()
-var _turning_state
-var _turning_left
-var _turning_right
+var _turning_timer : Timer = Timer.new()
+var _turning_state : bool
+var _turning_left  : bool
+var _turning_right : bool
 
 # -- Functions --
 
 # - Init the class -
-func _init(parent, all_lights):
+func _init(parent, all_lights) -> void:
 	# Launch init functions
 	process_nodes(all_lights)
-	preset_lights(parent)
+	_preset_lights(parent)
 
 # - Places all nodes into the wanted arrays -
-func process_nodes(all_lights):
+func process_nodes(all_lights) -> void:
 	for node in all_lights:
 		# Get node from path and verify it's an VehicleLight with attached Light
 		if ! node is Node:
@@ -130,7 +130,7 @@ func process_nodes(all_lights):
 		push_error("VehicleLightsManager: Processed node has invalid configuration!")
 
 # - Initial settings for the lights -
-func preset_lights(parent):
+func _preset_lights(parent) -> void:
 	set_nightlights(NightLightMode.OFF)
 	set_brakelights(false)
 	set_reverselights(false)
@@ -141,45 +141,45 @@ func preset_lights(parent):
 	parent.add_child(_turning_timer)
 
 # - Set night lights -
-func set_nightlights(mode):
+func set_nightlights(mode) -> void:
 	_night_state = mode
-	set_lights()
+	_set_lights()
 
-func get_nightlights():
+func get_nightlights() -> bool:
 	return _night_state
 
 # - Set brake lights -
-func set_brakelights(value):
+func set_brakelights(value) -> void:
 	_brake_state = value
-	set_lights()
+	_set_lights()
 
-func get_brakelights():
+func get_brakelights() -> bool:
 	return _brake_state
 
 # - Set reverse lights -
-func set_reverselights(value):
+func set_reverselights(value) -> void:
 	_reverse_state = value
-	set_lights()
+	_set_lights()
 
-func get_reverselights():
+func get_reverselights() -> bool:
 	return _reverse_state
 
 # - Set turn signals -
-func set_turnleftlights(value):
+func set_turnleftlights(value) -> void:
 	_turning_left = value
 	set_turn_timer()
 
-func set_turnrightlights(value):
+func set_turnrightlights(value) -> void:
 	_turning_right = value
 	set_turn_timer()
 
-func get_turnleftlights():
+func get_turnleftlights() -> bool:
 	return _turning_left
 
-func get_turnrightlights():
+func get_turnrightlights() -> bool:
 	return _turning_right
 
-func set_turn_timer():
+func set_turn_timer() -> void:
 	# If no turn signal is on, stop the timer
 	if ! _turning_left && ! _turning_right:
 		_turning_timer.stop()
@@ -190,7 +190,7 @@ func set_turn_timer():
 		_turning_state = true
 		_set_turn_signals()
 
-func _set_turn_signals():
+func _set_turn_signals() -> void:
 	# Called by the timer, automatically cycles the light states
 	_turning_state = ! _turning_state
 	if _turning_left:
@@ -201,10 +201,10 @@ func _set_turn_signals():
 		_turnright_state = ! _turning_state
 	else:
 		_turnright_state = false
-	set_lights()
+	_set_lights()
 
 # - Sets all lights according to it's states
-func set_lights():
+func _set_lights() -> void:
 	# Set FrontLights
 	for node in frontlight_nodes:
 		match _night_state:

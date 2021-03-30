@@ -23,23 +23,23 @@ export (bool) var ReverseLight
 # -- Variables --
 
 # - If light node should be shown -
-var light_active setget setlight, getlight
+var light_active : bool setget setlight, getlight
 
 # - The light node of this VehicleLight -
-onready var light_node = $Light
+onready var light_node : Light = $Light
 
 # - Internal variables -
-var _show_light = true
+var _show_light : bool = true
 
 # -- Functions --
 
 # - Run at startup -
-func _ready():
+func _ready() -> void:
 	GameSettings.connect("setting_changed", self, "_modify_light")
 	_modify_light()
 
 # - Modifies light node according to setting -
-func _modify_light():
+func _modify_light() -> void:
 	# Adapt to "VehicleLightNode" setting
 	match GameSettings.get_setting("Performance", "VehicleLightNode"):
 		GameSettings.VehicleLightNode.OFF:
@@ -64,9 +64,9 @@ func _modify_light():
 
 # - Setter and Getter for light visibility -
 # Is affected by a performance setting
-func setlight(value):
+func setlight(value) -> void:
 	if _show_light:
 		light_node.set_visible(value)
 
-func getlight():
+func getlight() -> bool:
 	return _show_light
