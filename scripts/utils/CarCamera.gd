@@ -5,6 +5,11 @@
 
 extends Spatial
 
+# -- Enums --
+
+# - States for the camera -
+enum CameraState {FREE, RESET, BEHIND}
+
 # -- Constants --
 
 # - Speed the camera resets -
@@ -37,9 +42,7 @@ var _original_inner_transform : Transform
 var   _behind_outer_transform : Transform
 
 # - States at runtime -
-var _view_at_origin   : bool = true
-var _resetting_camera : bool = false
-var _looking_behind   : bool = false
+var _state # CameraState
 
 # -- Functions --
 
@@ -58,10 +61,11 @@ func _ready() -> void:
 
 # - Runs every frame -
 func _process(delta : float) -> void:
-	if _resetting_camera:
-		_move_camera(delta, _original_outer_transform, _original_inner_transform)
-	if _looking_behind:
-		_move_camera(delta, _behind_outer_transform, _original_inner_transform)
+	match _state:
+		CameraState.RESET:
+			_move_camera(delta, _original_outer_transform, _original_inner_transform)
+		CameraState.BEHIND:
+			_move_camera(delta, _behind_outer_transform, _original_inner_transform)
 
 # - Change internal variables when settings were modified -
 func _modify_settings() -> void:
@@ -73,8 +77,7 @@ func _modify_settings() -> void:
 func _input(event) -> void:
 	if is_current():
 		if event is InputEventMouseMotion:
-			_view_at_origin   = false
-			_resetting_camera = false
+			_state = CameraState.FREE
 			if event.relative.x != 0:
 				rotate_object_local(Vector3.UP, _y_dir * event.relative.x * _mouse_sensitivity)
 			if event.relative.y != 0:
@@ -82,13 +85,11 @@ func _input(event) -> void:
 
 # - Resets the camera to original position -
 func reset_camera() -> void:
-	_resetting_camera = true
-	_looking_behind   = false
+	_state = CameraState.RESET
 
 # - Camera looks behind -
 func look_behind() -> void:
-	_looking_behind   = true
-	_resetting_camera = false
+	_state = CameraState.BEHIND
 
 # - Move the Camera to a point -
 func _move_camera(delta : float, outer_target : Transform, inner_target : Transform) -> void:
@@ -99,8 +100,7 @@ func _move_camera(delta : float, outer_target : Transform, inner_target : Transf
 	if _close_transforms(_gimbal_node.transform, inner_target, RESET_THRESHOLD):
 		moving_done += 1
 	if moving_done == 2:
-		_resetting_camera = false
-		_looking_behind   = false
+		_state = CameraState.FREE
 		return
 	# Interpolate further reset
 	transform = transform.interpolate_with(outer_target, RESET_SPEED * delta)
