@@ -178,6 +178,9 @@ transform = Transform( 1, 0, 0, 0, 0.339983, 0.940432, 0, -0.940432, 0.339983, 3
 material/0 = ExtResource( 7 )
 
 [node name="CarCamera" parent="." index="5" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+CameraDistance = 4.5
+CameraAngle = 15
 
 [node name="CollisionShape" type="CollisionShape" parent="." index="6"]
 transform = Transform( 0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0 )
