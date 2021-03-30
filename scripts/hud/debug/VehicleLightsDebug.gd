@@ -7,24 +7,24 @@ extends GridContainer
 
 # -- Properties --
 
-var DebuggedVehicle setget set_debug_vehicle, get_debug_vehicle
+var DebuggedVehicle : VehicleBody setget set_debug_vehicle, get_debug_vehicle
 
 # -- Variables --
 
 var _valid_vehicle : bool = false
-var _debug_vehicle : Node
+var _debug_vehicle : VehicleBody
 var _debug_manager : VehicleLightsManager
 var  _mode_select  : int = -1
 
 # -- Functions --
 
 # - Runs at startup -
-func _ready():
+func _ready() -> void:
 	_show_or_hide()
 	$LightModeTimer.connect("timeout", self, "_cycle_modes")
 
 # - Set's a debugged vehicle after a check -
-func set_debug_vehicle(value):
+func set_debug_vehicle(value) -> void:
 	_valid_vehicle = false
 	_debug_vehicle = null
 	_debug_manager = null
@@ -37,11 +37,11 @@ func set_debug_vehicle(value):
 	_show_or_hide()
 	_update_static_labels()
 
-func get_debug_vehicle():
+func get_debug_vehicle() -> VehicleBody:
 	return _debug_vehicle
 
 # - Hide or Show the HUD -
-func _show_or_hide():
+func _show_or_hide() -> void:
 	if _valid_vehicle:
 		$ManagerValue.text = "active"
 		$LightModeTimer.start()
@@ -54,11 +54,11 @@ func _show_or_hide():
 	$LightSumValue.visible = _valid_vehicle
 
 # - Updates static labels after a set vehicle -
-func _update_static_labels():
+func _update_static_labels() -> void:
 	$LightSumValue.text = str(_debug_vehicle.all_light_nodes.size())
 
 # - Updates LightModes select when the timer changes -
-func _cycle_modes():
+func _cycle_modes() -> void:
 	_mode_select = (_mode_select + 1) % 5
 	var labeltext : String = ""
 	var nodetext  : String = ""
@@ -102,7 +102,7 @@ func _cycle_modes():
 	$ModeLightsValue.text =  nodetext
 
 # - Processes interactive changes on runtime -
-func _process(_delta):
+func _process(_delta) -> void:
 	if _valid_vehicle:
 		match _mode_select:
 			0:
