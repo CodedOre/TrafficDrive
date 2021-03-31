@@ -1,26 +1,25 @@
 # Copyright 2021, Frederick Schenk
 
-# --- CarCamera Script ---
-# A script for a camera which allows rotation around a car.
+# --- GimbalCamera Script ---
+# A script for a camera on a gimbal for use with the cars.
 
 extends Spatial
 
 # -- Enums --
 
 # - States for the camera -
-enum CameraState {FREE, RESET, BEHIND}
+enum CameraState {NOSET, FREE, RESET, BEHIND}
 
 # -- Constants --
 
 # - Speed the camera resets -
-const RESET_SPEED     : float = 4.0
-const RESET_THRESHOLD : float = 0.01
+const MOVE_SPEED     : float = 4.0
+const MOVE_THRESHOLD : float = 0.01
 
 # -- Properties --
 
-# - Camera position -
-export (float) onready var CameraDistance
-export (int)   onready var CameraAngle
+# - The point the camera is looking at -
+export (NodePath) var CameraPoint setget set_camera_point, get_camera_point
 
 # - Active camera indicator -
 export (bool) var current = false setget set_current, is_current
@@ -28,8 +27,10 @@ export (bool) var current = false setget set_current, is_current
 # -- Variables
 
 # - Internal nodes -
-onready var _camera_node : Camera  = $InnerGimbal/Camera
-onready var _gimbal_node : Spatial = $InnerGimbal
+onready var _outer_gimbal : Spatial = $OuterGimbal
+onready var _inner_gimbal : Spatial = $OuterGimbal/InnerGimbal
+onready var _camera_node  : Camera  = $OuterGimbal/InnerGimbal/Camera
+var _current_point        : CameraPoint
 
 # - Variables set by GameSettings -
 onready var _x_dir             : int   =   -1 if GameSettings.get_setting("Input", "MouseXInverted") else  1
@@ -42,25 +43,47 @@ var _original_inner_transform : Transform
 var   _behind_outer_transform : Transform
 
 # - States at runtime -
-var _state # CameraState
+var _state = CameraState.NOSET # CameraState
 
 # -- Functions --
 
 # - Runs at startup -
 func _ready() -> void:
-	# warning-ignore:return_value_discarded
 	GameSettings.connect("setting_changed", self, "_modify_settings")
-	# CameraDistance and CameraAngle are once set at start
-	_camera_node.transform.origin.z = -1 * CameraDistance
-	_gimbal_node.rotation_degrees = Vector3(CameraAngle, 0, 0)
+
+# - CameraPoint property -
+func set_camera_point(point : NodePath) -> void:
+	print("Let's set a point!")
+	_current_point = get_node(point)
+	print("Current Point is " + str(_current_point))
+#	if ! _current_point is CameraPoint:
+#		_state = CameraState.NOSET
+#		push_error("GimbalCamera: Non valid CameraPoint set!")
+#		return
+	# Move GimbalCamera to CameraPoint
+	global_transform = _current_point.global_transform
+	# Reset Gimbal
+	_outer_gimbal.transform = Transform()
+	_inner_gimbal.transform = Transform()
+	_camera_node.transform  = Transform().rotated(Vector3.UP, PI/1)
+	# Configure Gimbal according to CameraPoints properties
+	_camera_node.transform.origin.z = -1 * _current_point.CameraDistance
+	_inner_gimbal.rotation_degrees  = Vector3(_current_point.CameraAngle, 0, 0)
 	# Storing current transforms as reset transforms
-	_original_outer_transform = transform
-	_original_inner_transform = _gimbal_node.transform
+	_original_outer_transform = _outer_gimbal.transform
+	_original_inner_transform = _inner_gimbal.transform
 	# Create and store transform for behind view
 	_behind_outer_transform = _original_outer_transform.rotated(Vector3.UP, PI/1)
+	_state = CameraState.FREE
+
+func get_camera_point() -> NodePath:
+	return _current_point.get_path()
 
 # - Runs every frame -
 func _process(delta : float) -> void:
+	if _state != CameraState.NOSET:
+#		global_transform = _current_point.global_transform
+		pass
 	match _state:
 		CameraState.RESET:
 			_move_camera(delta, _original_outer_transform, _original_inner_transform)
@@ -75,13 +98,13 @@ func _modify_settings() -> void:
 
 # - Moves the camera according to mouse input -
 func _input(event) -> void:
-	if is_current():
+	if is_current() and _state != CameraState.NOSET:
 		if event is InputEventMouseMotion:
 			_state = CameraState.FREE
 			if event.relative.x != 0:
-				rotate_object_local(Vector3.UP, _y_dir * event.relative.x * _mouse_sensitivity)
+				_outer_gimbal.rotate_object_local(Vector3.UP, _y_dir * event.relative.x * _mouse_sensitivity)
 			if event.relative.y != 0:
-				_gimbal_node.rotate_object_local(Vector3.RIGHT, _x_dir * event.relative.y * _mouse_sensitivity)
+				_inner_gimbal.rotate_object_local(Vector3.RIGHT, _x_dir * event.relative.y * _mouse_sensitivity)
 
 # - Resets the camera to original position -
 func reset_camera() -> void:
@@ -95,16 +118,16 @@ func look_behind() -> void:
 func _move_camera(delta : float, outer_target : Transform, inner_target : Transform) -> void:
 	# Check if Gimbals are reset
 	var moving_done : int = 0
-	if _close_transforms(transform, outer_target, RESET_THRESHOLD):
+	if _close_transforms(_outer_gimbal.transform, outer_target, MOVE_THRESHOLD):
 		moving_done += 1
-	if _close_transforms(_gimbal_node.transform, inner_target, RESET_THRESHOLD):
+	if _close_transforms(_inner_gimbal.transform, inner_target, MOVE_THRESHOLD):
 		moving_done += 1
 	if moving_done == 2:
 		_state = CameraState.FREE
 		return
 	# Interpolate further reset
-	transform = transform.interpolate_with(outer_target, RESET_SPEED * delta)
-	_gimbal_node.transform = _gimbal_node.transform.interpolate_with(inner_target, RESET_SPEED * delta)
+	_outer_gimbal.transform = _outer_gimbal.transform.interpolate_with(outer_target, MOVE_SPEED * delta)
+	_inner_gimbal.transform = _inner_gimbal.transform.interpolate_with(inner_target, MOVE_SPEED * delta)
 
 # - If a transform is near of another -
 func _close_transforms(a: Transform, b: Transform, threshold: float) -> bool:
@@ -116,10 +139,20 @@ func _close_transforms(a: Transform, b: Transform, threshold: float) -> bool:
 
 # - Active camera property -
 func set_current(value : bool) -> void:
-	_camera_node.set_current(value)
+	if _state != CameraState.NOSET:
+		_camera_node.set_current(value)
+	else:
+		push_error("CimbalCamera: Target not set!")
 
 func make_current() -> void:
-	_camera_node.make_current()
+	if _state != CameraState.NOSET:
+		_camera_node.make_current()
+	else:
+		push_error("CimbalCamera: Target not set!")
 
 func is_current() -> bool:
-	return _camera_node.is_current()
+	if _state != CameraState.NOSET:
+		return _camera_node.is_current()
+	else:
+		push_error("CimbalCamera: Target not set!")
+		return false
