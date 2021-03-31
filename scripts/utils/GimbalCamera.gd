@@ -18,19 +18,21 @@ const MOVE_THRESHOLD : float = 0.01
 
 # -- Properties --
 
-# - The point the camera is looking at -
-export (NodePath) var CameraPoint setget set_camera_point, get_camera_point
+# - A path to a CameraPoint -
+export (NodePath) var CameraPoint setget set_camera_point_path, get_camera_point_path
 
 # - Active camera indicator -
 export (bool) var current = false setget set_current, is_current
 
 # -- Variables
 
+# - The point the camera is centered around -
+var camera_point : CameraPoint setget set_camera_point, get_camera_point
+
 # - Internal nodes -
 onready var _outer_gimbal : Spatial = $OuterGimbal
 onready var _inner_gimbal : Spatial = $OuterGimbal/InnerGimbal
 onready var _camera_node  : Camera  = $OuterGimbal/InnerGimbal/Camera
-var _current_point        : CameraPoint
 
 # - Variables set by GameSettings -
 onready var _x_dir             : int   =   -1 if GameSettings.get_setting("Input", "MouseXInverted") else  1
@@ -54,7 +56,7 @@ func _ready() -> void:
 # - Runs every frame -
 func _process(delta : float) -> void:
 	if _state != CameraState.NOSET:
-		global_transform = _nonrot_transform(_current_point)
+		global_transform = _nonrot_transform(camera_point)
 		match _state:
 			CameraState.RESET:
 				_move_camera(delta, _original_outer_transform, _original_inner_transform)
@@ -115,21 +117,28 @@ func reset_camera() -> void:
 func look_behind() -> void:
 	_state = CameraState.BEHIND
 
-# - CameraPoint property -
-func set_camera_point(point : NodePath) -> void:
-	_current_point = get_node(point)
-	if _current_point == null:
+# - CameraPoint path property -
+func set_camera_point_path(path : NodePath) -> void:
+	set_camera_point(get_node(path))
+
+func get_camera_point_path() -> NodePath:
+	return camera_point.get_path()
+
+# - CameraPoint variable -
+func set_camera_point(point : CameraPoint) -> void:
+	if point == null:
 		push_error("GimbalCamera: No valid CameraPoint given!")
 		return
+	camera_point = point
 	# Move GimbalCamera to CameraPoint
-	global_transform = _nonrot_transform(_current_point)
+	global_transform = _nonrot_transform(camera_point)
 	# Reset Gimbal
 	_outer_gimbal.transform = Transform()
 	_inner_gimbal.transform = Transform()
 	_camera_node.transform  = Transform().rotated(Vector3.UP, PI/1)
 	# Configure Gimbal according to CameraPoints properties
-	_camera_node.transform.origin.z = -1 * _current_point.CameraDistance
-	_inner_gimbal.rotation_degrees  = Vector3(_current_point.CameraAngle, 0, 0)
+	_camera_node.transform.origin.z = -1 * camera_point.CameraDistance
+	_inner_gimbal.rotation_degrees  = Vector3(camera_point.CameraAngle, 0, 0)
 	# Storing current transforms as reset transforms
 	_original_outer_transform = _outer_gimbal.transform
 	_original_inner_transform = _inner_gimbal.transform
@@ -137,8 +146,8 @@ func set_camera_point(point : NodePath) -> void:
 	_behind_outer_transform = _original_outer_transform.rotated(Vector3.UP, PI/1)
 	_state = CameraState.FREE
 
-func get_camera_point() -> NodePath:
-	return _current_point.get_path()
+func get_camera_point() -> CameraPoint:
+	return camera_point
 
 # - Active camera property -
 func set_current(value : bool) -> void:
