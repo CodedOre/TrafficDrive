@@ -22,7 +22,7 @@ const BrakeLightEnergy   : int   =   4
 const TurnSignalInterval : float = .75
 
 # - Light States -
-var     NightLights        setget set_nightlights,     get_nightlights
+var     NightLights        setget set_nightlights,     get_nightlights # NightlightMode
 var     BrakeLights : bool setget set_brakelights,     get_brakelights
 var   ReverseLights : bool setget set_reverselights,   get_reverselights
 var  TurnLeftLights : bool setget set_turnleftlights,  get_turnleftlights
@@ -69,13 +69,13 @@ var _turning_right : bool
 # -- Functions --
 
 # - Init the class -
-func _init(parent, all_lights) -> void:
+func _init(parent, all_lights : Array) -> void:
 	# Launch init functions
 	process_nodes(all_lights)
 	_preset_lights(parent)
 
 # - Places all nodes into the wanted arrays -
-func process_nodes(all_lights) -> void:
+func process_nodes(all_lights : Array) -> void:
 	for node in all_lights:
 		# Get node from path and verify it's an VehicleLight with attached Light
 		if ! node is Node:
@@ -145,11 +145,11 @@ func set_nightlights(mode) -> void:
 	_night_state = mode
 	_set_lights()
 
-func get_nightlights() -> bool:
+func get_nightlights(): # NightLightMode
 	return _night_state
 
 # - Set brake lights -
-func set_brakelights(value) -> void:
+func set_brakelights(value : bool) -> void:
 	_brake_state = value
 	_set_lights()
 
@@ -157,7 +157,7 @@ func get_brakelights() -> bool:
 	return _brake_state
 
 # - Set reverse lights -
-func set_reverselights(value) -> void:
+func set_reverselights(value : bool) -> void:
 	_reverse_state = value
 	_set_lights()
 
@@ -165,11 +165,11 @@ func get_reverselights() -> bool:
 	return _reverse_state
 
 # - Set turn signals -
-func set_turnleftlights(value) -> void:
+func set_turnleftlights(value : bool) -> void:
 	_turning_left = value
 	set_turn_timer()
 
-func set_turnrightlights(value) -> void:
+func set_turnrightlights(value : bool) -> void:
 	_turning_right = value
 	set_turn_timer()
 
