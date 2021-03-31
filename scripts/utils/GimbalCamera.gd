@@ -8,7 +8,7 @@ extends Spatial
 # -- Enums --
 
 # - States for the camera -
-enum CameraState {NOSET, FREE, RESET, BEHIND}
+enum CameraState {NOSET, FREE, MOUSE, RESET, BEHIND}
 
 # -- Constants --
 
@@ -19,7 +19,7 @@ const MOVE_THRESHOLD : float = 0.01
 # -- Properties --
 
 # - A path to a CameraPoint -
-export (NodePath) var CameraPoint setget set_camera_point_path, get_camera_point_path
+export (NodePath) var CameraPointPath setget set_camera_point_path, get_camera_point_path
 
 # - Active camera indicator -
 export (bool) var current = false setget set_current, is_current
@@ -45,7 +45,8 @@ var _original_inner_transform : Transform
 var   _behind_outer_transform : Transform
 
 # - States at runtime -
-var _state = CameraState.NOSET # CameraState
+var _state               = CameraState.NOSET # CameraState
+var _mouse_delta : float = 0.0
 
 # -- Functions --
 
@@ -56,7 +57,17 @@ func _ready() -> void:
 # - Runs every frame -
 func _process(delta : float) -> void:
 	if _state != CameraState.NOSET:
-		global_transform = _nonrot_transform(camera_point)
+		if ! _transforms_close(global_transform, camera_point.global_transform, MOVE_THRESHOLD):
+			global_transform = _nonrot_transform(camera_point)
+		if _state == CameraState.MOUSE:
+			_mouse_delta += delta
+			if _mouse_delta > 1:
+				_state = CameraState.FREE
+		else:
+			if camera_point.state_request == CameraPoint.RequestState.RESET:
+				_state = CameraState.RESET
+			if camera_point.state_request == CameraPoint.RequestState.BEHIND:
+				_state = CameraState.BEHIND
 		match _state:
 			CameraState.RESET:
 				_move_camera(delta, _original_outer_transform, _original_inner_transform)
@@ -67,7 +78,8 @@ func _process(delta : float) -> void:
 func _input(event) -> void:
 	if is_current() and _state != CameraState.NOSET:
 		if event is InputEventMouseMotion:
-			_state = CameraState.FREE
+			_mouse_delta = 0.0
+			_state = CameraState.MOUSE
 			if event.relative.x != 0:
 				_outer_gimbal.rotate_object_local(Vector3.UP, _y_dir * event.relative.x * _mouse_sensitivity)
 			if event.relative.y != 0:
@@ -95,6 +107,7 @@ func _transforms_close(a : Transform, b : Transform, threshold : float) -> bool:
 		(a.basis.x - b.basis.x).length() < threshold
 		and (a.basis.y - b.basis.y).length() < threshold
 		and (a.basis.z - b.basis.z).length() < threshold
+		and (a.origin  - b.origin).length()  < threshold
 	)
 
 # - Returns a Transform tha is at a Node's position, but only y rotation -
