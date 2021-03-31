@@ -63,7 +63,9 @@ func _show_or_hide() -> void:
 # - Updates static labels after a set vehicle -
 func _update_static_labels() -> void:
 	$LightSumValue.text = str(_debug_vehicle.Lights.size())
-	
+	_mode_labels = ["", "", "", "", ""]
+	_node_labels = ["", "", "", "", ""]
+	_node_values = ["", "", "", "", ""]
 	# Create cache for LightMode and ModeLights
 	_mode_labels[0] = "NightLights:"
 	_node_labels[0] = "Nodes:"
