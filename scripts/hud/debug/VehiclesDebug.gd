@@ -36,18 +36,22 @@ func get_debug_vehicle() -> Vehicle:
 
 # - Hide or Show the HUD -
 func _show_or_hide() -> void:
-	$XInputLabel.visible   = _valid_vehicle
-	$XInputValue.visible   = _valid_vehicle
-	$BInputLabel.visible   = _valid_vehicle
-	$BInputValue.visible   = _valid_vehicle
-	$YInputLabel.visible   = _valid_vehicle
-	$YInputValue.visible   = _valid_vehicle
-	$EngineLabel.visible   = _valid_vehicle
-	$EngineValue.visible   = _valid_vehicle
-	$BrakeLabel.visible    = _valid_vehicle
-	$BrakeValue.visible    = _valid_vehicle
-	$SteeringLabel.visible = _valid_vehicle
-	$SteeringValue.visible = _valid_vehicle
+	$XInputLabel.visible      = _valid_vehicle
+	$XInputValue.visible      = _valid_vehicle
+	$BInputLabel.visible      = _valid_vehicle
+	$BInputValue.visible      = _valid_vehicle
+	$YInputLabel.visible      = _valid_vehicle
+	$YInputValue.visible      = _valid_vehicle
+	$EngineLabel.visible      = _valid_vehicle
+	$EngineValue.visible      = _valid_vehicle
+	$BrakeLabel.visible       = _valid_vehicle
+	$BrakeValue.visible       = _valid_vehicle
+	$SteeringDegLabel.visible = _valid_vehicle
+	$SteeringDegValue.visible = _valid_vehicle
+	$SteeringRadLabel.visible = _valid_vehicle
+	$SteeringRadValue.visible = _valid_vehicle
+	$SpeedLabel.visible       = _valid_vehicle
+	$SpeedValue.visible       = _valid_vehicle
 
 # - Updates static labels after a set vehicle -
 func _update_static_labels() -> void:
@@ -56,9 +60,11 @@ func _update_static_labels() -> void:
 # - Processes interactive changes on runtime -
 func _process(_delta : float) -> void:
 	if _valid_vehicle:
-		$XInputValue.text   = str(_debug_vehicle._input_engine)
-		$BInputValue.text   = str(_debug_vehicle._input_brake)
-		$YInputValue.text   = str(_debug_vehicle._input_steer)
-		$EngineValue.text   = str(_debug_vehicle.engine_force)
-		$BrakeValue.text    = str(_debug_vehicle.brake)
-		$SteeringValue.text = str(_debug_vehicle.steering)
+		$XInputValue.text      = str(_debug_vehicle._input_engine)
+		$BInputValue.text      = str(_debug_vehicle._input_brake)
+		$YInputValue.text      = str(_debug_vehicle._input_steer)
+		$EngineValue.text      = str(_debug_vehicle.engine_force)
+		$BrakeValue.text       = str(_debug_vehicle.brake)
+		$SteeringDegValue.text = str(_debug_vehicle._steer_angle)
+		$SteeringRadValue.text = str(_debug_vehicle.steering)
+		$SpeedValue.text       = str(_debug_vehicle.current_speed)
