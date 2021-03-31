@@ -19,8 +19,6 @@ collision_layer = 2
 collision_mask = 3
 mass = 187.755
 script = ExtResource( 8 )
-MaxEngineForce = 250
-MaxBrakeForce = 8
 Lights = [ NodePath("VehicleBody/LightBrakeLight"), NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningLeft"), NodePath("VehicleBody/LightTurningRight") ]
 Camera = NodePath("ChaseCamera")
 
