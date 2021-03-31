@@ -13,6 +13,7 @@ var DebuggedVehicle : Vehicle setget set_debug_vehicle, get_debug_vehicle
 
 # - Internal nodes -
 onready var _graphics_debug : GridContainer = $GraphicsDebug
+onready var _vehicles_debug : GridContainer = $VehiclesDebug
 onready var _vehlight_debug : GridContainer = $VehicleLightsDebug
 
 # - Runtime variables -
@@ -23,6 +24,7 @@ var _debugged_vehicle : Vehicle
 # - DebuggedVehicle property -
 func set_debug_vehicle(node : Vehicle) -> void:
 	_debugged_vehicle = node
+	_vehicles_debug.set_debug_vehicle(_debugged_vehicle)
 	_vehlight_debug.set_debug_vehicle(_debugged_vehicle)
 
 func get_debug_vehicle() -> Vehicle:

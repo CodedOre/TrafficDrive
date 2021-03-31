@@ -1,0 +1,64 @@
+# Copyright 2021, Frederick Schenk
+
+# --- VehicleDebug Script ---
+# A script to manage the debug screen for a Vehicle.
+
+extends GridContainer
+
+# -- Properties --
+
+var DebuggedVehicle : Vehicle setget set_debug_vehicle, get_debug_vehicle
+
+# -- Variables --
+
+var _valid_vehicle : bool = false
+var _debug_vehicle : Vehicle
+
+# -- Functions --
+
+# - Runs at startup -
+func _ready() -> void:
+	_show_or_hide()
+
+# - Set's a debugged vehicle after a check -
+func set_debug_vehicle(node : Vehicle) -> void:
+	_valid_vehicle = false
+	_debug_vehicle = null
+	if node != null:
+		if node is Vehicle:
+			_debug_vehicle = node
+			_valid_vehicle = true
+	_update_static_labels()
+	_show_or_hide()
+
+func get_debug_vehicle() -> Vehicle:
+	return _debug_vehicle
+
+# - Hide or Show the HUD -
+func _show_or_hide() -> void:
+	$XInputLabel.visible   = _valid_vehicle
+	$XInputValue.visible   = _valid_vehicle
+	$BInputLabel.visible   = _valid_vehicle
+	$BInputValue.visible   = _valid_vehicle
+	$YInputLabel.visible   = _valid_vehicle
+	$YInputValue.visible   = _valid_vehicle
+	$EngineLabel.visible   = _valid_vehicle
+	$EngineValue.visible   = _valid_vehicle
+	$BrakeLabel.visible    = _valid_vehicle
+	$BrakeValue.visible    = _valid_vehicle
+	$SteeringLabel.visible = _valid_vehicle
+	$SteeringValue.visible = _valid_vehicle
+
+# - Updates static labels after a set vehicle -
+func _update_static_labels() -> void:
+	$VehicleValue.text = str(_debug_vehicle.get_name())
+
+# - Processes interactive changes on runtime -
+func _process(_delta : float) -> void:
+	if _valid_vehicle:
+		$XInputValue.text   = str(_debug_vehicle._input_engine)
+		$BInputValue.text   = str(_debug_vehicle._input_brake)
+		$YInputValue.text   = str(_debug_vehicle._input_steer)
+		$EngineValue.text   = str(_debug_vehicle.engine_force)
+		$BrakeValue.text    = str(_debug_vehicle.brake)
+		$SteeringValue.text = str(_debug_vehicle.steering)
