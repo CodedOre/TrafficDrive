@@ -70,6 +70,7 @@ func _input(event) -> void:
 				_outer_gimbal.rotate_object_local(Vector3.UP, _y_dir * event.relative.x * _mouse_sensitivity)
 			if event.relative.y != 0:
 				_inner_gimbal.rotate_object_local(Vector3.RIGHT, _x_dir * event.relative.y * _mouse_sensitivity)
+			_inner_gimbal.rotation.x = clamp(_inner_gimbal.rotation.x, 0.01, 1.14)
 
 # - Move the Camera to a point -
 func _move_camera(delta : float, outer_target : Transform, inner_target : Transform) -> void:
