@@ -6,8 +6,18 @@
 extends Position3D
 class_name CameraPoint
 
+# -- Enums --
+
+# - Request state -
+enum RequestState {NONE, RESET, BEHIND}
+
 # -- Properties --
 
 # - Gimbal settings -
 export (float) onready var CameraDistance
 export (int)   onready var CameraAngle
+
+# -- Variables --
+
+# - Request state property -
+var state_request # RequestState

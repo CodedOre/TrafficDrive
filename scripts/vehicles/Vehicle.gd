@@ -148,3 +148,11 @@ func _move_vehicle(delta : float):
 		if steer_target < _steer_angle:
 			_steer_angle = steer_target
 	steering = deg2rad(_steer_angle)
+	
+	# Send Camera request over CameraPoint to GimbalCamera
+	if current_speed > 0:
+		_camera_node.state_request = CameraPoint.RequestState.RESET
+	elif current_speed < 0:
+		_camera_node.state_request = CameraPoint.RequestState.BEHIND
+	else:
+		_camera_node.state_request = CameraPoint.RequestState.NONE
