@@ -14,9 +14,9 @@ const STEER_SPEED : int = 60
 # -- Properties --
 
 # - Properties of this Vehicle -
-export (int) var MaxEngineForce = 125
-export (int) var MaxBrakeForce  =  50
-export (int) var MaxSteerAngle  =  30
+export (int) var MaxEngineForce = 250
+export (int) var MaxBrakeForce  =   8
+export (int) var MaxSteerAngle  =  35
 
 # - NodePaths from the Vehicle -
 export (Array, NodePath) onready var Lights
