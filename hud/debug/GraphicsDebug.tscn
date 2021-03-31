@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/hud/debug/GraphicsDebug.gd" type="Script" id=1]
+
+[node name="GraphicsDebug" type="GridContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+columns = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FPSLabel" type="Label" parent="."]
+margin_right = 126.0
+margin_bottom = 14.0
+text = "Frames per Second:"
+
+[node name="FPSValue" type="Label" parent="."]
+margin_left = 130.0
+margin_right = 130.0
+margin_bottom = 14.0
