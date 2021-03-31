@@ -53,8 +53,12 @@ func _show_or_hide() -> void:
 		$ManagerValue.text = "inactive"
 		$LightModeTimer.stop()
 		_mode_select = -1
-	$LightSumLabel.visible = _valid_vehicle
-	$LightSumValue.visible = _valid_vehicle
+	$LightSumLabel.visible   = _valid_vehicle
+	$LightSumValue.visible   = _valid_vehicle
+	$LightModeLabel.visible  = _valid_vehicle
+	$LightModeValue.visible  = _valid_vehicle
+	$ModeLightsLabel.visible = _valid_vehicle
+	$ModeLightsValue.visible = _valid_vehicle
 
 # - Updates static labels after a set vehicle -
 func _update_static_labels() -> void:

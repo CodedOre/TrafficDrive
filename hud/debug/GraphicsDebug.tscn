@@ -15,6 +15,7 @@ __meta__ = {
 margin_right = 126.0
 margin_bottom = 14.0
 text = "Frames per Second:"
+align = 2
 
 [node name="FPSValue" type="Label" parent="."]
 margin_left = 130.0
