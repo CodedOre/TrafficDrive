@@ -67,4 +67,4 @@ func _process(_delta : float) -> void:
 		$BrakeValue.text       = str(_debug_vehicle.brake)
 		$SteeringDegValue.text = str(_debug_vehicle._steer_angle)
 		$SteeringRadValue.text = str(_debug_vehicle.steering)
-		$SpeedValue.text       = str(_debug_vehicle.current_speed)
+		$SpeedValue.text       = str(_debug_vehicle.current_speed) + " m/s | " + str(_debug_vehicle.current_speed * 3.6) + " km/h"
