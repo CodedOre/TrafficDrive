@@ -71,7 +71,7 @@ func _manage_input():
 			_input_engine = 1.0
 		elif current_speed > 0:
 			_input_engine = 1.0
-		elif current_speed < 0:
+		elif current_speed <= 0:
 			_input_brake = 1.0
 	
 	if Input.is_action_just_pressed("vehicle_movement_backward"):
@@ -81,7 +81,7 @@ func _manage_input():
 			_input_engine = -1.0
 		elif current_speed < 0:
 			_input_engine = -1.0
-		elif current_speed > 0:
+		elif current_speed >= 0:
 			_input_brake = 1.0
 	
 	# If moving, disable new input
@@ -90,7 +90,7 @@ func _manage_input():
 	
 	# If standing, apply small value to brake to ensure the vehicle don't roll away
 	if current_speed == 0 and !_new_input:
-		_input_brake = 0.01
+		_input_brake = 0.1
 	
 	# Input for Steering
 	if Input.is_action_pressed("vehicle_movement_left"):
