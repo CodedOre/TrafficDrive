@@ -136,9 +136,10 @@ func _move_vehicle(delta : float):
 		_light_manager.BrakeLights = false
 	
 	# Steer the vehicle
-	var steer_target : float = _input_steer * MaxSteerAngle
-	if (abs(current_speed) / 5 != 0):
-		steer_target /= (abs(current_speed) / 5)
+	var steer_target   : float = _input_steer * MaxSteerAngle
+	var absolute_speed : float = abs(current_speed) / 5
+	if (absolute_speed != 0):
+		steer_target /= absolute_speed
 	if steer_target < _steer_angle:
 		_steer_angle -= STEER_SPEED * delta
 		if steer_target > _steer_angle:
