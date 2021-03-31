@@ -6,19 +6,40 @@
 extends VehicleBody
 class_name Vehicle
 
+# -- Constants --
+
+# - Properties for a Vehicle -
+const STEER_SPEED : int = 60
+
 # -- Properties --
 
-# - NodePaths from the vehicle -
+# - Properties of this Vehicle -
+export (int) var MaxEngineForce = 125
+export (int) var MaxBrakeForce  =  50
+export (int) var MaxSteerAngle  =  30
+
+# - NodePaths from the Vehicle -
 export (Array, NodePath) onready var Lights
 export (NodePath)        onready var Camera
 export (bool)                    var Controlled
 
 # -- Variables --
 
+# - State of the Vehicle -
+var current_speed : int = 0
+
 # - Internal objects -
 var _light_manager : VehicleLightsManager
 var _light_nodes   : Array = Array()
 var _camera_node   : CameraPoint
+
+# - Runtime variables -
+var _new_input    : bool  = false
+var _steer_angle  : float = 0.0
+var _steer_delta  : float = 0.0
+var _input_engine : float = 0.0
+var _input_brake  : float = 0.0
+var _input_steer  : float = 0.0
 
 # -- Functions --
 
@@ -31,14 +52,51 @@ func _ready():
 	_camera_node = get_node(Camera)
 
 # - Runs at every frame -
-func _physics_process(_delta : float):
+func _physics_process(delta : float):
+	current_speed = int(transform.basis.xform_inv(linear_velocity).z)
 	if Controlled:
 		_manage_input()
+		_move_vehicle(delta)
 
 # - Checks input at every frame -
 func _manage_input():
+	# Input for Forward/Backward Movement
+	if Input.is_action_just_pressed("vehicle_movement_forward"):
+		_new_input = true
+	if Input.is_action_pressed("vehicle_movement_forward"):
+		if current_speed == 0 and _new_input:
+			_input_engine = 1.0
+		elif current_speed > 0:
+			_input_engine = 1.0
+		elif current_speed < 0:
+			_input_brake = 1.0
+	
+	if Input.is_action_just_pressed("vehicle_movement_backward"):
+		_new_input = true
+	if Input.is_action_pressed("vehicle_movement_backward"):
+		if current_speed == 0 and _new_input:
+			_input_engine = -1.0
+		elif current_speed < 0:
+			_input_engine = -1.0
+		elif current_speed > 0:
+			_input_brake = 1.0
+	
+	# If moving, disable new input
+	if current_speed != 0:
+		_new_input = false
+	
+	# If standing, apply small value to brake to ensure the vehicle don't roll away
+	if current_speed == 0 and !_new_input:
+			_input_brake = 0.1
+	
+	# Input for Steering
+	if Input.is_action_pressed("vehicle_movement_left"):
+		_input_steer = 1.0
+	if Input.is_action_pressed("vehicle_movement_right"):
+		_input_steer = -1.0
+	
 	# Input for Nightlights
-	if Input.is_action_just_pressed("vehicle_nightlight_toggle"):
+	if Input.is_action_just_pressed("vehicle_light_night"):
 		match _light_manager.NightLights:
 			VehicleLightsManager.NightLightMode.OFF:
 				_light_manager.NightLights = VehicleLightsManager.NightLightMode.ON
@@ -46,3 +104,44 @@ func _manage_input():
 				_light_manager.NightLights = VehicleLightsManager.NightLightMode.FAR
 			VehicleLightsManager.NightLightMode.FAR:
 				_light_manager.NightLights = VehicleLightsManager.NightLightMode.OFF
+	
+	# Input for Turn Signals
+	if Input.is_action_just_pressed("vehicle_light_turn_left"):
+		_light_manager.TurnLeftLights = ! _light_manager.TurnLeftLights
+	if Input.is_action_just_pressed("vehicle_light_turn_right"):
+		_light_manager.TurnRightLights = ! _light_manager.TurnRightLights
+
+# - Move the vehicle according to input -
+func _move_vehicle(delta : float):
+	# Move forwards
+	if _input_engine > 0:
+		engine_force = _input_engine * MaxEngineForce
+	
+	# Move backwards and activate reverse lights
+	if _input_engine < 0:
+		engine_force = _input_engine * 0.25 * MaxEngineForce
+		_light_manager.ReverseLights = true
+	else:
+		_light_manager.ReverseLights = false
+	
+	# Apply the brakes
+	if _input_brake > 0:
+		brake = _input_brake * MaxBrakeForce
+	if _input_brake > 0.15:
+		_light_manager.BrakeLights = true
+	else:
+		_light_manager.BrakeLights = false
+	
+	# Steer the vehicle
+	var steer_target : float = _input_steer * MaxSteerAngle
+	if (abs(current_speed) / 5 != 0):
+		steer_target /= (abs(current_speed) / 5)
+	if steer_target < _steer_angle:
+		_steer_angle -= STEER_SPEED * delta
+		if steer_target > _steer_angle:
+			_steer_angle = steer_target
+	if steer_target > _steer_angle:
+		_steer_angle += STEER_SPEED * delta
+		if steer_target < _steer_angle:
+			_steer_angle = steer_target
+	steering = deg2rad(_steer_angle)
