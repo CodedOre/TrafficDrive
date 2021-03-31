@@ -51,7 +51,7 @@ margin_bottom = 50.0
 margin_top = 54.0
 margin_right = 143.0
 margin_bottom = 68.0
-text = "Active light nodes:"
+text = "Nodes:"
 align = 2
 
 [node name="ModeLightsValue" type="Label" parent="."]
