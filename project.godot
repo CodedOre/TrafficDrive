@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Position3D",
+"class": "CameraPoint",
+"language": "GDScript",
+"path": "res://scripts/utils/CameraPoint.gd"
+}, {
 "base": "Node",
 "class": "VehicleLight",
 "language": "GDScript",
@@ -20,6 +25,7 @@ _global_script_classes=[ {
 "path": "res://scripts/vehicles/VehicleLightsManager.gd"
 } ]
 _global_script_class_icons={
+"CameraPoint": "",
 "VehicleLight": "",
 "VehicleLightsManager": ""
 }
