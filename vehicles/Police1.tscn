@@ -23,6 +23,7 @@ points = PoolVector3Array( -83.3105, -109.513, -119.773, -79.6029, -122.824, -11
 [node name="Police1" instance=ExtResource( 1 )]
 collision_layer = 2
 collision_mask = 3
+mass = 151.02
 script = ExtResource( 9 )
 Lights = [ NodePath("VehicleBody/LightBrakeLight"), NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningLeft"), NodePath("VehicleBody/LightTurningRight") ]
 Camera = NodePath("ChaseCamera")
