@@ -54,7 +54,7 @@ func _ready() -> void:
 # - Runs every frame -
 func _process(delta : float) -> void:
 	if _state != CameraState.NOSET:
-		global_transform = _current_point.global_transform
+		global_transform = _nonrot_transform(_current_point)
 		match _state:
 			CameraState.RESET:
 				_move_camera(delta, _original_outer_transform, _original_inner_transform)
@@ -87,12 +87,18 @@ func _move_camera(delta : float, outer_target : Transform, inner_target : Transf
 	_inner_gimbal.transform = _inner_gimbal.transform.interpolate_with(inner_target, MOVE_SPEED * delta)
 
 # - If a transform is near of another -
-func _transforms_close(a: Transform, b: Transform, threshold: float) -> bool:
+func _transforms_close(a : Transform, b : Transform, threshold : float) -> bool:
 	return (
 		(a.basis.x - b.basis.x).length() < threshold
 		and (a.basis.y - b.basis.y).length() < threshold
 		and (a.basis.z - b.basis.z).length() < threshold
 	)
+
+# - Returns a Transform tha is at a Node's position, but only y rotation -
+func _nonrot_transform(base : Spatial) -> Transform:
+	var position : Vector3 = base.global_transform.origin
+	var y_rotate : float   = base.global_transform.basis.get_euler().y
+	return Transform(Basis(Vector3.UP, y_rotate), position)
 
 # - Change internal variables when settings were modified -
 func _modify_settings() -> void:
@@ -112,7 +118,7 @@ func look_behind() -> void:
 func set_camera_point(point : NodePath) -> void:
 	_current_point = get_node(point)
 	# Move GimbalCamera to CameraPoint
-	global_transform = _current_point.global_transform
+	global_transform = _nonrot_transform(_current_point)
 	# Reset Gimbal
 	_outer_gimbal.transform = Transform()
 	_inner_gimbal.transform = Transform()
