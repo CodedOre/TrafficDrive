@@ -110,13 +110,7 @@ func look_behind() -> void:
 
 # - CameraPoint property -
 func set_camera_point(point : NodePath) -> void:
-	print("Let's set a point!")
 	_current_point = get_node(point)
-	print("Current Point is " + str(_current_point))
-#	if ! _current_point is CameraPoint:
-#		_state = CameraState.NOSET
-#		push_error("GimbalCamera: Non valid CameraPoint set!")
-#		return
 	# Move GimbalCamera to CameraPoint
 	global_transform = _current_point.global_transform
 	# Reset Gimbal
