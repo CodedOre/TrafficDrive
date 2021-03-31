@@ -51,6 +51,63 @@ var _state = CameraState.NOSET # CameraState
 func _ready() -> void:
 	GameSettings.connect("setting_changed", self, "_modify_settings")
 
+# - Runs every frame -
+func _process(delta : float) -> void:
+	if _state != CameraState.NOSET:
+		global_transform = _current_point.global_transform
+		match _state:
+			CameraState.RESET:
+				_move_camera(delta, _original_outer_transform, _original_inner_transform)
+			CameraState.BEHIND:
+				_move_camera(delta, _behind_outer_transform, _original_inner_transform)
+
+# - Moves the camera according to mouse input -
+func _input(event) -> void:
+	if is_current() and _state != CameraState.NOSET:
+		if event is InputEventMouseMotion:
+			_state = CameraState.FREE
+			if event.relative.x != 0:
+				_outer_gimbal.rotate_object_local(Vector3.UP, _y_dir * event.relative.x * _mouse_sensitivity)
+			if event.relative.y != 0:
+				_inner_gimbal.rotate_object_local(Vector3.RIGHT, _x_dir * event.relative.y * _mouse_sensitivity)
+
+# - Move the Camera to a point -
+func _move_camera(delta : float, outer_target : Transform, inner_target : Transform) -> void:
+	# Check if Gimbals are reset
+	var moving_done : int = 0
+	if _transforms_close(_outer_gimbal.transform, outer_target, MOVE_THRESHOLD):
+		moving_done += 1
+	if _transforms_close(_inner_gimbal.transform, inner_target, MOVE_THRESHOLD):
+		moving_done += 1
+	if moving_done == 2:
+		_state = CameraState.FREE
+		return
+	# Interpolate further reset
+	_outer_gimbal.transform = _outer_gimbal.transform.interpolate_with(outer_target, MOVE_SPEED * delta)
+	_inner_gimbal.transform = _inner_gimbal.transform.interpolate_with(inner_target, MOVE_SPEED * delta)
+
+# - If a transform is near of another -
+func _transforms_close(a: Transform, b: Transform, threshold: float) -> bool:
+	return (
+		(a.basis.x - b.basis.x).length() < threshold
+		and (a.basis.y - b.basis.y).length() < threshold
+		and (a.basis.z - b.basis.z).length() < threshold
+	)
+
+# - Change internal variables when settings were modified -
+func _modify_settings() -> void:
+	_x_dir             =   -1 if GameSettings.get_setting("Input", "MouseXInverted") else  1
+	_y_dir             =    1 if GameSettings.get_setting("Input", "MouseYInverted") else -1
+	_mouse_sensitivity = 0.001 * GameSettings.get_setting("Input", "MouseSensitivity")
+
+# - Resets the camera to original position -
+func reset_camera() -> void:
+	_state = CameraState.RESET
+
+# - Camera looks behind -
+func look_behind() -> void:
+	_state = CameraState.BEHIND
+
 # - CameraPoint property -
 func set_camera_point(point : NodePath) -> void:
 	print("Let's set a point!")
@@ -78,64 +135,6 @@ func set_camera_point(point : NodePath) -> void:
 
 func get_camera_point() -> NodePath:
 	return _current_point.get_path()
-
-# - Runs every frame -
-func _process(delta : float) -> void:
-	if _state != CameraState.NOSET:
-#		global_transform = _current_point.global_transform
-		pass
-	match _state:
-		CameraState.RESET:
-			_move_camera(delta, _original_outer_transform, _original_inner_transform)
-		CameraState.BEHIND:
-			_move_camera(delta, _behind_outer_transform, _original_inner_transform)
-
-# - Change internal variables when settings were modified -
-func _modify_settings() -> void:
-	_x_dir             =   -1 if GameSettings.get_setting("Input", "MouseXInverted") else  1
-	_y_dir             =    1 if GameSettings.get_setting("Input", "MouseYInverted") else -1
-	_mouse_sensitivity = 0.001 * GameSettings.get_setting("Input", "MouseSensitivity")
-
-# - Moves the camera according to mouse input -
-func _input(event) -> void:
-	if is_current() and _state != CameraState.NOSET:
-		if event is InputEventMouseMotion:
-			_state = CameraState.FREE
-			if event.relative.x != 0:
-				_outer_gimbal.rotate_object_local(Vector3.UP, _y_dir * event.relative.x * _mouse_sensitivity)
-			if event.relative.y != 0:
-				_inner_gimbal.rotate_object_local(Vector3.RIGHT, _x_dir * event.relative.y * _mouse_sensitivity)
-
-# - Resets the camera to original position -
-func reset_camera() -> void:
-	_state = CameraState.RESET
-
-# - Camera looks behind -
-func look_behind() -> void:
-	_state = CameraState.BEHIND
-
-# - Move the Camera to a point -
-func _move_camera(delta : float, outer_target : Transform, inner_target : Transform) -> void:
-	# Check if Gimbals are reset
-	var moving_done : int = 0
-	if _close_transforms(_outer_gimbal.transform, outer_target, MOVE_THRESHOLD):
-		moving_done += 1
-	if _close_transforms(_inner_gimbal.transform, inner_target, MOVE_THRESHOLD):
-		moving_done += 1
-	if moving_done == 2:
-		_state = CameraState.FREE
-		return
-	# Interpolate further reset
-	_outer_gimbal.transform = _outer_gimbal.transform.interpolate_with(outer_target, MOVE_SPEED * delta)
-	_inner_gimbal.transform = _inner_gimbal.transform.interpolate_with(inner_target, MOVE_SPEED * delta)
-
-# - If a transform is near of another -
-func _close_transforms(a: Transform, b: Transform, threshold: float) -> bool:
-	return (
-		(a.basis.x - b.basis.x).length() < threshold
-		and (a.basis.y - b.basis.y).length() < threshold
-		and (a.basis.z - b.basis.z).length() < threshold
-	)
 
 # - Active camera property -
 func set_current(value : bool) -> void:

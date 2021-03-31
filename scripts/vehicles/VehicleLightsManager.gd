@@ -71,11 +71,11 @@ var _turning_right : bool
 # - Init the class -
 func _init(parent, all_lights : Array) -> void:
 	# Launch init functions
-	process_nodes(all_lights)
+	_process_nodes(all_lights)
 	_preset_lights(parent)
 
 # - Places all nodes into the wanted arrays -
-func process_nodes(all_lights : Array) -> void:
+func _process_nodes(all_lights : Array) -> void:
 	for node in all_lights:
 		# Get node from path and verify it's an VehicleLight with attached Light
 		if ! node is Node:
