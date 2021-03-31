@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://hud/debug/VehicleLightsDebug.tscn" type="PackedScene" id=1]
+[ext_resource path="res://hud/debug/GraphicsDebug.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/hud/debug/DebugScreen.gd" type="Script" id=3]
+
+[node name="DebugScreen" type="VBoxContainer"]
+anchor_left = 0.01
+anchor_top = 0.01
+anchor_right = 0.01
+anchor_bottom = 0.01
+margin_right = 147.0
+margin_bottom = 128.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VersionLabel" type="Label" parent="."]
+margin_right = 147.0
+margin_bottom = 14.0
+text = "TrafficDrive alpha 0.0.1"
+
+[node name="Separator1" type="HSeparator" parent="."]
+margin_top = 18.0
+margin_right = 147.0
+margin_bottom = 22.0
+
+[node name="GraphicsDebug" parent="." instance=ExtResource( 2 )]
+margin_top = 26.0
+margin_right = 147.0
+
+[node name="Separator2" type="HSeparator" parent="."]
+margin_top = 44.0
+margin_right = 147.0
+margin_bottom = 48.0
+
+[node name="Separator3" type="HSeparator" parent="."]
+margin_top = 52.0
+margin_right = 147.0
+margin_bottom = 56.0
+
+[node name="VehicleLightsDebug" parent="." instance=ExtResource( 1 )]
+margin_top = 60.0
+margin_right = 147.0
+margin_bottom = 128.0
