@@ -90,7 +90,7 @@ func _manage_input():
 	
 	# If standing, apply small value to brake to ensure the vehicle don't roll away
 	if current_speed == 0 and !_new_input:
-			_input_brake = 0.1
+		_input_brake = 0.01
 	
 	# Input for Steering
 	if Input.is_action_pressed("vehicle_movement_left"):
@@ -130,7 +130,7 @@ func _move_vehicle(delta : float):
 	# Apply the brakes
 	if _input_brake > 0:
 		brake = _input_brake * MaxBrakeForce
-	if _input_brake > 0.15:
+	if _input_brake > 0.12:
 		_light_manager.BrakeLights = true
 	else:
 		_light_manager.BrakeLights = false
