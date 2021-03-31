@@ -60,6 +60,9 @@ func _physics_process(delta : float):
 
 # - Checks input at every frame -
 func _manage_input():
+	_input_engine = 0.0
+	_input_brake  = 0.0
+	_input_steer  = 0.0
 	# Input for Forward/Backward Movement
 	if Input.is_action_just_pressed("vehicle_movement_forward"):
 		_new_input = true
@@ -114,12 +117,12 @@ func _manage_input():
 # - Move the vehicle according to input -
 func _move_vehicle(delta : float):
 	# Move forwards
-	if _input_engine > 0:
+	if _input_engine >= 0:
 		engine_force = _input_engine * MaxEngineForce
 	
 	# Move backwards and activate reverse lights
 	if _input_engine < 0:
-		engine_force = _input_engine * 0.25 * MaxEngineForce
+		engine_force = _input_engine * MaxEngineForce
 		_light_manager.ReverseLights = true
 	else:
 		_light_manager.ReverseLights = false
