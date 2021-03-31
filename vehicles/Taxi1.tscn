@@ -179,6 +179,7 @@ transform = Transform( 1, 0, 0, 0, 0.339983, 0.940432, 0, -0.940432, 0.339983, 3
 material/0 = ExtResource( 7 )
 
 [node name="CameraPoint" type="Position3D" parent="." index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 script = ExtResource( 10 )
 CameraDistance = 4.5
 CameraAngle = 15
