@@ -90,7 +90,7 @@ func _manage_input():
 		_new_input = false
 	
 	# If standing, apply small value to brake to ensure the vehicle don't roll away
-	if current_speed == 0 and !_new_input:
+	if current_speed == 0 and !_new_input and _input_brake == 0:
 		_input_brake = 0.1
 	
 	# Input for Steering
