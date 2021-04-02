@@ -55,7 +55,7 @@ func _ready() -> void:
 	GameSettings.connect("setting_changed", self, "_modify_settings")
 
 # - Runs every frame -
-func _process(delta : float) -> void:
+func _physics_process(delta : float) -> void:
 	if _state != CameraState.NOSET:
 		if ! _transforms_close(global_transform, camera_point.global_transform, MOVE_THRESHOLD):
 			_follow_point(delta)
