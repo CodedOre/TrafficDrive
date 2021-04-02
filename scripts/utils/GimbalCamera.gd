@@ -58,8 +58,7 @@ func _ready() -> void:
 func _process(delta : float) -> void:
 	if _state != CameraState.NOSET:
 		if ! _transforms_close(global_transform, camera_point.global_transform, MOVE_THRESHOLD):
-			global_transform = _nonrot_transform(camera_point)
-			_camera_node.transform.origin.z = dectime(-1 * camera_point.CameraDistance, abs(camera_point.point_speed), -0.01)
+			_follow_point(delta)
 		if _state == CameraState.MOUSE:
 			_mouse_delta += delta
 			if _mouse_delta > 1:
@@ -86,6 +85,14 @@ func _input(event) -> void:
 			if event.relative.y != 0:
 				_inner_gimbal.rotate_object_local(Vector3.RIGHT, _x_dir * event.relative.y * _mouse_sensitivity)
 			_inner_gimbal.rotation.x = clamp(_inner_gimbal.rotation.x, 0.01, 1.14)
+
+func _follow_point(delta : float) -> void:
+	var self_transform  : Transform = Transform(global_transform.basis, camera_point.global_transform.origin)
+	var point_transform : Transform = _nonrot_transform(camera_point)
+	global_transform = self_transform.interpolate_with(point_transform, MOVE_SPEED * delta)
+	var camera_transform : Transform = _camera_node.transform
+	camera_transform.origin.z = dectime(-1 * camera_point.CameraDistance, abs(camera_point.point_speed), -0.01)
+	_camera_node.transform = _camera_node.transform.interpolate_with(camera_transform, MOVE_SPEED * delta)
 
 # - Move the Camera to a point -
 func _move_camera(delta : float, outer_target : Transform, inner_target : Transform) -> void:
