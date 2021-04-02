@@ -20,7 +20,7 @@ __meta__ = {
 [node name="VersionLabel" type="Label" parent="."]
 margin_right = 147.0
 margin_bottom = 14.0
-text = "TrafficDrive alpha 0.0.1"
+text = "TrafficDrive alpha 0.1.0"
 
 [node name="Separator1" type="HSeparator" parent="."]
 margin_top = 18.0
@@ -39,14 +39,14 @@ margin_bottom = 48.0
 [node name="VehiclesDebug" parent="." instance=ExtResource( 4 )]
 margin_top = 52.0
 margin_right = 147.0
-margin_bottom = 120.0
+margin_bottom = 210.0
 
 [node name="Separator3" type="HSeparator" parent="."]
-margin_top = 124.0
+margin_top = 214.0
 margin_right = 147.0
-margin_bottom = 128.0
+margin_bottom = 218.0
 
 [node name="VehicleLightsDebug" parent="." instance=ExtResource( 1 )]
-margin_top = 132.0
+margin_top = 222.0
 margin_right = 147.0
-margin_bottom = 200.0
+margin_bottom = 290.0
