@@ -116,20 +116,17 @@ func _manage_input():
 
 # - Move the vehicle according to input -
 func _move_vehicle(delta : float):
-	# Move forwards
-	if _input_engine >= 0:
-		engine_force = _input_engine * MaxEngineForce
+	# Move the vehicle
+	engine_force = _input_engine * MaxEngineForce
 	
-	# Move backwards and activate reverse lights
+	# When moving backwards, activate reverse lights
 	if _input_engine < 0:
-		engine_force = _input_engine * MaxEngineForce
 		_light_manager.ReverseLights = true
 	else:
 		_light_manager.ReverseLights = false
 	
 	# Apply the brakes
-	if _input_brake > 0:
-		brake = _input_brake * MaxBrakeForce
+	brake = _input_brake * MaxBrakeForce
 	if _input_brake > 0.12:
 		_light_manager.BrakeLights = true
 	else:
