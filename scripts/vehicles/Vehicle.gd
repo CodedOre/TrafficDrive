@@ -57,6 +57,7 @@ func _physics_process(delta : float):
 	if Controlled:
 		_manage_input()
 		_move_vehicle(delta)
+		_inform_camera()
 
 # - Checks input at every frame -
 func _manage_input():
@@ -144,8 +145,13 @@ func _move_vehicle(delta : float):
 		if steer_target < _steer_angle:
 			_steer_angle = steer_target
 	steering = deg2rad(_steer_angle)
-	
-	# Send Camera request over CameraPoint to GimbalCamera
+
+# - Informs GimbalCamera over CameraPoint about certain states -
+func _inform_camera():
+	# Send Vehicle data
+	_camera_node.point_speed = current_speed
+	_camera_node.point_steer = _steer_angle
+	# Send Camera state request
 	if current_speed > 0:
 		_camera_node.state_request = CameraPoint.RequestState.RESET
 	elif current_speed < 0:
