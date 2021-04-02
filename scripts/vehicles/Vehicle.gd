@@ -53,7 +53,7 @@ func _ready():
 
 # - Runs at every frame -
 func _physics_process(delta : float):
-	current_speed = int(transform.basis.xform_inv(linear_velocity).z)
+	current_speed = int(transform.basis.xform_inv(linear_velocity).z * 3.6)
 	if Controlled:
 		_manage_input()
 		_move_vehicle(delta)
@@ -134,7 +134,7 @@ func _move_vehicle(delta : float):
 	
 	# Steer the vehicle
 	var steer_target   : float = _input_steer * MaxSteerAngle
-	var absolute_speed : float = abs(current_speed) / 5
+	var absolute_speed : float = float(abs(current_speed)) / 20
 	if (absolute_speed != 0):
 		steer_target /= absolute_speed
 	if steer_target < _steer_angle:
