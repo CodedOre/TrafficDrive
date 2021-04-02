@@ -116,6 +116,8 @@ func _manage_input():
 	if Input.is_action_just_pressed("vehicle_light_turn_right"):
 		_light_manager.TurnLeftLights  = false
 		_light_manager.TurnRightLights = ! _light_manager.TurnRightLights
+	if Input.is_action_just_pressed("vehicle_light_hazards"):
+		_light_manager.HazardsLights = ! _light_manager.HazardsLights
 
 # - Move the vehicle according to input -
 func _move_vehicle(delta : float):

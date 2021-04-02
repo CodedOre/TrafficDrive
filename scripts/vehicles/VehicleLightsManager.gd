@@ -27,6 +27,7 @@ var     BrakeLights : bool setget set_brakelights,     get_brakelights
 var   ReverseLights : bool setget set_reverselights,   get_reverselights
 var  TurnLeftLights : bool setget set_turnleftlights,  get_turnleftlights
 var TurnRightLights : bool setget set_turnrightlights, get_turnrightlights
+var   HazardsLights : bool setget set_hazardslights,   get_hazardslights
 
 # -- Variables --
 
@@ -178,6 +179,14 @@ func get_turnleftlights() -> bool:
 
 func get_turnrightlights() -> bool:
 	return _turning_right
+
+func set_hazardslights(value : bool) -> void:
+	_turning_left  = value
+	_turning_right = value
+	set_turn_timer()
+
+func get_hazardslights() -> bool:
+	return _turning_left and _turning_right
 
 func set_turn_timer() -> void:
 	# If no turn signal is on, stop the timer
