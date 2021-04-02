@@ -21,3 +21,7 @@ export (int)   onready var CameraAngle
 
 # - Request state property -
 var state_request # RequestState
+
+# - Current movement of point -
+var point_speed : int
+var point_steer : float

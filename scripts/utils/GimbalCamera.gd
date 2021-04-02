@@ -59,6 +59,7 @@ func _process(delta : float) -> void:
 	if _state != CameraState.NOSET:
 		if ! _transforms_close(global_transform, camera_point.global_transform, MOVE_THRESHOLD):
 			global_transform = _nonrot_transform(camera_point)
+			_camera_node.transform.origin.z = dectime(-1 * camera_point.CameraDistance, abs(camera_point.point_speed), -0.01)
 		if _state == CameraState.MOUSE:
 			_mouse_delta += delta
 			if _mouse_delta > 1:
@@ -156,7 +157,7 @@ func set_camera_point(point : CameraPoint) -> void:
 	_original_outer_transform = _outer_gimbal.transform
 	_original_inner_transform = _inner_gimbal.transform
 	# Create and store transform for behind view
-	_behind_outer_transform = _original_outer_transform.rotated(Vector3.UP, PI/1)
+	_behind_outer_transform = _original_outer_transform.rotated(Vector3.UP, PI)
 	_state = CameraState.FREE
 
 func get_camera_point() -> CameraPoint:
