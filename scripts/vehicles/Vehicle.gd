@@ -111,8 +111,10 @@ func _manage_input():
 	
 	# Input for Turn Signals
 	if Input.is_action_just_pressed("vehicle_light_turn_left"):
-		_light_manager.TurnLeftLights = ! _light_manager.TurnLeftLights
+		_light_manager.TurnLeftLights  = ! _light_manager.TurnLeftLights
+		_light_manager.TurnRightLights = false
 	if Input.is_action_just_pressed("vehicle_light_turn_right"):
+		_light_manager.TurnLeftLights  = false
 		_light_manager.TurnRightLights = ! _light_manager.TurnRightLights
 
 # - Move the vehicle according to input -
