@@ -18,6 +18,7 @@ const CLUTCH_SPEED : float =  0.75
 export (int)           var MaxEngineForce  =  125
 export (int)           var MaxEngineRPM    = 6000
 export (int)           var IdleEngineRPM   = 1000
+export (int)           var RPMVelocity     =  500
 export (int)           var MaxBrakeForce   =    8
 export (int)           var MaxSteerAngle   =   35
 export (Array, String) var GearsIdentifier = Array()
@@ -150,6 +151,19 @@ func _manage_input():
 
 # - Move the vehicle according to input -
 func _move_vehicle(delta : float):
+	# Calculate the Engine RPM
+	var rpm_target : int = 0
+	if abs(_input_engine) > 0:
+		rpm_target = MaxEngineRPM
+	elif Running:
+		rpm_target = IdleEngineRPM
+	if _engine_rpm < rpm_target:
+		var rpm_acent = _engine_rpm + RPMVelocity * delta
+		_engine_rpm = min(rpm_acent, rpm_target)
+	else:
+		var rpm_decent : int = _engine_rpm - RPMVelocity * delta
+		_engine_rpm = max(rpm_decent, rpm_target)
+	
 	# Move the vehicle
 	engine_force = _input_engine * MaxEngineForce
 	
