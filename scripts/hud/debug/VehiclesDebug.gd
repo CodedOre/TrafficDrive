@@ -65,7 +65,7 @@ func _update_static_labels() -> void:
 func _process(_delta : float) -> void:
 	if _valid_vehicle:
 		$SpeedValue.text       = str(_debug_vehicle.current_speed) + " km/h"
-		$GearValue.text        = str(_debug_vehicle._current_gear)
+		$GearValue.text        = str(_debug_vehicle.GearsIdentifier[_debug_vehicle._current_gear])
 		$RPMValue.text         = str(_debug_vehicle._engine_rpm)
 		$XInputValue.text      = str(_debug_vehicle._input_engine)
 		$BInputValue.text      = str(_debug_vehicle._input_brake)
