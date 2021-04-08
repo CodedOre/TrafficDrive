@@ -9,17 +9,19 @@ class_name Vehicle
 # -- Constants --
 
 # - Properties for a Vehicle -
-const STEER_SPEED : int = 60
+const STEER_SPEED  : int   = 60
+const CLUTCH_SPEED : float =  0.75
 
 # -- Properties --
 
 # - Properties of this Vehicle -
-export (int)        var MaxEngineForce =  125
-export (int)        var MaxEngineRPM   = 6000
-export (int)        var IdleEngineRPM  = 1000
-export (int)        var MaxBrakeForce  =    8
-export (int)        var MaxSteerAngle  =   35
-export (Dictionary) var Gears          = {}
+export (int)           var MaxEngineForce  =  125
+export (int)           var MaxEngineRPM    = 6000
+export (int)           var IdleEngineRPM   = 1000
+export (int)           var MaxBrakeForce   =    8
+export (int)           var MaxSteerAngle   =   35
+export (Array, String) var GearsIdentifier = Array()
+export (Array, float)  var GearsRatio      = Array()
 
 # - NodePaths from the Vehicle -
 export (Array, NodePath) onready var Lights
@@ -50,8 +52,9 @@ var _steer_angle  : float  = 0.0
 var _steer_delta  : float  = 0.0
 
 # - Engine variables -
-var _current_gear : String = "N"
-var _engine_rpm   : int    = 0
+var _current_gear : int   = 0
+var _engine_rpm   : int   = 0
+var _clutch_delta : float = 0.0
 
 # -- Functions --
 
@@ -61,7 +64,13 @@ func _ready():
 	for path in Lights:
 		_light_nodes.append(get_node(path))
 	_light_manager = VehicleLightsManager.new(self, _light_nodes)
+	# Initialize Camera
 	_camera_node = get_node(Camera)
+	# Initialize Gears
+	if GearsIdentifier.size() != GearsRatio.size():
+		push_error("Vehicle: Gear Arrays not set up correctly!")
+		return
+	_current_gear = GearsIdentifier.find("N")
 
 # - Runs at every frame -
 func _physics_process(delta : float):
@@ -104,6 +113,14 @@ func _manage_input():
 	# If standing, apply small value to brake to ensure the vehicle don't roll away
 	if current_speed == 0 and !_new_input and _input_brake == 0:
 		_input_brake = 0.1
+	
+	# Input for Gear Switching
+	if Input.is_action_just_pressed("vehicle_gear_up"):
+		_current_gear = clamp(_current_gear + 1, 0, GearsIdentifier.size() - 1)
+		_clutch_delta = CLUTCH_SPEED
+	if Input.is_action_just_pressed("vehicle_gear_down"):
+		_current_gear = clamp(_current_gear - 1, 0, GearsIdentifier.size() - 1)
+		_clutch_delta = CLUTCH_SPEED
 	
 	# Input for Steering
 	if Input.is_action_pressed("vehicle_movement_left"):
