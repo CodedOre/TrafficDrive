@@ -14,14 +14,20 @@ const STEER_SPEED : int = 60
 # -- Properties --
 
 # - Properties of this Vehicle -
-export (int) var MaxEngineForce = 250
-export (int) var MaxBrakeForce  =   8
-export (int) var MaxSteerAngle  =  35
+export (int)        var MaxEngineForce =  125
+export (int)        var MaxEngineRPM   = 6000
+export (int)        var IdleEngineRPM  = 1000
+export (int)        var MaxBrakeForce  =    8
+export (int)        var MaxSteerAngle  =   35
+export (Dictionary) var Gears          = {}
 
 # - NodePaths from the Vehicle -
 export (Array, NodePath) onready var Lights
 export (NodePath)        onready var Camera
-export (bool)                    var Controlled
+
+# - States for the Vehicle -
+export (bool) var Running    = false
+export (bool) var Controlled = false
 
 # -- Variables --
 
@@ -33,13 +39,19 @@ var _light_manager : VehicleLightsManager
 var _light_nodes   : Array = Array()
 var _camera_node   : CameraPoint
 
-# - Runtime variables -
-var _new_input    : bool  = false
-var _steer_angle  : float = 0.0
-var _steer_delta  : float = 0.0
-var _input_engine : float = 0.0
-var _input_brake  : float = 0.0
-var _input_steer  : float = 0.0
+# - Input variables -
+var _new_input    : bool   = false
+var _input_engine : float  = 0.0
+var _input_brake  : float  = 0.0
+var _input_steer  : float  = 0.0
+
+# - Steering variables -
+var _steer_angle  : float  = 0.0
+var _steer_delta  : float  = 0.0
+
+# - Engine variables -
+var _current_gear : String = "N"
+var _engine_rpm   : int    = 0
 
 # -- Functions --
 

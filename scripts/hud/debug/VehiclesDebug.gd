@@ -36,6 +36,12 @@ func get_debug_vehicle() -> Vehicle:
 
 # - Hide or Show the HUD -
 func _show_or_hide() -> void:
+	$SpeedLabel.visible       = _valid_vehicle
+	$SpeedValue.visible       = _valid_vehicle
+	$GearLabel.visible        = _valid_vehicle
+	$GearValue.visible        = _valid_vehicle
+	$RPMLabel.visible         = _valid_vehicle
+	$RPMValue.visible         = _valid_vehicle
 	$XInputLabel.visible      = _valid_vehicle
 	$XInputValue.visible      = _valid_vehicle
 	$BInputLabel.visible      = _valid_vehicle
@@ -50,8 +56,6 @@ func _show_or_hide() -> void:
 	$SteeringDegValue.visible = _valid_vehicle
 	$SteeringRadLabel.visible = _valid_vehicle
 	$SteeringRadValue.visible = _valid_vehicle
-	$SpeedLabel.visible       = _valid_vehicle
-	$SpeedValue.visible       = _valid_vehicle
 
 # - Updates static labels after a set vehicle -
 func _update_static_labels() -> void:
@@ -60,6 +64,9 @@ func _update_static_labels() -> void:
 # - Processes interactive changes on runtime -
 func _process(_delta : float) -> void:
 	if _valid_vehicle:
+		$SpeedValue.text       = str(_debug_vehicle.current_speed) + " km/h"
+		$GearValue.text        = str(_debug_vehicle._current_gear)
+		$RPMValue.text         = str(_debug_vehicle._engine_rpm)
 		$XInputValue.text      = str(_debug_vehicle._input_engine)
 		$BInputValue.text      = str(_debug_vehicle._input_brake)
 		$YInputValue.text      = str(_debug_vehicle._input_steer)
@@ -67,4 +74,3 @@ func _process(_delta : float) -> void:
 		$BrakeValue.text       = str(_debug_vehicle.brake)
 		$SteeringDegValue.text = str(_debug_vehicle._steer_angle)
 		$SteeringRadValue.text = str(_debug_vehicle.steering)
-		$SpeedValue.text       = str(_debug_vehicle.current_speed) + " km/h"
