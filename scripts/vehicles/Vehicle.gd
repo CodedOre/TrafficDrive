@@ -14,15 +14,21 @@ const CLUTCH_SPEED : float =  0.75
 
 # -- Properties --
 
-# - Properties of this Vehicle -
-export (int)           var MaxEngineForce  =  125
-export (int)           var MaxEngineRPM    = 6000
-export (int)           var IdleEngineRPM   = 1000
-export (int)           var RPMVelocity     =  500
-export (int)           var MaxBrakeForce   =    8
-export (int)           var MaxSteerAngle   =   35
-export (Array, String) var GearsIdentifier = Array()
-export (Array, float)  var GearsRatio      = Array()
+# - Engine Properties -
+export (int)           var MaxEngineForce   =  125
+export (int)           var MaxEngineRPM     = 6000
+export (int)           var IdleEngineRPM    = 1000
+export (int)           var RPMVelocity      =  500
+export (Curve)         var EnginePowerCurve
+
+# - Transmission Properties -
+export (Array, String) var GearsIdentifier  = Array()
+export (Array, float)  var GearsRatio       = Array()
+export (float)         var FinalDriveRatio  = 0
+
+# - Additional Vehicle Properties -
+export (int)           var MaxBrakeForce    =    8
+export (int)           var MaxSteerAngle    =   35
 
 # - NodePaths from the Vehicle -
 export (Array, NodePath) onready var Lights
@@ -151,6 +157,10 @@ func _manage_input():
 
 # - Move the vehicle according to input -
 func _move_vehicle(delta : float):
+	# Calculate clutch factor
+	_clutch_delta = max(0.0, _clutch_delta - delta)
+	var clutch_factor : int   = 1 if _clutch_delta == 0 else 0
+	
 	# Calculate the Engine RPM
 	var rpm_target : int = 0
 	if abs(_input_engine) > 0:
@@ -163,9 +173,12 @@ func _move_vehicle(delta : float):
 	else:
 		var rpm_decent : int = _engine_rpm - RPMVelocity * delta
 		_engine_rpm = max(rpm_decent, rpm_target)
+		
+	# Calculate Engine Force
+	var rpm_factor    : float = clamp(float(_engine_rpm) / float(MaxEngineRPM), 0.0, 1.0)
+	var power_factor  : float = EnginePowerCurve.interpolate_baked(rpm_factor)
 	
-	# Move the vehicle
-	engine_force = _input_engine * MaxEngineForce
+	engine_force = clutch_factor * _input_engine * power_factor * GearsRatio[_current_gear] * FinalDriveRatio * MaxEngineForce
 	
 	# When moving backwards, activate reverse lights
 	if _input_engine < 0:
