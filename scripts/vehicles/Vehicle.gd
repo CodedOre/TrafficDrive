@@ -35,8 +35,9 @@ export (Array, NodePath) onready var Lights
 export (NodePath)        onready var Camera
 
 # - States for the Vehicle -
-export (bool) var Running    = false
-export (bool) var Controlled = false
+export (bool) var Running     = false
+export (bool) var Controlled  = false
+export (bool) var ManualDrive = true
 
 # -- Variables --
 
@@ -59,7 +60,7 @@ var _steer_angle  : float  = 0.0
 var _steer_delta  : float  = 0.0
 
 # - Engine variables -
-var _current_gear : int   = 0
+var _current_gear : int   = 1
 var _current_mps  : int   = 0
 var _engine_rpm   : int   = 0
 var _clutch_delta : float = 0.0
@@ -94,26 +95,37 @@ func _manage_input():
 	_input_engine = 0.0
 	_input_brake  = 0.0
 	_input_steer  = 0.0
-	# Input for Forward/Backward Movement
-	if Input.is_action_just_pressed("vehicle_movement_forward"):
-		_new_input = true
-	if Input.is_action_pressed("vehicle_movement_forward"):
-		if current_speed == 0 and _new_input:
-			_input_engine = 1.0
-		elif current_speed > 0:
-			_input_engine = 1.0
-		elif current_speed <= 0:
-			_input_brake = 1.0
 	
-	if Input.is_action_just_pressed("vehicle_movement_backward"):
-		_new_input = true
-	if Input.is_action_pressed("vehicle_movement_backward"):
-		if current_speed == 0 and _new_input:
-			_input_engine = -1.0
-		elif current_speed < 0:
-			_input_engine = -1.0
-		elif current_speed >= 0:
-			_input_brake = 1.0
+	# Input for Forward/Backward Movement
+	if ManualDrive:
+		# When driving with gears, we have a simplified input
+		if Input.is_action_pressed("vehicle_movement_forward"):
+			_input_engine = 1.0
+		if Input.is_action_pressed("vehicle_movement_backward"):
+			_input_brake  = 1.0
+	else:
+		# When driving with automatic, we need to auto-shift gears
+		if Input.is_action_just_pressed("vehicle_movement_forward"):
+			_new_input = true
+		if Input.is_action_pressed("vehicle_movement_forward"):
+			if current_speed == 0 and _new_input:
+				_current_gear = GearsIdentifier.find("1")
+				_input_engine = 1.0
+			elif current_speed > 0:
+				_input_engine = 1.0
+			elif current_speed <= 0:
+				_input_brake = 1.0
+		
+		if Input.is_action_just_pressed("vehicle_movement_backward"):
+			_new_input = true
+		if Input.is_action_pressed("vehicle_movement_backward"):
+			if current_speed == 0 and _new_input:
+				_current_gear = GearsIdentifier.find("R")
+				_input_engine = 1.0
+			elif current_speed < 0:
+				_input_engine = 1.0
+			elif current_speed >= 0:
+				_input_brake = 1.0
 	
 	# If moving, disable new input
 	if current_speed != 0:
@@ -179,7 +191,7 @@ func _move_vehicle(delta : float):
 	engine_force = clutch_factor * _input_engine * power_factor * GearsRatio[_current_gear] * FinalDriveRatio * MaxEngineForce
 	
 	# When moving backwards, activate reverse lights
-	if _input_engine < 0:
+	if engine_force < 0:
 		_light_manager.ReverseLights = true
 	else:
 		_light_manager.ReverseLights = false
