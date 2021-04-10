@@ -170,7 +170,7 @@ func _move_vehicle(delta : float):
 	var wheel_circumference  : float = 2.0 * PI * $WheelRearRight.wheel_radius
 	var wheel_rotation_speed : float = 60.0 * _current_mps / wheel_circumference
 	var drive_rotation_speed : float = wheel_rotation_speed * FinalDriveRatio
-	_engine_rpm = rpm_min_clamp + drive_rotation_speed * GearsRatio[_current_gear]
+	_engine_rpm = min(rpm_min_clamp + drive_rotation_speed * GearsRatio[_current_gear], MaxEngineRPM)
 	
 	# Calculate Engine Force
 	var rpm_factor    : float = clamp(float(_engine_rpm) / float(MaxEngineRPM), 0.0, 1.0)
