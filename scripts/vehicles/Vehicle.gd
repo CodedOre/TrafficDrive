@@ -60,6 +60,7 @@ var _steer_delta  : float  = 0.0
 
 # - Engine variables -
 var _current_gear : int   = 0
+var _current_mps  : int   = 0
 var _engine_rpm   : int   = 0
 var _clutch_delta : float = 0.0
 
@@ -81,7 +82,8 @@ func _ready():
 
 # - Runs at every frame -
 func _physics_process(delta : float):
-	current_speed = int(transform.basis.xform_inv(linear_velocity).z * 3.6)
+	_current_mps  = int(transform.basis.xform_inv(linear_velocity).z)
+	current_speed = int(_current_mps * 3.6)
 	if Controlled:
 		_manage_input()
 		_move_vehicle(delta)
@@ -128,6 +130,8 @@ func _manage_input():
 	if Input.is_action_just_pressed("vehicle_gear_down"):
 		_current_gear = clamp(_current_gear - 1, 0, GearsIdentifier.size() - 1)
 		_clutch_delta = CLUTCH_SPEED
+	if Input.is_action_pressed("vehicle_clutch"):
+		_clutch_delta = CLUTCH_SPEED
 	
 	# Input for Steering
 	if Input.is_action_pressed("vehicle_movement_left"):
@@ -161,19 +165,13 @@ func _move_vehicle(delta : float):
 	_clutch_delta = max(0.0, _clutch_delta - delta)
 	var clutch_factor : int   = 1 if _clutch_delta == 0 else 0
 	
-	# Calculate the Engine RPM
-	var rpm_target : int = 0
-	if abs(_input_engine) > 0:
-		rpm_target = MaxEngineRPM
-	elif Running:
-		rpm_target = IdleEngineRPM
-	if _engine_rpm < rpm_target:
-		var rpm_acent = _engine_rpm + RPMVelocity * delta
-		_engine_rpm = min(rpm_acent, rpm_target)
-	else:
-		var rpm_decent : int = _engine_rpm - RPMVelocity * delta
-		_engine_rpm = max(rpm_decent, rpm_target)
-		
+	# Calculate RPM using the wheels
+	var rpm_min_clamp        : int   = IdleEngineRPM if Running else 0
+	var wheel_circumference  : float = 2.0 * PI * $WheelRearRight.wheel_radius
+	var wheel_rotation_speed : float = 60.0 * _current_mps / wheel_circumference
+	var drive_rotation_speed : float = wheel_rotation_speed * FinalDriveRatio
+	_engine_rpm = rpm_min_clamp + drive_rotation_speed * GearsRatio[_current_gear]
+	
 	# Calculate Engine Force
 	var rpm_factor    : float = clamp(float(_engine_rpm) / float(MaxEngineRPM), 0.0, 1.0)
 	var power_factor  : float = EnginePowerCurve.interpolate_baked(rpm_factor)
