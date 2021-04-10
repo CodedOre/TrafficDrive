@@ -25,8 +25,9 @@ script = ExtResource( 9 )
 MaxEngineForce = 168
 MaxEngineRPM = 6500
 EnginePowerCurve = SubResource( 3 )
-GearsIdentifier = [ "N" ]
-GearsRatio = [ 0.0 ]
+GearsIdentifier = [ "R", "N", "1", "2", "3", "4" ]
+GearsRatio = [ -2.32, 0.0, 2.84, 1.56, 1.25, 1.0 ]
+FinalDriveRatio = 3.25
 Lights = [ NodePath("VehicleBody/LightBrakeLight"), NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningLeft"), NodePath("VehicleBody/LightTurningRight") ]
 Camera = NodePath("ChaseCamera")
 
