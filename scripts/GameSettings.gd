@@ -13,8 +13,8 @@ enum VehicleLightNode    {OFF, SPOT, FULL}
 # -- Constants --
 
 # - File locations -
-const DEFAULT_CONFIG_FILE : String =  "res://default_config.cfg"
-const    USER_CONFIG_FILE : String = "user://TrafficDrive.cfg"
+const DEFAULT_CONFIG_FILE : String =  "res://default_config.tres"
+const    USER_CONFIG_FILE : String = "user://TrafficDrive.tres"
 
 # -- Variables --
 
