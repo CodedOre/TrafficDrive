@@ -32,7 +32,7 @@ export (int)           var MaxSteerAngle    =   35
 
 # - NodePaths from the Vehicle -
 export (Array, NodePath) onready var Lights
-export (NodePath)        onready var Camera
+export (Array, NodePath) onready var Cameras
 
 # - States for the Vehicle -
 export (bool) var Running     = false
@@ -47,7 +47,12 @@ var current_speed : int = 0
 # - Internal objects -
 var _light_manager : VehicleLightsManager
 var _light_nodes   : Array = Array()
-var _camera_node   : CameraPoint
+var _camera_nodes  : Array = Array()
+
+# - Camera variables -
+var _camera_count : int
+var _current_cam  : int
+var _camera_point : CameraPoint
 
 # - Input variables -
 var _new_input    : bool   = false
@@ -68,13 +73,22 @@ var _clutch_delta : float = 0.0
 # -- Functions --
 
 # - Runs at startup -
-func _ready():
+func _ready() -> void:
 	# Initialize VehicleLightManager
 	for path in Lights:
 		_light_nodes.append(get_node(path))
 	_light_manager = VehicleLightsManager.new(self, _light_nodes)
-	# Initialize Camera
-	_camera_node = get_node(Camera)
+	# Initialize Cameras
+	for point in Cameras:
+		var node = get_node(point)
+		if node is CameraPoint and node != null:
+			_camera_nodes.append(node)
+	_camera_count = len(_camera_nodes)
+	if _camera_count > 0:
+		_current_cam = 0
+		_camera_point = _camera_nodes[_current_cam]
+	else:
+		push_warning("Vehicle: No Cameras set for this vehicle!")
 	# Initialize Gears
 	if GearsIdentifier.size() != GearsRatio.size():
 		push_error("Vehicle: Gear Arrays not set up correctly!")
@@ -82,7 +96,7 @@ func _ready():
 	_current_gear = GearsIdentifier.find("N")
 
 # - Runs at every frame -
-func _physics_process(delta : float):
+func _physics_process(delta : float) -> void:
 	_current_mps  = int(transform.basis.xform_inv(linear_velocity).z)
 	current_speed = int(_current_mps * 3.6)
 	if Controlled:
@@ -91,7 +105,7 @@ func _physics_process(delta : float):
 		_inform_camera()
 
 # - Checks input at every frame -
-func _manage_input():
+func _manage_input() -> void:
 	_input_engine = 0.0
 	_input_brake  = 0.0
 	_input_steer  = 0.0
@@ -151,6 +165,11 @@ func _manage_input():
 	if Input.is_action_pressed("vehicle_movement_right"):
 		_input_steer = -1.0
 	
+	# Input for Camera
+	if Input.is_action_just_pressed("vehicle_change_camera"):
+		_current_cam = clamp(_current_cam + 1, 0, _camera_count - 1)
+		_camera_point = _camera_nodes[_current_cam]
+	
 	# Input for Nightlights
 	if Input.is_action_just_pressed("vehicle_light_night"):
 		match _light_manager.NightLights:
@@ -172,7 +191,7 @@ func _manage_input():
 		_light_manager.HazardsLights = ! _light_manager.HazardsLights
 
 # - Move the vehicle according to input -
-func _move_vehicle(delta : float):
+func _move_vehicle(delta : float) -> void:
 	# Calculate clutch factor
 	_clutch_delta = max(0.0, _clutch_delta - delta)
 	var clutch_factor : int   = 1 if _clutch_delta == 0 else 0
@@ -217,14 +236,15 @@ func _move_vehicle(delta : float):
 	steering = deg2rad(_steer_angle)
 
 # - Informs GimbalCamera over CameraPoint about certain states -
-func _inform_camera():
-	# Send Vehicle data
-	_camera_node.point_speed = current_speed
-	_camera_node.point_steer = _steer_angle
-	# Send Camera state request
-	if current_speed > 0:
-		_camera_node.state_request = CameraPoint.RequestState.RESET
-	elif current_speed < 0:
-		_camera_node.state_request = CameraPoint.RequestState.BEHIND
-	else:
-		_camera_node.state_request = CameraPoint.RequestState.NONE
+func _inform_camera() -> void:
+	if _camera_point != null:
+		# Send Vehicle data
+		_camera_point.point_speed = current_speed
+		_camera_point.point_steer = _steer_angle
+		# Send Camera state request
+		if current_speed > 0:
+			_camera_point.state_request = CameraPoint.RequestState.RESET
+		elif current_speed < 0:
+			_camera_point.state_request = CameraPoint.RequestState.BEHIND
+		else:
+			_camera_point.state_request = CameraPoint.RequestState.NONE
