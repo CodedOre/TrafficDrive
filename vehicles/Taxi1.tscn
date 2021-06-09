@@ -11,7 +11,7 @@
 [ext_resource path="res://scripts/vehicles/Vehicle.gd" type="Script" id=9]
 [ext_resource path="res://scripts/utils/CameraPoint.gd" type="Script" id=10]
 
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0 ), 0.0, 2.57359, 0, 0, Vector2( 0.69, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.75, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -5.12499, 0.0, 0, 0 ]
 
 [sub_resource type="ConvexPolygonShape" id=2]
@@ -24,7 +24,7 @@ mass = 151.02
 script = ExtResource( 9 )
 MaxEngineForce = 168
 MaxEngineRPM = 6500
-EnginePowerCurve = SubResource( 3 )
+EnginePowerCurve = SubResource( 1 )
 GearsIdentifier = [ "R", "N", "1", "2", "3", "4" ]
 GearsRatio = [ -2.32, 0.0, 2.84, 1.56, 1.25, 1.0 ]
 FinalDriveRatio = 3.25
@@ -220,6 +220,10 @@ script = ExtResource( 10 )
 CameraDistance = 4.5
 CameraAngle = 15
 
-[node name="CollisionShape" type="CollisionShape" parent="." index="6"]
+[node name="DriverCamera" type="Position3D" parent="." index="6"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1.22, 0.1 )
+script = ExtResource( 10 )
+
+[node name="CollisionShape" type="CollisionShape" parent="." index="7"]
 transform = Transform( 0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0 )
 shape = SubResource( 2 )
