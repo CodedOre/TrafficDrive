@@ -70,6 +70,10 @@ var _current_mps  : int   = 0
 var _engine_rpm   : int   = 0
 var _clutch_delta : float = 0.0
 
+# -- Signals --
+
+signal camera_changed()
+
 # -- Functions --
 
 # - Runs at startup -
@@ -167,8 +171,9 @@ func _manage_input() -> void:
 	
 	# Input for Camera
 	if Input.is_action_just_pressed("vehicle_change_camera"):
-		_current_cam = clamp(_current_cam + 1, 0, _camera_count - 1)
+		_current_cam = (_current_cam + 1) % _camera_count
 		_camera_point = _camera_nodes[_current_cam]
+		emit_signal("camera_changed")
 	
 	# Input for Nightlights
 	if Input.is_action_just_pressed("vehicle_light_night"):
