@@ -245,7 +245,7 @@ func _inform_camera() -> void:
 	if _camera_point != null:
 		# Send Vehicle data
 		_camera_point.point_speed = current_speed
-		_camera_point.point_steer = _steer_angle
+		_camera_point.point_steer = steering
 		# Send Camera state request
 		if current_speed > 0:
 			_camera_point.state_request = CameraPoint.RequestState.RESET

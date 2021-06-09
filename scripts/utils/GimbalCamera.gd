@@ -90,13 +90,15 @@ func _input(event) -> void:
 
 func _follow_point(delta : float) -> void:
 	var self_transform  : Transform = Transform(global_transform.basis, camera_point.global_transform.origin)
-	var point_transform : Transform = _nonrot_transform(camera_point)
 	match camera_point.CameraTurn:
 		CameraPoint.TurnVariant.NONE:
+			var point_transform : Transform = _nonrot_transform(camera_point)
 			global_transform = point_transform
 		CameraPoint.TurnVariant.NORMAL:
+			var point_transform : Transform = _nonrot_transform(camera_point)
 			global_transform = self_transform.interpolate_with(point_transform, MOVE_SPEED * delta)
-		CameraPoint.TurnVariant.INVERT:
+		CameraPoint.TurnVariant.STEERING:
+			var point_transform : Transform = _steering_transform(camera_point)
 			global_transform = point_transform
 	if ! camera_point.FixedPosition:
 		var camera_transform : Transform = _camera_node.transform
@@ -131,6 +133,13 @@ func _transforms_close(a : Transform, b : Transform, threshold : float) -> bool:
 func _nonrot_transform(base : Spatial) -> Transform:
 	var position : Vector3 = base.global_transform.origin
 	var y_rotate : float   = base.global_transform.basis.get_euler().y
+	return Transform(Basis(Vector3.UP, y_rotate), position)
+
+# - Returns a Transform similiar to _nonrot_transform, but with y orientated towards the steering -
+func _steering_transform(base : Spatial) -> Transform:
+	var position    : Vector3 = base.global_transform.origin
+	var base_rotate : float   = base.global_transform.basis.get_euler().y
+	var y_rotate    : float   = base_rotate + camera_point.point_steer * 0.5
 	return Transform(Basis(Vector3.UP, y_rotate), position)
 
 # - Change internal variables when settings were modified -
