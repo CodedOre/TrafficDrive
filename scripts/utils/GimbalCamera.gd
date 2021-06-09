@@ -14,7 +14,7 @@ enum CameraState {NOSET, FREE, MOUSE, RESET, BEHIND}
 
 # - Speed the camera resets -
 const MOVE_SPEED     : float = 4.0
-const MOVE_THRESHOLD : float = 0.01
+const MOVE_THRESHOLD : float = 0.02
 
 # -- Properties --
 
@@ -57,7 +57,7 @@ func _ready() -> void:
 	GameSettings.connect("setting_changed", self, "_modify_settings")
 
 # - Runs every frame -
-func _physics_process(delta : float) -> void:
+func _process(delta : float) -> void:
 	if _state != CameraState.NOSET:
 		if ! _transforms_close(global_transform, camera_point.global_transform, MOVE_THRESHOLD):
 			_follow_point(delta)
@@ -91,10 +91,17 @@ func _input(event) -> void:
 func _follow_point(delta : float) -> void:
 	var self_transform  : Transform = Transform(global_transform.basis, camera_point.global_transform.origin)
 	var point_transform : Transform = _nonrot_transform(camera_point)
-	global_transform = self_transform.interpolate_with(point_transform, MOVE_SPEED * delta)
-	var camera_transform : Transform = _camera_node.transform
-	camera_transform.origin.z = dectime(-1 * camera_point.CameraDistance, abs(camera_point.point_speed), -0.01)
-	_camera_node.transform = _camera_node.transform.interpolate_with(camera_transform, MOVE_SPEED * delta)
+	match camera_point.CameraTurn:
+		CameraPoint.TurnVariant.NONE:
+			global_transform = point_transform
+		CameraPoint.TurnVariant.NORMAL:
+			global_transform = self_transform.interpolate_with(point_transform, MOVE_SPEED * delta)
+		CameraPoint.TurnVariant.INVERT:
+			global_transform = point_transform
+	if ! camera_point.FixedPosition:
+		var camera_transform : Transform = _camera_node.transform
+		camera_transform.origin.z = dectime(-1 * camera_point.CameraDistance, abs(camera_point.point_speed), -0.01)
+		_camera_node.transform = _camera_node.transform.interpolate_with(camera_transform, MOVE_SPEED * delta)
 
 # - Move the Camera to a point -
 func _move_camera(delta : float, outer_target : Transform, inner_target : Transform) -> void:
