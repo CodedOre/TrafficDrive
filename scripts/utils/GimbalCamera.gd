@@ -20,6 +20,7 @@ const MOVE_THRESHOLD : float = 0.01
 
 # - A path to a CameraPoint -
 export (NodePath) var CameraPointPath setget set_camera_point_path, get_camera_point_path
+export (NodePath) var VehiclePath     setget set_vehicle_path, get_vehicle_path
 
 # - Active camera indicator -
 export (bool) var current = false setget set_current, is_current
@@ -28,6 +29,7 @@ export (bool) var current = false setget set_current, is_current
 
 # - The point the camera is centered around -
 var camera_point : CameraPoint setget set_camera_point, get_camera_point
+var vehicle      : Vehicle     setget set_vehicle, get_vehicle
 
 # - Internal nodes -
 onready var _outer_gimbal : Spatial = $OuterGimbal
@@ -169,6 +171,29 @@ func set_camera_point(point : CameraPoint) -> void:
 
 func get_camera_point() -> CameraPoint:
 	return camera_point
+
+# - Vehicle path property -
+func set_vehicle_path(path: NodePath) -> void:
+	set_vehicle(get_node(path))
+
+func get_vehicle_path() -> NodePath:
+	return vehicle.get_path()
+
+# - Vehicle variable -
+func set_vehicle(node : Vehicle) -> void:
+	if vehicle != null:
+		if vehicle.is_connected("camera_changed", self, "change_point"):
+			vehicle.disconnect("camera_changed", self, "change_point")
+	vehicle = node
+	set_camera_point(vehicle._camera_point)
+	vehicle.connect("camera_changed", self, "change_point")
+
+func get_vehicle() -> Vehicle:
+	return vehicle
+
+# - Updates the camera point -
+func change_point() -> void:
+	set_camera_point(vehicle._camera_point)
 
 # - Active camera property -
 func set_current(value : bool) -> void:
