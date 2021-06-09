@@ -10,7 +10,7 @@ class_name CameraPoint
 
 # - Request state -
 enum RequestState {NONE, RESET, BEHIND}
-enum TurnVariant  {NONE, NORMAL, INVERT}
+enum TurnVariant  {NONE, NORMAL, STEERING}
 
 # -- Properties --
 
