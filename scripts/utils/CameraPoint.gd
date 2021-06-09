@@ -10,12 +10,15 @@ class_name CameraPoint
 
 # - Request state -
 enum RequestState {NONE, RESET, BEHIND}
+enum TurnVariant  {NONE, NORMAL, INVERT}
 
 # -- Properties --
 
 # - Gimbal settings -
 export (float) onready var CameraDistance
 export (int)   onready var CameraAngle
+export (bool)          var FixedPosition
+export (TurnVariant)   var CameraTurn
 
 # -- Variables --
 
