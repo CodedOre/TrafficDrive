@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/textures/VehicleInfo/Background.png" type="Texture" id=1]
 [ext_resource path="res://assets/textures/VehicleInfo/NormalRange.png" type="Texture" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://assets/textures/VehicleInfo/Needle.png" type="Texture" id=4]
 [ext_resource path="res://scripts/hud/VehicleInfo.gd" type="Script" id=5]
 [ext_resource path="res://assets/hud/CarroisGothic.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://assets/textures/VehicleInfo/NightLightsOff.png" type="Texture" id=7]
+[ext_resource path="res://assets/textures/VehicleInfo/TurnRightSignalOff.png" type="Texture" id=8]
+[ext_resource path="res://assets/textures/VehicleInfo/TurnLeftSignalOff.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 size = 120
@@ -96,6 +99,36 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="IconContainer" type="HBoxContainer" parent="."]
+margin_left = 312.0
+margin_top = 655.0
+margin_right = 712.0
+margin_bottom = 775.0
+
+[node name="TurnLeftSymbol" type="TextureRect" parent="IconContainer"]
+margin_left = 19.0
+margin_right = 127.0
+margin_bottom = 120.0
+texture = ExtResource( 9 )
+expand = true
+stretch_mode = 6
+
+[node name="TurnRightSymbol" type="TextureRect" parent="IconContainer"]
+margin_left = 127.0
+margin_right = 235.0
+margin_bottom = 120.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 6
+
+[node name="Nightlightsymbol" type="TextureRect" parent="IconContainer"]
+margin_left = 265.0
+margin_right = 376.0
+margin_bottom = 120.0
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 6
 
 [node name="Needle" type="TextureRect" parent="."]
 margin_right = 1024.0
