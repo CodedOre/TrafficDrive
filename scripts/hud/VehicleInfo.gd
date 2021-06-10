@@ -52,7 +52,7 @@ func set_debug_vehicle(object : Vehicle) -> void:
 	# Set MaxRPM range
 	var vehicle_max_rpm : float = float(_displayed_vehicle.MaxEngineRPM)
 	var max_rpm_ratio   : float = (vehicle_max_rpm / float(MAX_DISPLAYED_RPM))
-	var rpm_range_val   : int   = int(abs(1 - max_rpm_ratio) * 100)
+	var rpm_range_val   : int   = int(abs(1 - max_rpm_ratio) * 100) + 10
 	_rpm_range.value = rpm_range_val
 
 func get_debug_vehicle() -> Vehicle:
