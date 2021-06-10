@@ -34,8 +34,10 @@ EnginePowerCurve = SubResource( 1 )
 GearsIdentifier = [ "R", "N", "1", "2", "3", "4" ]
 GearsRatio = [ -2.32, 0.0, 2.84, 1.56, 1.25, 1.0 ]
 FinalDriveRatio = 3.25
+SteeringWheelMultiplier = 12
 Lights = [ NodePath("VehicleBody/LightBrakeLight"), NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningLeft"), NodePath("VehicleBody/LightTurningRight") ]
 Cameras = [ NodePath("ChaseCamera"), NodePath("DriverCamera") ]
+SteeringWheel = NodePath("VehicleBody/SteeringWheel")
 
 [node name="WheelFrontLeft" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.744977, 0.361439, 1.63227 )

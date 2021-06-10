@@ -15,24 +15,26 @@ const CLUTCH_SPEED : float =  0.75
 # -- Properties --
 
 # - Engine Properties -
-export (int)           var MaxEngineForce   =  125
-export (int)           var MaxEngineRPM     = 6000
-export (int)           var IdleEngineRPM    = 1000
-export (int)           var RPMVelocity      =  500
+export (int)           var MaxEngineForce          =  125
+export (int)           var MaxEngineRPM            = 6000
+export (int)           var IdleEngineRPM           = 1000
+export (int)           var RPMVelocity             =  500
 export (Curve)         var EnginePowerCurve
 
 # - Transmission Properties -
-export (Array, String) var GearsIdentifier  = Array()
-export (Array, float)  var GearsRatio       = Array()
-export (float)         var FinalDriveRatio  = 0
+export (Array, String) var GearsIdentifier         = Array()
+export (Array, float)  var GearsRatio              = Array()
+export (float)         var FinalDriveRatio         = 0
 
 # - Additional Vehicle Properties -
-export (int)           var MaxBrakeForce    =    8
-export (int)           var MaxSteerAngle    =   35
+export (int)           var MaxBrakeForce           =    8
+export (int)           var MaxSteerAngle           =   35
+export (int)           var SteeringWheelMultiplier =    8
 
 # - NodePaths from the Vehicle -
 export (Array, NodePath) onready var Lights
 export (Array, NodePath) onready var Cameras
+export        (NodePath) onready var SteeringWheel
 
 # - States for the Vehicle -
 export (bool) var Running     = false
@@ -48,6 +50,7 @@ var current_speed : int = 0
 var _light_manager : VehicleLightsManager
 var _light_nodes   : Array = Array()
 var _camera_nodes  : Array = Array()
+var _steer_wheel   : MeshInstance
 
 # - Camera variables -
 var _camera_count : int
@@ -98,6 +101,9 @@ func _ready() -> void:
 		push_error("Vehicle: Gear Arrays not set up correctly!")
 		return
 	_current_gear = GearsIdentifier.find("N")
+	# Initialize additionial elements
+	if SteeringWheel != null:
+		_steer_wheel = get_node(SteeringWheel)
 
 # - Runs at every frame -
 func _physics_process(delta : float) -> void:
@@ -106,6 +112,7 @@ func _physics_process(delta : float) -> void:
 	if Controlled:
 		_manage_input()
 		_move_vehicle(delta)
+		_animate_vehicle()
 		_inform_camera()
 
 # - Checks input at every frame -
@@ -239,6 +246,13 @@ func _move_vehicle(delta : float) -> void:
 		if steer_target < _steer_angle:
 			_steer_angle = steer_target
 	steering = deg2rad(_steer_angle)
+
+# - Animates some parts of the vehicle -
+func _animate_vehicle() -> void:
+	if _steer_wheel != null:
+		var wheel_rotate : Vector3 = _steer_wheel.rotation_degrees
+		wheel_rotate.z = -1 * _steer_angle * SteeringWheelMultiplier
+		_steer_wheel.rotation_degrees = wheel_rotate
 
 # - Informs GimbalCamera over CameraPoint about certain states -
 func _inform_camera() -> void:
