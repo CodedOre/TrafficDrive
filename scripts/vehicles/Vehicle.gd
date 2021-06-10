@@ -112,7 +112,7 @@ func _physics_process(delta : float) -> void:
 	if Controlled:
 		_manage_input()
 		_move_vehicle(delta)
-		_animate_vehicle()
+		_animate_vehicle(delta)
 		_inform_camera()
 
 # - Checks input at every frame -
@@ -248,10 +248,12 @@ func _move_vehicle(delta : float) -> void:
 	steering = deg2rad(_steer_angle)
 
 # - Animates some parts of the vehicle -
-func _animate_vehicle() -> void:
+func _animate_vehicle(delta : float) -> void:
 	if _steer_wheel != null:
 		var wheel_rotate : Vector3 = _steer_wheel.rotation_degrees
-		wheel_rotate.z = -1 * _steer_angle * SteeringWheelMultiplier
+		var rotation_tgt : float   = -1 * _steer_angle * SteeringWheelMultiplier
+		var interpol_rot : float   = wheel_rotate.z + (rotation_tgt - wheel_rotate.z) * delta * 4
+		wheel_rotate.z = interpol_rot
 		_steer_wheel.rotation_degrees = wheel_rotate
 
 # - Informs GimbalCamera over CameraPoint about certain states -
