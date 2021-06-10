@@ -8,15 +8,15 @@
 [ext_resource path="res://assets/hud/CarroisGothic.ttf" type="DynamicFontData" id=6]
 
 [sub_resource type="DynamicFont" id=1]
-size = 42
+size = 120
 font_data = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=2]
-size = 64
+size = 175
 font_data = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=3]
-size = 32
+size = 100
 font_data = ExtResource( 6 )
 
 [node name="VehicleInfo" type="MarginContainer"]
@@ -25,20 +25,22 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -406.0
-margin_top = -326.0
-margin_right = -50.0
-margin_bottom = 30.0
+margin_top = -316.0
+margin_right = 618.0
+margin_bottom = 708.0
 grow_horizontal = 0
 grow_vertical = 0
-rect_min_size = Vector2( 356, 356 )
+rect_min_size = Vector2( 1024, 1024 )
+rect_scale = Vector2( 0.356, 0.356 )
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RPMRange" type="TextureProgress" parent="."]
-margin_right = 356.0
-margin_bottom = 356.0
+margin_right = 1024.0
+margin_bottom = 1024.0
+rect_min_size = Vector2( 1024, 1024 )
 max_value = 120.0
 value = 10.0
 texture_under = ExtResource( 2 )
@@ -48,55 +50,58 @@ radial_initial_angle = 150.0
 radial_fill_degrees = 300.0
 
 [node name="Background" type="TextureRect" parent="."]
-margin_right = 356.0
-margin_bottom = 356.0
-rect_min_size = Vector2( 250, 250 )
+margin_right = 1024.0
+margin_bottom = 1024.0
+rect_min_size = Vector2( 1024, 1024 )
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
 
 [node name="GearValue" type="Label" parent="Background"]
-margin_left = 144.0
-margin_top = 76.0
-margin_right = 213.0
-margin_bottom = 127.0
+margin_left = 414.0
+margin_top = 218.0
+margin_right = 610.0
+margin_bottom = 365.0
 custom_fonts/font = SubResource( 1 )
 text = "N"
 align = 1
 valign = 1
+clip_text = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SpeedValue" type="Label" parent="Background"]
-margin_left = 89.0
-margin_top = 138.0
-margin_right = 194.0
-margin_bottom = 224.0
+margin_left = 227.0
+margin_top = 397.0
+margin_right = 556.0
+margin_bottom = 643.0
 custom_fonts/font = SubResource( 2 )
 text = "0"
 align = 2
 valign = 1
+clip_text = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SpeedLabel" type="Label" parent="Background"]
-margin_left = 199.0
-margin_top = 170.0
-margin_right = 278.0
-margin_bottom = 224.0
+margin_left = 556.0
+margin_top = 485.0
+margin_right = 797.0
+margin_bottom = 605.0
 custom_fonts/font = SubResource( 3 )
 text = "km/h"
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Needle" type="TextureRect" parent="."]
-margin_right = 356.0
-margin_bottom = 356.0
-rect_min_size = Vector2( 250, 250 )
-rect_pivot_offset = Vector2( 178, 178 )
+margin_right = 1024.0
+margin_bottom = 1024.0
+rect_min_size = Vector2( 1024, 1024 )
+rect_pivot_offset = Vector2( 512, 512 )
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
