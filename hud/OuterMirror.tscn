@@ -13,6 +13,8 @@ __meta__ = {
 }
 
 [node name="Mirror" type="Polygon2D" parent="."]
+position = Vector2( 1120, 0 )
+scale = Vector2( -1, 1 )
 texture = SubResource( 1 )
 polygon = PoolVector2Array( 35, 17, 10, 45, 35, 384, 1085, 384, 1110, 45, 1085, 17 )
 
@@ -26,3 +28,9 @@ __meta__ = {
 
 [node name="Viewport" type="Viewport" parent="."]
 size = Vector2( 1100, 367 )
+handle_input_locally = false
+hdr = false
+usage = 3
+render_target_v_flip = true
+gui_disable_input = true
+gui_snap_controls_to_pixels = false
