@@ -30,7 +30,7 @@ GearsRatio = [ -2.32, 0.0, 2.84, 1.56, 1.25, 1.0 ]
 FinalDriveRatio = 3.25
 SteeringWheelMultiplier = 12
 Lights = [ NodePath("VehicleBody/LightBrakeLight"), NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningLeft"), NodePath("VehicleBody/LightTurningRight") ]
-Cameras = [ NodePath("ChaseCamera"), NodePath("DriverCamera") ]
+Cameras = [ NodePath("CameraPoints/ChaseCamera"), NodePath("CameraPoints/DriverCamera") ]
 SteeringWheel = NodePath("VehicleBody/SteeringWheel")
 
 [node name="WheelFrontLeft" parent="." index="0"]
@@ -216,14 +216,16 @@ material/0 = ExtResource( 7 )
 transform = Transform( 1, 0, 0, 0, 0.339983, 0.940432, 0, -0.940432, 0.339983, 37.6915, 51.5779, -96.965 )
 material/0 = ExtResource( 7 )
 
-[node name="ChaseCamera" type="Position3D" parent="." index="5"]
+[node name="CameraPoints" type="Spatial" parent="." index="5"]
+
+[node name="ChaseCamera" type="Position3D" parent="CameraPoints" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 script = ExtResource( 10 )
 CameraDistance = 4.5
 CameraAngle = 15
 CameraTurn = 1
 
-[node name="DriverCamera" type="Position3D" parent="." index="6"]
+[node name="DriverCamera" type="Position3D" parent="CameraPoints" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1.22, 0.1 )
 script = ExtResource( 10 )
 FixedPosition = true
