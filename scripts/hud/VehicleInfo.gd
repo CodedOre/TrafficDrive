@@ -25,7 +25,7 @@ const MAX_NEEDLE_DEGREE : int =  125
 
 # -- Properties --
 
-var DisplayedVehicle : Vehicle setget set_debug_vehicle, get_debug_vehicle
+var DisplayedVehicle : Vehicle setget set_displayed_vehicle, get_displayed_vehicle
 
 # -- Variables --
 
@@ -78,7 +78,7 @@ func _physics_process(_delta):
 				_turn_right_icon.texture = TURN_RIGHT_OFF_TEXTURE
 
 # - DisplayedVehicle property -
-func set_debug_vehicle(object : Vehicle) -> void:
+func set_displayed_vehicle(object : Vehicle) -> void:
 	_displayed_vehicle = object
 	# Set MaxRPM range
 	var vehicle_max_rpm : float = float(_displayed_vehicle.MaxEngineRPM)
@@ -86,5 +86,5 @@ func set_debug_vehicle(object : Vehicle) -> void:
 	var rpm_range_val   : int   = int(abs(1 - max_rpm_ratio) * 100) + 10
 	_rpm_range.value = rpm_range_val
 
-func get_debug_vehicle() -> Vehicle:
+func get_displayed_vehicle() -> Vehicle:
 	return _displayed_vehicle
