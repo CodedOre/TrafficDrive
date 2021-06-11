@@ -1,4 +1,9 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/textures/OuterMirror/Background.png" type="Texture" id=1]
+
+[sub_resource type="ViewportTexture" id=1]
+viewport_path = NodePath("Viewport")
 
 [node name="OuterMirror" type="Control"]
 anchor_right = 1.0
@@ -6,3 +11,18 @@ anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Mirror" type="Polygon2D" parent="."]
+texture = SubResource( 1 )
+polygon = PoolVector2Array( 35, 17, 10, 45, 35, 384, 1085, 384, 1110, 45, 1085, 17 )
+
+[node name="Background" type="TextureRect" parent="."]
+margin_right = 1120.0
+margin_bottom = 450.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 1100, 367 )
