@@ -6,8 +6,14 @@
 viewport_path = NodePath("Viewport")
 
 [node name="OuterMirror" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -560.0
+margin_right = 560.0
+margin_bottom = 450.0
+rect_min_size = Vector2( 1120, 450 )
+rect_scale = Vector2( 0.365, 0.365 )
+rect_pivot_offset = Vector2( 560, 25 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -19,8 +25,9 @@ texture = SubResource( 1 )
 polygon = PoolVector2Array( 35, 17, 10, 45, 35, 384, 1085, 384, 1110, 45, 1085, 17 )
 
 [node name="Background" type="TextureRect" parent="."]
+margin_top = -3.07525
 margin_right = 1120.0
-margin_bottom = 450.0
+margin_bottom = 446.925
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
