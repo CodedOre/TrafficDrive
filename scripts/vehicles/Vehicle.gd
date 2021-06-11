@@ -34,6 +34,7 @@ export (int)           var SteeringWheelMultiplier =    8
 # - NodePaths from the Vehicle -
 export (Array, NodePath) onready var Lights
 export (Array, NodePath) onready var Cameras
+export        (NodePath) onready var OuterMirrorPoint
 export        (NodePath) onready var SteeringWheel
 
 # - States for the Vehicle -
@@ -56,6 +57,9 @@ var _steer_wheel   : MeshInstance
 var _camera_count : int
 var _current_cam  : int
 var _camera_point : CameraPoint
+
+# - Mirror variables -
+var _outer_mirror_point : CameraPoint
 
 # - Input variables -
 var _new_input    : bool   = false
@@ -96,6 +100,9 @@ func _ready() -> void:
 		_camera_point = _camera_nodes[_current_cam]
 	else:
 		push_warning("Vehicle: No Cameras set for this vehicle!")
+	# Initialize Mirrors
+	if OuterMirrorPoint != null:
+		_outer_mirror_point = get_node(OuterMirrorPoint)
 	# Initialize Gears
 	if GearsIdentifier.size() != GearsRatio.size():
 		push_error("Vehicle: Gear Arrays not set up correctly!")
