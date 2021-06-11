@@ -37,6 +37,7 @@ FinalDriveRatio = 3.25
 SteeringWheelMultiplier = 12
 Lights = [ NodePath("VehicleBody/LightBrakeLight"), NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningLeft"), NodePath("VehicleBody/LightTurningRight") ]
 Cameras = [ NodePath("CameraPoints/ChaseCamera"), NodePath("CameraPoints/DriverCamera") ]
+OuterMirrorPoint = NodePath("MirrorPoints/OuterMirror")
 SteeringWheel = NodePath("VehicleBody/SteeringWheel")
 
 [node name="WheelFrontLeft" parent="." index="0"]
@@ -235,6 +236,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1.22, 0.1 )
 script = ExtResource( 10 )
 FixedPosition = true
 CameraTurn = 2
+
+[node name="MirrorPoints" type="Spatial" parent="." index="6"]
+
+[node name="OuterMirror" type="Position3D" parent="MirrorPoints" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1.75 )
+script = ExtResource( 10 )
+FixedPosition = true
 
 [node name="CollisionShape1" type="CollisionShape" parent="." index="7"]
 transform = Transform( 0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0 )
