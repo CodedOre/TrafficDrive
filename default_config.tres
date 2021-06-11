@@ -4,6 +4,8 @@
 VehicleLightNode=2
 ; [bool] If VehicleLights light nodes should create shadows.
 VehicleLightShadows=true
+; [bool] If the OuterMirror should be active.
+OuterMirrorActive=true
 
 ; All settings related to input
 [Input]
