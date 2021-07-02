@@ -146,6 +146,7 @@ func _manage_input() -> void:
 		if _current_mps == 0 and ! input_forward and ! input_backward:
 			_current_gear = Data.GearsIdentifier.find("N")
 		
+		# When standing, switch to the gear for the wanted direction
 		if _new_input and _current_mps == 0:
 			if input_forward:
 				_current_gear = Data.GearsIdentifier.find("1")
@@ -154,17 +155,27 @@ func _manage_input() -> void:
 				_current_gear = Data.GearsIdentifier.find("R")
 				_input_engine = 1.0
 		
+		# Manage engine/brake power according to the direction
 		if input_forward and ! _new_input:
 			if _current_mps > 0:
 				_input_engine = 1.0
 			else:
 				_input_brake = 1.0
-		
 		if input_backward and ! _new_input:
 			if _current_mps < 0:
 				_input_engine = 1.0
 			else:
 				_input_brake = 1.0
+		
+		# Switch gears according to the RPM
+		if _current_gear >= Data.GearsIdentifier.find("1"):
+			if _engine_rpm > Data.MaxEngineRPM - 1000:
+				_current_gear = clamp(_current_gear + 1, 0, Data.GearsIdentifier.size() - 1)
+				_clutch_delta = CLUTCH_SPEED
+		if _current_gear > Data.GearsIdentifier.find("1"):
+			if _engine_rpm < Data.IdleEngineRPM + 1000:
+				_current_gear = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
+				_clutch_delta = CLUTCH_SPEED
 	
 	# If moving, disable new input
 	if _current_mps != 0:
