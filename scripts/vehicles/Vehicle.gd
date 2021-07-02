@@ -136,24 +136,34 @@ func _manage_input() -> void:
 			_input_brake  = 1.0
 	else:
 		# When driving with automatic, we change automatically forward and backwards
-		_new_input = Input.is_action_just_pressed("vehicle_movement_forward") or \
-						Input.is_action_just_pressed("vehicle_movement_backward")
-		if Input.is_action_pressed("vehicle_movement_forward"):
-			if _current_mps == 0 and _new_input:
+		if Input.is_action_just_pressed("vehicle_movement_forward") or \
+			Input.is_action_just_pressed("vehicle_movement_backward"):
+			_new_input = true
+		var input_forward  : bool = Input.is_action_pressed("vehicle_movement_forward")
+		var input_backward : bool = Input.is_action_pressed("vehicle_movement_backward")
+		
+		# Switch to the neutral gear if standing
+		if _current_mps == 0 and ! input_forward and ! input_backward:
+			_current_gear = Data.GearsIdentifier.find("N")
+		
+		if _new_input and _current_mps == 0:
+			if input_forward:
 				_current_gear = Data.GearsIdentifier.find("1")
 				_input_engine = 1.0
-			elif _current_mps > 0:
-				_input_engine = 1.0
-			elif _current_mps <= 0:
-				_input_brake = 1.0
-
-		if Input.is_action_pressed("vehicle_movement_backward"):
-			if _current_mps == 0 and _new_input:
+			if input_backward:
 				_current_gear = Data.GearsIdentifier.find("R")
 				_input_engine = 1.0
-			elif _current_mps < 0:
+		
+		if input_forward and ! _new_input:
+			if _current_mps > 0:
 				_input_engine = 1.0
-			elif _current_mps >= 0:
+			else:
+				_input_brake = 1.0
+		
+		if input_backward and ! _new_input:
+			if _current_mps < 0:
+				_input_engine = 1.0
+			else:
 				_input_brake = 1.0
 	
 	# If moving, disable new input
