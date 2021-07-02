@@ -15,55 +15,84 @@ enum VehicleLightNode    {OFF, SPOT, FULL}
 # - File locations -
 const DEFAULT_CONFIG_FILE : String =  "res://default_config.tres"
 const    USER_CONFIG_FILE : String = "user://TrafficDrive.tres"
+const    USER_BACKUP_FILE : String = "user://TrafficDrive.bak.tres"
 
 # -- Variables --
 
 # - ConfigFile class as backend -
 var _config : ConfigFile = ConfigFile.new()
 
-# - Settings Storage -
-var _storage : Dictionary = {}
-
 # -- Signals --
 signal setting_changed()
 
 # -- Functions --
 
-# - Run at startup, check for config file -
+# - Run at startup, check the config files -
 func _ready() -> void:
-	load_settings()
-
-# - Load from an config file -
-func load_settings() -> void:
-	# Check if user config exists
-	var filecheck   : File = File.new()
-	var config_file : String
+	# Method variables
+	var filecheck       : File       = File.new()
+	var default_config  : ConfigFile = ConfigFile.new()
+	var user_configured : bool       = false
+	var user_outdated   : bool       = false
+	var default_edition : int        = 0
+	var user_edition    : int        = 0
+	
+	# Check if files are available
 	if filecheck.file_exists(USER_CONFIG_FILE):
-		config_file = USER_CONFIG_FILE
-	else:
-		config_file = DEFAULT_CONFIG_FILE
-	# Loads the configuration into the storage
-	if _config.load(config_file) == OK:
-		for category in _config.get_sections():
-			_storage[category] = {}
-			for setting in _config.get_section_keys(category):
-				_storage[category][setting] = _config.get_value(category, setting)
-	else:
-		push_error("Could not load configuration file " + config_file)
-	emit_signal("setting_changed")
-
-# - Saves to an config file -
-func save_settings() -> void:
-	for category in _storage.keys():
-		for setting in _storage[category].keys():
-			_config.set_value(category, setting, _storage[category][setting])
-	_config.save(USER_CONFIG_FILE)
+		user_configured = true
+	if ! filecheck.file_exists(DEFAULT_CONFIG_FILE):
+		push_error("GameSettings: Default config file missing!")
+	
+	# Load default configuration
+	if ! default_config.load(DEFAULT_CONFIG_FILE) == OK:
+		push_error("GameSettings: Default config file unreadable!")
+		return
+	default_edition = default_config.get_value("Meta", "ConfigFileEdition")
+	
+	# Load (if available) user configuration
+	if user_configured and _config.load(USER_CONFIG_FILE) == OK:
+		user_edition = _config.get_value("Meta", "ConfigFileEdition")
+	
+	# Check versions of configuration
+	if user_edition < default_edition:
+		user_outdated = true
+	elif user_edition > default_edition:
+		user_configured = false
+		push_error( "GameSettings: Bad configuration file!" + \
+					"              A new configuration will be created.")
+		var folder : Directory = Directory.new()
+		folder.rename(USER_CONFIG_FILE, USER_BACKUP_FILE)
+	
+	# Create new user configuration
+	if ! user_configured:
+		for section in default_config.get_sections():
+			for setting in default_config.get_section_keys(section):
+				var default_value = default_config.get_value(section, setting)
+				_config.set_value(section, setting, default_value)
+		_config.save(USER_CONFIG_FILE)
+	
+	# Add new settings to user config (if outdated)
+	if user_outdated:
+		for section in default_config.get_sections():
+			for setting in default_config.get_section_keys(section):
+				if ! _config.has_section_key(section, setting):
+					var default_value = default_config.get_value(section, setting)
+					_config.set_value(section, setting, default_value)
+		_config.save(USER_CONFIG_FILE)
 
 # - Retrieves a setting -
-func get_setting(category : String, setting : String):
-	return _storage[category][setting]
+func get_setting(section : String, setting : String):
+	if _config.has_section_key(section, setting):
+		return _config.get_value(section, setting)
+	else:
+		push_error("GameSetting: Setting \"" + section + "/" + setting + "\" could not be found")
 
 # - Saves a setting -
-func set_setting(category : String, setting : String, value) -> void:
-	_storage[category][setting] = value
-	emit_signal("setting_changed")
+func set_setting(section : String, setting : String, value) -> void:
+	if _config.has_section_key(section, setting):
+		_config.set_value(section, setting, value)
+		_config.save(USER_CONFIG_FILE)
+		emit_signal("setting_changed")
+	else:
+		push_error("GameSetting: Setting \"" + section + "/" + setting + "\" could not be saved")
+	
