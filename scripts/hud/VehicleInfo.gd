@@ -38,7 +38,7 @@ onready var _rpm_range       : TextureProgress = $RPMRange
 onready var _rpm_needle      : TextureRect     = $Needle
 onready var _turn_left_icon  : TextureRect     = $LightsIcons/TurnLeftSymbol
 onready var _turn_right_icon : TextureRect     = $LightsIcons/TurnRightSymbol
-onready var _nightlight_icon : TextureRect     = $LightsIcons/Nightlightsymbol
+onready var _nightlight_icon : TextureRect     = $LightsIcons/NightlightSymbol
 
 # - Runtime variables -
 var _vehicle_connected : bool
