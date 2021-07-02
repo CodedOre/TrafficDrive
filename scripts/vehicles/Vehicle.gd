@@ -34,10 +34,11 @@ export (bool) var ManualDrive = true
 var current_speed : int = 0
 
 # - Internal objects -
-var _light_manager : VehicleLightsManager
-var _light_nodes   : Array = Array()
-var _camera_nodes  : Array = Array()
-var _steer_wheel   : MeshInstance
+var _light_manager  : VehicleLightsManager
+var _light_nodes    : Array = Array()
+var _camera_nodes   : Array = Array()
+var _steer_wheel    : MeshInstance
+var _traction_wheel : VehicleWheel
 
 # - Camera variables -
 var _camera_count : int
@@ -99,6 +100,11 @@ func _ready() -> void:
 		return
 	_current_gear = VehicleData.GearsIdentifier.find("N")
 	# Initialize additionial elements
+	for child in get_children():
+		if child is VehicleWheel:
+			if child.use_as_traction == true:
+				_traction_wheel = child
+				break
 	if SteeringWheel != null:
 		_steer_wheel = get_node(SteeringWheel)
 
@@ -207,10 +213,10 @@ func _move_vehicle(delta : float) -> void:
 	
 	# Calculate RPM using the wheels
 	var rpm_min_clamp        : int   = VehicleData.IdleEngineRPM if Running else 0
-	var wheel_circumference  : float = 2.0 * PI * $WheelRearRight.wheel_radius
+	var wheel_circumference  : float = 2.0 * PI * _traction_wheel.wheel_radius
 	var wheel_rotation_speed : float = 60.0 * _current_mps / wheel_circumference
 	var drive_rotation_speed : float = wheel_rotation_speed * VehicleData.FinalDriveRatio
-	var calculated_rpm       : float = clutch_factor * drive_rotation_speed * VehicleData.GearsRatio[_current_gear]
+	var calculated_rpm       : float = drive_rotation_speed * VehicleData.GearsRatio[_current_gear]
 	_engine_rpm = clamp(calculated_rpm, rpm_min_clamp, VehicleData.MaxEngineRPM)
 	
 	# Calculate Engine Force
