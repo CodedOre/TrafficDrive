@@ -34,6 +34,7 @@ var current_speed : int = 0
 
 # - Internal objects -
 var _light_manager  : VehicleLightsManager
+var _pid_controller : PIDController
 var _light_nodes    : Array = Array()
 var _camera_nodes   : Array = Array()
 var _steer_wheel    : MeshInstance
@@ -67,6 +68,7 @@ var _clutch_delta  : float = 0.0
 # - Cruise control variables -
 var _cruise_speed  : int   = 0
 var _cruise_active : bool  = false
+var _pid_gains     : Vector3 = Vector3(0.0, 0.0, 0.0)
 
 # -- Signals --
 
@@ -111,6 +113,7 @@ func _ready() -> void:
 				break
 	if SteeringWheel != null:
 		_steer_wheel = get_node(SteeringWheel)
+	_pid_controller = PIDController.new()
 
 # - Runs at every frame -
 func _physics_process(delta : float) -> void:
@@ -121,6 +124,7 @@ func _physics_process(delta : float) -> void:
 		current_speed = int(_current_mps * 3.6)
 	if Controlled:
 		_manage_input()
+		_cruise_control()
 		_move_vehicle(delta)
 		_animate_vehicle(delta)
 		_inform_camera()
@@ -145,6 +149,10 @@ func _manage_input() -> void:
 			_new_input = true
 		var input_forward  : bool = Input.is_action_pressed("vehicle_movement_forward")
 		var input_backward : bool = Input.is_action_pressed("vehicle_movement_backward")
+		
+		# Deactivate cruise control when braking or accelerating
+		if input_forward or input_backward:
+			_cruise_active = false
 		
 		# Switch to the neutral gear if standing
 		if _current_mps == 0 and ! input_forward and ! input_backward:
@@ -204,9 +212,6 @@ func _manage_input() -> void:
 			_cruise_speed = stepify(current_speed, 5)
 		else:
 			_cruise_active = false
-	# Deactivate cruise control when braking
-	if _input_brake > 0:
-		_cruise_active = false
 	
 	if Input.is_action_just_pressed("vehicle_increase_cruise_control"):
 		_cruise_speed = max(0, _cruise_speed + 5)
@@ -245,6 +250,12 @@ func _manage_input() -> void:
 		_light_manager.TurnRightLights = ! _light_manager.TurnRightLights
 	if Input.is_action_just_pressed("vehicle_light_hazards"):
 		_light_manager.HazardsLights = ! _light_manager.HazardsLights
+
+# - Set's the vehicle throttle to keep a certain speed -
+func _cruise_control() -> void:
+	if _cruise_active:
+		var cruise_delta = _cruise_speed - current_speed
+		_input_engine = _pid_controller.get_pid_output(_pid_gains, cruise_delta)
 
 # - Move the vehicle according to input -
 func _move_vehicle(delta : float) -> void:
