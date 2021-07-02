@@ -48,21 +48,25 @@ var _camera_point : CameraPoint
 var _outer_mirror_point : CameraPoint
 
 # - Input variables -
-var _new_input    : bool   = false
-var _input_engine : float  = 0.0
-var _input_brake  : float  = 0.0
-var _input_steer  : float  = 0.0
+var _new_input     : bool   = false
+var _input_engine  : float  = 0.0
+var _input_brake   : float  = 0.0
+var _input_steer   : float  = 0.0
 
 # - Steering variables -
-var _steer_angle  : float  = 0.0
-var _steer_delta  : float  = 0.0
+var _steer_angle   : float  = 0.0
+var _steer_delta   : float  = 0.0
 
 # - Engine variables -
-var _current_gear : int   = 1
-var _current_mps  : int   = 0
-var _engine_rpm   : int   = 0
-var _ideal_rpm    : int   = 0
-var _clutch_delta : float = 0.0
+var _current_gear  : int   = 1
+var _current_mps   : int   = 0
+var _engine_rpm    : int   = 0
+var _ideal_rpm     : int   = 0
+var _clutch_delta  : float = 0.0
+
+# - Cruise control variables -
+var _cruise_speed  : int   = 0
+var _cruise_active : bool  = false
 
 # -- Signals --
 
@@ -193,6 +197,23 @@ func _manage_input() -> void:
 		_current_gear = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
 		_clutch_delta = CLUTCH_SPEED
 	
+	# Input for Cruise Control
+	if Input.is_action_just_pressed("vehicle_set_cruise_control"):
+		if ! _cruise_active and current_speed > 0:
+			_cruise_active = true
+			_cruise_speed = stepify(current_speed, 5)
+		else:
+			_cruise_active = false
+	# Deactivate cruise control when braking
+	if _input_brake > 0:
+		_cruise_active = false
+	
+	if Input.is_action_just_pressed("vehicle_increase_cruise_control"):
+		_cruise_speed = max(0, _cruise_speed + 5)
+	
+	if Input.is_action_just_pressed("vehicle_decrease_cruise_control"):
+		_cruise_speed = max(0, _cruise_speed - 5)
+	
 	# Input for Steering
 	if Input.is_action_pressed("vehicle_movement_left"):
 		_input_steer = 1.0
@@ -246,8 +267,6 @@ func _move_vehicle(delta : float) -> void:
 	engine_force = clutch_factor * _input_engine \
 					* power_factor * Data.GearsRatio[_current_gear] \
 					* Data.FinalDriveRatio * Data.MaxEngineForce
-	
-	# When automatic, select gears according to the power_factor
 	
 	# When moving backwards, activate reverse lights
 	if engine_force < 0:

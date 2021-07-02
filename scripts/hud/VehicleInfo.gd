@@ -33,6 +33,8 @@ var DisplayedVehicle : Vehicle setget set_displayed_vehicle, get_displayed_vehic
 # - Internal nodes -
 onready var _speed_field     : Label           = $Background/SpeedValue
 onready var _speed_label     : Label           = $Background/SpeedLabel
+onready var _cruise_icon     : TextureRect     = $TopIcons/CruiseSymbol
+onready var _cruise_field    : Label           = $Background/CruiseValue
 onready var _gear_field      : Label           = $Background/GearValue
 onready var _rpm_range       : TextureProgress = $RPMRange
 onready var _rpm_needle      : TextureRect     = $Needle
@@ -57,6 +59,12 @@ func _physics_process(delta):
 		# Update text fields
 		_speed_field.text = str(_displayed_vehicle.current_speed)
 		_gear_field.text  = _displayed_vehicle.Data.GearsIdentifier[_displayed_vehicle._current_gear]
+		
+		# Set Cruise control elements
+		_cruise_icon.visible  = _displayed_vehicle._cruise_active
+		_cruise_field.visible = _displayed_vehicle._cruise_active
+		if _displayed_vehicle._cruise_active:
+			_cruise_field.text = str(_displayed_vehicle._cruise_speed)
 		
 		# Calculate needle target
 		var vehicle_rpm  : float = float(_displayed_vehicle._engine_rpm)
