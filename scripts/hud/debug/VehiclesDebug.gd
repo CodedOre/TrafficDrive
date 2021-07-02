@@ -41,6 +41,8 @@ func get_debug_vehicle() -> Vehicle:
 func _show_or_hide() -> void:
 	$SpeedLabel.visible       = _valid_vehicle
 	$SpeedValue.visible       = _valid_vehicle
+	$CruiseLabel.visible      = _valid_vehicle
+	$CruiseValue.visible      = _valid_vehicle
 	$GearLabel.visible        = _valid_vehicle
 	$GearValue.visible        = _valid_vehicle
 	$RPMLabel.visible         = _valid_vehicle
@@ -70,6 +72,10 @@ func _update_static_labels() -> void:
 func _process(_delta : float) -> void:
 	if _valid_vehicle:
 		$SpeedValue.text       = str(_debug_vehicle.current_speed) + _speed_label
+		if _debug_vehicle._cruise_active:
+			$CruiseValue.text      = str(_debug_vehicle._cruise_speed) + _speed_label
+		else:
+			$CruiseValue.text      = "False"
 		$GearValue.text        = str(_debug_vehicle.Data.GearsIdentifier[_debug_vehicle._current_gear])
 		$RPMValue.text         = str(_debug_vehicle._engine_rpm)
 		$NInputValue.text      = str(_debug_vehicle._new_input)
