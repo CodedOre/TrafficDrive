@@ -2,6 +2,9 @@ Manual Transmissions based on the Vehicle Demo from Bastiaan Olij
 (https://github.com/BastiaanOlij/vehicle-demo)
 Licensed under the MIT License
 
+PIDController based on the code from Yog-Shoggoth
+(https://gist.github.com/Yog-Shoggoth/305b1e73f0033492654a7e56eac37d8d)
+
 Used Font: Carrois Gothic
 Created by Carrois Apostrophe under the Open Font Licese 1.1
 
