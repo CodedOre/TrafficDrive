@@ -56,7 +56,7 @@ func _physics_process(delta):
 	if _displayed_vehicle != null:
 		# Update text fields
 		_speed_field.text = str(_displayed_vehicle.current_speed)
-		_gear_field.text  = _displayed_vehicle.VehicleData.GearsIdentifier[_displayed_vehicle._current_gear]
+		_gear_field.text  = _displayed_vehicle.Data.GearsIdentifier[_displayed_vehicle._current_gear]
 		
 		# Calculate needle target
 		var vehicle_rpm  : float = float(_displayed_vehicle._engine_rpm)
@@ -99,7 +99,7 @@ func _set_units() -> void:
 func set_displayed_vehicle(object : Vehicle) -> void:
 	_displayed_vehicle = object
 	# Set MaxRPM range
-	var vehicle_max_rpm : float = float(_displayed_vehicle.VehicleData.MaxEngineRPM)
+	var vehicle_max_rpm : float = float(_displayed_vehicle.Data.MaxEngineRPM)
 	var max_rpm_ratio   : float = (vehicle_max_rpm / float(MAX_DISPLAYED_RPM))
 	var rpm_range_val   : int   = int(abs(1 - max_rpm_ratio) * 100) + 10
 	_rpm_range.value = rpm_range_val

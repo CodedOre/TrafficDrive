@@ -15,7 +15,7 @@ const CLUTCH_SPEED : float =  0.75
 # -- Properties --
 
 # - The data for this vehicle -
-export (Resource) var VehicleData
+export (Resource) var Data
 
 # - NodePaths from the Vehicle -
 export (Array, NodePath) onready var Lights
@@ -62,6 +62,7 @@ var _steer_delta  : float  = 0.0
 var _current_gear : int   = 1
 var _current_mps  : int   = 0
 var _engine_rpm   : int   = 0
+var _ideal_rpm    : int   = 0
 var _clutch_delta : float = 0.0
 
 # -- Signals --
@@ -95,10 +96,10 @@ func _ready() -> void:
 	if OuterMirrorPoint != null:
 		_outer_mirror_point = get_node(OuterMirrorPoint)
 	# Initialize Gears
-	if VehicleData.GearsIdentifier.size() != VehicleData.GearsRatio.size():
+	if Data.GearsIdentifier.size() != Data.GearsRatio.size():
 		push_error("Vehicle: Gear Arrays not set up correctly!")
 		return
-	_current_gear = VehicleData.GearsIdentifier.find("N")
+	_current_gear = Data.GearsIdentifier.find("N")
 	# Initialize additionial elements
 	for child in get_children():
 		if child is VehicleWheel:
@@ -135,12 +136,12 @@ func _manage_input() -> void:
 		if Input.is_action_pressed("vehicle_movement_backward"):
 			_input_brake  = 1.0
 	else:
-		# When driving with automatic, we need to auto-shift gears
+		# When driving with automatic, we change automatically forward and backwards
 		if Input.is_action_just_pressed("vehicle_movement_forward"):
 			_new_input = true
 		if Input.is_action_pressed("vehicle_movement_forward"):
 			if current_speed == 0 and _new_input:
-				_current_gear = VehicleData.GearsIdentifier.find("1")
+				_current_gear = Data.GearsIdentifier.find("1")
 				_input_engine = 1.0
 			elif current_speed > 0:
 				_input_engine = 1.0
@@ -151,7 +152,7 @@ func _manage_input() -> void:
 			_new_input = true
 		if Input.is_action_pressed("vehicle_movement_backward"):
 			if current_speed == 0 and _new_input:
-				_current_gear = VehicleData.GearsIdentifier.find("R")
+				_current_gear = Data.GearsIdentifier.find("R")
 				_input_engine = 1.0
 			elif current_speed < 0:
 				_input_engine = 1.0
@@ -168,10 +169,10 @@ func _manage_input() -> void:
 	
 	# Input for Gear Switching
 	if Input.is_action_just_pressed("vehicle_gear_up"):
-		_current_gear = clamp(_current_gear + 1, 0, VehicleData.GearsIdentifier.size() - 1)
+		_current_gear = clamp(_current_gear + 1, 0, Data.GearsIdentifier.size() - 1)
 		_clutch_delta = CLUTCH_SPEED
 	if Input.is_action_just_pressed("vehicle_gear_down"):
-		_current_gear = clamp(_current_gear - 1, 0, VehicleData.GearsIdentifier.size() - 1)
+		_current_gear = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
 		_clutch_delta = CLUTCH_SPEED
 	if Input.is_action_pressed("vehicle_clutch"):
 		_clutch_delta = CLUTCH_SPEED
@@ -215,20 +216,22 @@ func _move_vehicle(delta : float) -> void:
 	var clutch_factor : int   = 1 if _clutch_delta == 0 else 0
 	
 	# Calculate RPM using the wheels
-	var rpm_min_clamp        : int   = VehicleData.IdleEngineRPM if Running else 0
+	var rpm_min_clamp        : int   = Data.IdleEngineRPM if Running else 0
 	var wheel_circumference  : float = 2.0 * PI * _traction_wheel.wheel_radius
 	var wheel_rotation_speed : float = 60.0 * _current_mps / wheel_circumference
-	var drive_rotation_speed : float = wheel_rotation_speed * VehicleData.FinalDriveRatio
-	var calculated_rpm       : float = drive_rotation_speed * VehicleData.GearsRatio[_current_gear]
-	_engine_rpm = clamp(calculated_rpm, rpm_min_clamp, VehicleData.MaxEngineRPM)
+	var drive_rotation_speed : float = wheel_rotation_speed * Data.FinalDriveRatio
+	var calculated_rpm       : float = drive_rotation_speed * Data.GearsRatio[_current_gear]
+	_engine_rpm = clamp(calculated_rpm, rpm_min_clamp, Data.MaxEngineRPM)
 	
 	# Calculate Engine Force
-	var rpm_factor    : float = clamp(float(_engine_rpm) / float(VehicleData.MaxEngineRPM), 0.0, 1.0)
-	var power_factor  : float = VehicleData.EnginePowerCurve.interpolate_baked(rpm_factor)
+	var rpm_factor    : float = clamp(float(_engine_rpm) / float(Data.MaxEngineRPM), 0.0, 1.0)
+	var power_factor  : float = Data.EnginePowerCurve.interpolate_baked(rpm_factor)
 	
 	engine_force = clutch_factor * _input_engine \
-					* power_factor * VehicleData.GearsRatio[_current_gear] \
-					* VehicleData.FinalDriveRatio * VehicleData.MaxEngineForce
+					* power_factor * Data.GearsRatio[_current_gear] \
+					* Data.FinalDriveRatio * Data.MaxEngineForce
+	
+	# When automatic, select gears according to the power_factor
 	
 	# When moving backwards, activate reverse lights
 	if engine_force < 0:
@@ -237,14 +240,14 @@ func _move_vehicle(delta : float) -> void:
 		_light_manager.ReverseLights = false
 	
 	# Apply the brakes
-	brake = _input_brake * VehicleData.MaxBrakeForce
+	brake = _input_brake * Data.MaxBrakeForce
 	if _input_brake > 0.12:
 		_light_manager.BrakeLights = true
 	else:
 		_light_manager.BrakeLights = false
 	
 	# Steer the vehicle
-	var steer_target : float = _input_steer * VehicleData.MaxSteerAngle
+	var steer_target : float = _input_steer * Data.MaxSteerAngle
 	steer_target = dectime(steer_target, abs(current_speed), 0.125)
 	if steer_target < _steer_angle:
 		_steer_angle -= STEER_SPEED * delta
@@ -260,7 +263,7 @@ func _move_vehicle(delta : float) -> void:
 func _animate_vehicle(delta : float) -> void:
 	if _steer_wheel != null:
 		var wheel_rotate : Vector3 = _steer_wheel.rotation_degrees
-		var rotation_tgt : float   = -1 * _steer_angle * VehicleData.SteeringWheelMultiplier
+		var rotation_tgt : float   = -1 * _steer_angle * Data.SteeringWheelMultiplier
 		var interpol_rot : float   = wheel_rotate.z + (rotation_tgt - wheel_rotate.z) * delta * 4
 		wheel_rotate.z = interpol_rot
 		_steer_wheel.rotation_degrees = wheel_rotate
