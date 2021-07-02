@@ -137,34 +137,32 @@ func _manage_input() -> void:
 			_input_brake  = 1.0
 	else:
 		# When driving with automatic, we change automatically forward and backwards
-		if Input.is_action_just_pressed("vehicle_movement_forward"):
-			_new_input = true
+		_new_input = Input.is_action_just_pressed("vehicle_movement_forward") or \
+						Input.is_action_just_pressed("vehicle_movement_backward")
 		if Input.is_action_pressed("vehicle_movement_forward"):
-			if current_speed == 0 and _new_input:
+			if _current_mps == 0 and _new_input:
 				_current_gear = Data.GearsIdentifier.find("1")
 				_input_engine = 1.0
-			elif current_speed > 0:
+			elif _current_mps > 0:
 				_input_engine = 1.0
-			elif current_speed <= 0:
+			elif _current_mps <= 0:
 				_input_brake = 1.0
-		
-		if Input.is_action_just_pressed("vehicle_movement_backward"):
-			_new_input = true
+
 		if Input.is_action_pressed("vehicle_movement_backward"):
-			if current_speed == 0 and _new_input:
+			if _current_mps == 0 and _new_input:
 				_current_gear = Data.GearsIdentifier.find("R")
 				_input_engine = 1.0
-			elif current_speed < 0:
+			elif _current_mps < 0:
 				_input_engine = 1.0
-			elif current_speed >= 0:
+			elif _current_mps >= 0:
 				_input_brake = 1.0
 	
 	# If moving, disable new input
-	if current_speed != 0:
+	if _current_mps != 0:
 		_new_input = false
 	
 	# If standing, apply small value to brake to ensure the vehicle don't roll away
-	if current_speed == 0 and !_new_input and _input_brake == 0:
+	if _current_mps == 0 and !_new_input and _input_brake == 0:
 		_input_brake = 0.1
 	
 	# Input for Gear Switching
@@ -173,8 +171,6 @@ func _manage_input() -> void:
 		_clutch_delta = CLUTCH_SPEED
 	if Input.is_action_just_pressed("vehicle_gear_down"):
 		_current_gear = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
-		_clutch_delta = CLUTCH_SPEED
-	if Input.is_action_pressed("vehicle_clutch"):
 		_clutch_delta = CLUTCH_SPEED
 	
 	# Input for Steering
@@ -248,7 +244,7 @@ func _move_vehicle(delta : float) -> void:
 	
 	# Steer the vehicle
 	var steer_target : float = _input_steer * Data.MaxSteerAngle
-	steer_target = dectime(steer_target, abs(current_speed), 0.125)
+	steer_target = dectime(steer_target, abs(_current_mps), 0.034)
 	if steer_target < _steer_angle:
 		_steer_angle -= STEER_SPEED * delta
 		if steer_target > _steer_angle:
@@ -272,12 +268,12 @@ func _animate_vehicle(delta : float) -> void:
 func _inform_camera() -> void:
 	if _camera_point != null:
 		# Send Vehicle data
-		_camera_point.point_speed = current_speed
+		_camera_point.point_speed = _current_mps
 		_camera_point.point_steer = steering
 		# Send Camera state request
-		if current_speed > 0:
+		if _current_mps > 0:
 			_camera_point.state_request = CameraPoint.RequestState.RESET
-		elif current_speed < 0:
+		elif _current_mps < 0:
 			_camera_point.state_request = CameraPoint.RequestState.BEHIND
 		else:
 			_camera_point.state_request = CameraPoint.RequestState.NONE
