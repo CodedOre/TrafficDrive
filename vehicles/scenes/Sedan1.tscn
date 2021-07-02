@@ -23,7 +23,6 @@ Lights = [ NodePath("VehicleBody/LightBrakeLight"), NodePath("VehicleBody/LightF
 Cameras = [ NodePath("CameraPoints/ChaseCamera"), NodePath("CameraPoints/DriverCamera") ]
 OuterMirrorPoint = NodePath("MirrorPoints/OuterMirror")
 SteeringWheel = NodePath("VehicleBody/SteeringWheel")
-ManualDrive = false
 
 [node name="WheelFrontLeft" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.744977, 0.361439, 1.63227 )

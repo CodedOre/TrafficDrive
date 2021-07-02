@@ -26,7 +26,6 @@ export        (NodePath) onready var SteeringWheel
 # - States for the Vehicle -
 export (bool) var Running     = false
 export (bool) var Controlled  = false
-export (bool) var ManualDrive = true
 
 # -- Variables --
 
@@ -129,7 +128,7 @@ func _manage_input() -> void:
 	_input_steer  = 0.0
 	
 	# Input for Forward/Backward Movement
-	if ManualDrive:
+	if ! GameSettings.get_setting("Input", "SwitchGearsAutomatically"):
 		# When driving with gears, we have a simplified input
 		if Input.is_action_pressed("vehicle_movement_forward"):
 			_input_engine = 1.0
