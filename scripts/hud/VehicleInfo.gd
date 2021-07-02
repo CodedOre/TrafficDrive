@@ -17,11 +17,12 @@ const NIGHTLIGHT_ONE_TEXTURE : Texture = preload("res://assets/textures/VehicleI
 const NIGHTLIGHT_TWO_TEXTURE : Texture = preload("res://assets/textures/VehicleInfo/NightLightsTwo.png")
 
 # - RPM Range constant -
-const MAX_DISPLAYED_RPM : int = 8000
+const MAX_DISPLAYED_RPM : int   = 8000
 
 # - Needle contants -
-const MIN_NEEDLE_DEGREE : int = -125
-const MAX_NEEDLE_DEGREE : int =  125
+const MIN_NEEDLE_DEGREE : int   = -125
+const MAX_NEEDLE_DEGREE : int   =  125
+const NEEDLE_MOVE_SPEED : float =    4.0
 
 # -- Properties --
 
@@ -45,18 +46,22 @@ var _displayed_vehicle : Vehicle
 # -- Functions --
 
 # - Runs at every frame -
-func _physics_process(_delta):
+func _physics_process(delta):
 	if _displayed_vehicle != null:
 		# Update text fields
 		_speed_field.text = str(_displayed_vehicle.current_speed)
 		_gear_field.text  = _displayed_vehicle.GearsIdentifier[_displayed_vehicle._current_gear]
 		
-		# Update RPM needle
+		# Calculate needle target
 		var vehicle_rpm  : float = float(_displayed_vehicle._engine_rpm)
 		var rpm_ratio    : float = vehicle_rpm / float(MAX_DISPLAYED_RPM)
 		var spin_degree  : int   = MAX_NEEDLE_DEGREE - MIN_NEEDLE_DEGREE
 		var needle_ratio : float = float(spin_degree) * rpm_ratio
-		_rpm_needle.rect_rotation = MIN_NEEDLE_DEGREE + needle_ratio
+		
+		# Interpolate needle rotation
+		var cur_needle_rot : float = _rpm_needle.rect_rotation
+		var tgt_needle_rot : float = MIN_NEEDLE_DEGREE + needle_ratio
+		_rpm_needle.rect_rotation = cur_needle_rot + (tgt_needle_rot - cur_needle_rot) * (delta * NEEDLE_MOVE_SPEED)
 		
 		# Update LightsIcons
 		if _displayed_vehicle._light_manager != null:
