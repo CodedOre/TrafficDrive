@@ -111,7 +111,10 @@ func _ready() -> void:
 # - Runs at every frame -
 func _physics_process(delta : float) -> void:
 	_current_mps  = int(transform.basis.xform_inv(linear_velocity).z)
-	current_speed = int(_current_mps * 3.6)
+	if GameSettings.get_setting("Interface", "UseImperialUnits"):
+		current_speed = int(_current_mps * 2.2369)
+	else:
+		current_speed = int(_current_mps * 3.6)
 	if Controlled:
 		_manage_input()
 		_move_vehicle(delta)

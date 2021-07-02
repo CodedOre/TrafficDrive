@@ -15,3 +15,8 @@ MouseXInverted=false
 MouseYInverted=false
 ; [int]  How sensitive mouse input should be
 MouseSensitivity=2
+
+; All settings related to the interface
+[Interface]
+; [bool] If imperial units should be used
+UseImperialUnits=false

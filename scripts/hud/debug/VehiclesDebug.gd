@@ -13,11 +13,14 @@ var DebuggedVehicle : Vehicle setget set_debug_vehicle, get_debug_vehicle
 
 var _valid_vehicle : bool = false
 var _debug_vehicle : Vehicle
+var _speed_label   : String = "km/h"
 
 # -- Functions --
 
 # - Runs at startup -
 func _ready() -> void:
+	GameSettings.connect("setting_changed", self, "_set_units")
+	_set_units()
 	_show_or_hide()
 
 # - Set's a debugged vehicle after a check -
@@ -64,7 +67,7 @@ func _update_static_labels() -> void:
 # - Processes interactive changes on runtime -
 func _process(_delta : float) -> void:
 	if _valid_vehicle:
-		$SpeedValue.text       = str(_debug_vehicle.current_speed) + " km/h"
+		$SpeedValue.text       = str(_debug_vehicle.current_speed) + _speed_label
 		$GearValue.text        = str(_debug_vehicle.VehicleData.GearsIdentifier[_debug_vehicle._current_gear])
 		$RPMValue.text         = str(_debug_vehicle._engine_rpm)
 		$XInputValue.text      = str(_debug_vehicle._input_engine)
@@ -74,3 +77,10 @@ func _process(_delta : float) -> void:
 		$BrakeValue.text       = str(_debug_vehicle.brake)
 		$SteeringDegValue.text = str(_debug_vehicle._steer_angle)
 		$SteeringRadValue.text = str(_debug_vehicle.steering)
+
+# - Change speed display between km/h and mph
+func _set_units() -> void:
+	if GameSettings.get_setting("Interface", "UseImperialUnits"):
+		_speed_label = " mph"
+	else:
+		_speed_label = " km/h"

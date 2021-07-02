@@ -62,7 +62,7 @@ func _init(
 	_max_brake_force     : int   = DEFAULT_MAX_BRAKE_FORCE,
 	_max_steer_angle     : int   = DEFAULT_MAX_STEER_ANGLE,
 	_steering_wheel_mult : int   = DEFAULT_STEERING_WHEEL_MULT
-):
+) -> void:
 	# Engine Properties
 	MaxEngineForce          = _max_engine_force
 	MaxEngineRPM            = _max_engine_rpm

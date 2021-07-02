@@ -32,6 +32,7 @@ var DisplayedVehicle : Vehicle setget set_displayed_vehicle, get_displayed_vehic
 
 # - Internal nodes -
 onready var _speed_field     : Label           = $Background/SpeedValue
+onready var _speed_label     : Label           = $Background/SpeedLabel
 onready var _gear_field      : Label           = $Background/GearValue
 onready var _rpm_range       : TextureProgress = $RPMRange
 onready var _rpm_needle      : TextureRect     = $Needle
@@ -44,6 +45,11 @@ var _vehicle_connected : bool
 var _displayed_vehicle : Vehicle
 
 # -- Functions --
+
+# - Runs at startup -
+func _ready() -> void:
+	GameSettings.connect("setting_changed", self, "_set_units")
+	_set_units()
 
 # - Runs at every frame -
 func _physics_process(delta):
@@ -81,6 +87,13 @@ func _physics_process(delta):
 				_turn_right_icon.texture = TURN_RIGHT_ON_TEXTURE
 			else:
 				_turn_right_icon.texture = TURN_RIGHT_OFF_TEXTURE
+
+# - Change speed display between km/h and mph
+func _set_units() -> void:
+	if GameSettings.get_setting("Interface", "UseImperialUnits"):
+		_speed_label.text = "mph"
+	else:
+		_speed_label.text = "km/h"
 
 # - DisplayedVehicle property -
 func set_displayed_vehicle(object : Vehicle) -> void:
