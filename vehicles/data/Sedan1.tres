@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://scripts/vehicles/VehicleData.gd" type="Script" id=1]
+[ext_resource path="res://vehicles/data/Sedan1EngineCurve.tres" type="Curve" id=2]
+
+[resource]
+script = ExtResource( 1 )
+MaxEngineForce = 167
+MaxEngineRPM = 5400
+IdleEngineRPM = 1000
+RPMVelocity = 500
+EnginePowerCurve = ExtResource( 2 )
+GearsIdentifier = [ "R", "N", "1", "2", "3", "4" ]
+GearsRatio = [ -2.32, 0.0, 2.84, 1.56, 1.25, 1.0 ]
+FinalDriveRatio = 2.73
+MaxBrakeForce = 16
+MaxSteerAngle = 35
+SteeringWheelMultiplier = 12

@@ -11,20 +11,14 @@
 [ext_resource path="res://scripts/vehicles/Vehicle.gd" type="Script" id=9]
 [ext_resource path="res://scripts/utils/CameraPoint.gd" type="Script" id=10]
 [ext_resource path="res://assets/collisions/vehicles/Police1.shape" type="Shape" id=11]
-[ext_resource path="res://vehicles/data/Sedan1EngineCurve.tres" type="Curve" id=12]
+[ext_resource path="res://vehicles/data/Sedan1.tres" type="Resource" id=12]
 
 [node name="Police1" instance=ExtResource( 1 )]
 collision_layer = 2
 collision_mask = 3
 mass = 151.02
 script = ExtResource( 9 )
-MaxEngineForce = 167
-MaxEngineRPM = 5400
-EnginePowerCurve = ExtResource( 12 )
-GearsIdentifier = [ "R", "N", "1", "2", "3", "4" ]
-GearsRatio = [ -2.32, 0.0, 2.84, 1.56, 1.25, 1.0 ]
-FinalDriveRatio = 3.25
-SteeringWheelMultiplier = 12
+VehicleData = ExtResource( 12 )
 Lights = [ NodePath("VehicleBody/LightBrakeLight"), NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningLeft"), NodePath("VehicleBody/LightTurningRight") ]
 Cameras = [ NodePath("CameraPoints/ChaseCamera"), NodePath("CameraPoints/DriverCamera") ]
 OuterMirrorPoint = NodePath("MirrorPoints/OuterMirror")
