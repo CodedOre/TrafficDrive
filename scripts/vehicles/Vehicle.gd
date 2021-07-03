@@ -143,10 +143,13 @@ func _manage_input() -> void:
 	var input_backward : bool  = Input.is_action_pressed("vehicle_movement_backward")
 	if ! GameSettings.get_setting("Input", "SwitchGearsAutomatically"):
 		# When driving with gears, we have a simplified input
-		if input_forward:
-			_input_engine = 1.0
-		if input_backward:
-			_input_brake  = 1.0
+		var reverse_gear : bool = _current_gear == Data.GearsIdentifier.find("R")
+		if (input_forward and !reverse_gear) \
+			or (input_backward and reverse_gear):
+				_input_engine = 1.0
+		if (input_backward and !reverse_gear) \
+			or (input_forward and reverse_gear):
+				_input_brake  = 1.0
 	else:
 		# When driving with automatic, we change automatically forward and backwards
 		if Input.is_action_just_pressed("vehicle_movement_forward") or \
@@ -283,11 +286,8 @@ func _move_vehicle(delta : float) -> void:
 					* power_factor * Data.GearsRatio[_current_gear] \
 					* Data.FinalDriveRatio * Data.MaxEngineForce
 	
-	# When moving backwards, activate reverse lights
-	if engine_force < 0:
-		_light_manager.ReverseLights = true
-	else:
-		_light_manager.ReverseLights = false
+	# When in reverse, activate reverse lights
+	_light_manager.ReverseLights = _current_gear == Data.GearsIdentifier.find("R")
 	
 	# Apply the brakes
 	brake = _input_brake * Data.MaxBrakeForce
