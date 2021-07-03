@@ -72,6 +72,7 @@ var _current_gear  : int   = 1
 var _gear_target   : int   = 1
 var _gear_state            = GearState.NONE
 var _gear_delta    : float = 0.0
+var _gear_start    : bool  = false
 var _clutch_factor : float = 0.0
 
 # - Cruise control variables -
@@ -131,7 +132,7 @@ func _physics_process(delta : float) -> void:
 		current_speed = _current_mps * 2.2369
 	else:
 		current_speed = _current_mps * 3.6
-	if Controlled:
+	if Controlled and Running:
 		_manage_input()
 		_cruise_control()
 		_calculate_power(delta)
@@ -167,23 +168,28 @@ func _manage_input() -> void:
 			_new_input = true
 		
 		# Switch to the neutral gear if standing
-#		if rounded_mps == 0 and ! input_forward and ! input_backward and ! _new_input:
-#			_gear_target = Data.GearsIdentifier.find("N")
-#			_gear_state  = GearState.CLUTCH_OFF
-#			_gear_delta = GEAR_SPEED
+		if rounded_mps == 0 and ! input_forward and ! input_backward and ! _new_input:
+			_gear_target = Data.GearsIdentifier.find("N")
+			_gear_state  = GearState.CLUTCH_OFF
+			_gear_delta = GEAR_SPEED
 		
 		# When standing, switch to the gear for the wanted direction
-		if _new_input and rounded_mps == 0:
+		if _new_input and rounded_mps == 0 and ! _gear_start:
 			if input_forward:
 				_gear_target = Data.GearsIdentifier.find("1")
 				_gear_state  = GearState.CLUTCH_OFF
 				_gear_delta = GEAR_SPEED
 				_input_engine = 1.0
+				_gear_start = true
 			if input_backward:
 				_gear_target = Data.GearsIdentifier.find("R")
 				_gear_state  = GearState.CLUTCH_OFF
 				_gear_delta = GEAR_SPEED
 				_input_engine = 1.0
+				_gear_start = true
+		
+		if _gear_start:
+			_input_engine = 1.0
 		
 		# Manage engine/brake power according to the direction
 		if input_forward and ! _new_input:
@@ -217,6 +223,7 @@ func _manage_input() -> void:
 	
 	# If moving, disable new input
 	if rounded_mps != 0:
+		_gear_start = false
 		_new_input = false
 	
 	# If standing, apply small value to brake to ensure the vehicle don't roll away
