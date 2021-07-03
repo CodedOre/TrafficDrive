@@ -68,7 +68,7 @@ var _clutch_delta  : float = 0.0
 # - Cruise control variables -
 var _cruise_speed  : int   = 0
 var _cruise_active : bool  = false
-var _pid_gains     : Vector3 = Vector3(0.0, 0.0, 0.0)
+var _pid_gains     : Vector3 = Vector3(0.04, 0.08, 0.08)
 
 # -- Signals --
 
@@ -207,7 +207,7 @@ func _manage_input() -> void:
 	
 	# Input for Cruise Control
 	if Input.is_action_just_pressed("vehicle_set_cruise_control"):
-		if ! _cruise_active and current_speed > 0:
+		if ! _cruise_active and current_speed > 45:
 			_cruise_active = true
 			_cruise_speed = stepify(current_speed, 5)
 		else:
@@ -254,8 +254,9 @@ func _manage_input() -> void:
 # - Set's the vehicle throttle to keep a certain speed -
 func _cruise_control() -> void:
 	if _cruise_active:
-		var cruise_delta = _cruise_speed - current_speed
-		_input_engine = _pid_controller.get_pid_output(_pid_gains, cruise_delta)
+		var cruise_delta : int   = _cruise_speed - current_speed
+		var cruise_input : float = _pid_controller.get_pid_output(_pid_gains, cruise_delta)
+		_input_engine = clamp(cruise_input, 0, 1)
 
 # - Move the vehicle according to input -
 func _move_vehicle(delta : float) -> void:
