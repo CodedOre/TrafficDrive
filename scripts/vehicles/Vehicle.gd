@@ -16,7 +16,7 @@ enum GearState {NONE, CLUTCH_OFF, GEAR_SWITCH, CLUTCH_ON}
 # - Properties for a Vehicle -
 const STEER_SPEED       : int   = 60
 const GEAR_SPEED        : float =  0.25
-const GEAR_DELTA_FACTOR : float = 1.0 / GEAR_SPEED
+const GEAR_DELTA_FACTOR : float =  8.0
 const MIN_CRUISE_SPEED  : int   = 25
 
 # -- Properties --
@@ -167,8 +167,10 @@ func _manage_input() -> void:
 			_new_input = true
 		
 		# Switch to the neutral gear if standing
-		if rounded_mps == 0 and ! input_forward and ! input_backward:
-			_current_gear = Data.GearsIdentifier.find("N")
+#		if rounded_mps == 0 and ! input_forward and ! input_backward and ! _new_input:
+#			_gear_target = Data.GearsIdentifier.find("N")
+#			_gear_state  = GearState.CLUTCH_OFF
+#			_gear_delta = GEAR_SPEED
 		
 		# When standing, switch to the gear for the wanted direction
 		if _new_input and rounded_mps == 0:
@@ -196,17 +198,18 @@ func _manage_input() -> void:
 				_input_brake = 1.0
 		
 		# Switch gears according to the RPM
-		if Data.GearsIdentifier.size() - 1 > _current_gear \
-			and _current_gear >= Data.GearsIdentifier.find("1"):
-				if _engine_rpm > Data.MaxEngineRPM - 1000:
-					_gear_target = clamp(_current_gear + 1, 0, Data.GearsIdentifier.size() - 1)
+		if _gear_state == GearState.NONE:
+			if Data.GearsIdentifier.size() - 1 > _current_gear \
+				and _current_gear >= Data.GearsIdentifier.find("1"):
+					if _engine_rpm > Data.MaxEngineRPM - 1000:
+						_gear_target = clamp(_current_gear + 1, 0, Data.GearsIdentifier.size() - 1)
+						_gear_state  = GearState.CLUTCH_OFF
+						_gear_delta = GEAR_SPEED
+			if _current_gear > Data.GearsIdentifier.find("1"):
+				if _engine_rpm < Data.IdleEngineRPM + 1000:
+					_gear_target = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
 					_gear_state  = GearState.CLUTCH_OFF
 					_gear_delta = GEAR_SPEED
-		if _current_gear > Data.GearsIdentifier.find("1"):
-			if _engine_rpm < Data.IdleEngineRPM + 1000:
-				_gear_target = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
-				_gear_state  = GearState.CLUTCH_OFF
-				_gear_delta = GEAR_SPEED
 	
 	# Deactivate cruise control when braking or accelerating
 	if input_forward or input_backward:
@@ -221,16 +224,17 @@ func _manage_input() -> void:
 		_input_brake = 0.1
 	
 	# Input for Gear Switching
-	if Input.is_action_just_pressed("vehicle_gear_up"):
-		if _current_gear < Data.GearsIdentifier.size() - 1:
-			_gear_target = _current_gear + 1
-			_gear_state  = GearState.CLUTCH_OFF
-			_gear_delta = GEAR_SPEED
-	if Input.is_action_just_pressed("vehicle_gear_down"):
-		if _current_gear > 0:
-			_gear_target = _current_gear - 1
-			_gear_state  = GearState.CLUTCH_OFF
-			_gear_delta = GEAR_SPEED
+	if _gear_state == GearState.NONE:
+		if Input.is_action_just_pressed("vehicle_gear_up"):
+			if _current_gear < Data.GearsIdentifier.size() - 1:
+				_gear_target = _current_gear + 1
+				_gear_state  = GearState.CLUTCH_OFF
+				_gear_delta = GEAR_SPEED
+		if Input.is_action_just_pressed("vehicle_gear_down"):
+			if _current_gear > 0:
+				_gear_target = _current_gear - 1
+				_gear_state  = GearState.CLUTCH_OFF
+				_gear_delta = GEAR_SPEED
 	
 	# Input for Cruise Control
 	if Input.is_action_just_pressed("vehicle_set_cruise_control"):
