@@ -40,6 +40,8 @@ func _show_or_hide() -> void:
 	$SpeedValue.visible       = _valid_vehicle
 	$GearLabel.visible        = _valid_vehicle
 	$GearValue.visible        = _valid_vehicle
+	$ClutchLabel.visible      = _valid_vehicle
+	$ClutchValue.visible      = _valid_vehicle
 	$RPMLabel.visible         = _valid_vehicle
 	$RPMValue.visible         = _valid_vehicle
 	$NInputLabel.visible      = _valid_vehicle
@@ -68,6 +70,7 @@ func _process(_delta : float) -> void:
 	if _valid_vehicle:
 		$SpeedValue.text       = str(_debug_vehicle._current_mps) + "mps"
 		$GearValue.text        = str(_debug_vehicle.Data.GearsIdentifier[_debug_vehicle._current_gear])
+		$ClutchValue.text      = str(_debug_vehicle._clutch_factor)
 		$RPMValue.text         = str(_debug_vehicle._engine_rpm)
 		$NInputValue.text      = str(_debug_vehicle._new_input)
 		$XInputValue.text      = str(_debug_vehicle._input_engine)

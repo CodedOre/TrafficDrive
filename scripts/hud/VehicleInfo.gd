@@ -58,7 +58,7 @@ func _physics_process(delta):
 	if _displayed_vehicle != null:
 		# Update text fields
 		_speed_field.text = str(int(_displayed_vehicle.current_speed))
-		_gear_field.text  = _displayed_vehicle.Data.GearsIdentifier[_displayed_vehicle._current_gear]
+		_gear_field.text  = _displayed_vehicle.Data.GearsIdentifier[_displayed_vehicle._gear_target]
 		
 		# Set Cruise control elements
 		_cruise_icon.visible  = _displayed_vehicle._cruise_active
