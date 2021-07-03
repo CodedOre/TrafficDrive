@@ -68,7 +68,7 @@ var _clutch_delta  : float = 0.0
 # - Cruise control variables -
 var _cruise_speed  : int   = 0
 var _cruise_active : bool  = false
-var _pid_gains     : Vector3 = Vector3(0.04, 0.08, 0.08)
+var _pid_gains     : Vector3 = Vector3(1.0, 0.5, 0.5)
 
 # -- Signals --
 
@@ -136,26 +136,22 @@ func _manage_input() -> void:
 	_input_steer  = 0.0
 	
 	# Use a rounded speed for input calculations
-	var rounded_mps : float = round(_current_mps)
+	var rounded_mps    : float = round(_current_mps)
 	
 	# Input for Forward/Backward Movement
+	var input_forward  : bool  = Input.is_action_pressed("vehicle_movement_forward")
+	var input_backward : bool  = Input.is_action_pressed("vehicle_movement_backward")
 	if ! GameSettings.get_setting("Input", "SwitchGearsAutomatically"):
 		# When driving with gears, we have a simplified input
-		if Input.is_action_pressed("vehicle_movement_forward"):
+		if input_forward:
 			_input_engine = 1.0
-		if Input.is_action_pressed("vehicle_movement_backward"):
+		if input_backward:
 			_input_brake  = 1.0
 	else:
 		# When driving with automatic, we change automatically forward and backwards
 		if Input.is_action_just_pressed("vehicle_movement_forward") or \
 			Input.is_action_just_pressed("vehicle_movement_backward"):
 			_new_input = true
-		var input_forward  : bool = Input.is_action_pressed("vehicle_movement_forward")
-		var input_backward : bool = Input.is_action_pressed("vehicle_movement_backward")
-		
-		# Deactivate cruise control when braking or accelerating
-		if input_forward or input_backward:
-			_cruise_active = false
 		
 		# Switch to the neutral gear if standing
 		if rounded_mps == 0 and ! input_forward and ! input_backward:
@@ -191,6 +187,10 @@ func _manage_input() -> void:
 			if _engine_rpm < Data.IdleEngineRPM + 1000:
 				_current_gear = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
 				_clutch_delta = CLUTCH_SPEED
+	
+	# Deactivate cruise control when braking or accelerating
+	if input_forward or input_backward:
+		_cruise_active = false
 	
 	# If moving, disable new input
 	if rounded_mps != 0:
@@ -257,7 +257,7 @@ func _manage_input() -> void:
 # - Set's the vehicle throttle to keep a certain speed -
 func _cruise_control() -> void:
 	if _cruise_active:
-		var cruise_delta : float = _cruise_speed - current_speed
+		var cruise_delta : float = _cruise_speed - current_speed + 1
 		var cruise_input : float = _pid_controller.get_pid_output(_pid_gains, cruise_delta)
 		_input_engine = clamp(cruise_input, 0, 1)
 
