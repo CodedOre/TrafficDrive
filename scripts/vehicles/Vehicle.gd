@@ -31,7 +31,7 @@ export (bool) var Controlled  = false
 # -- Variables --
 
 # - State of the Vehicle -
-var current_speed : int = 0
+var current_speed : float = 0.0
 
 # - Internal objects -
 var _light_manager  : VehicleLightsManager
@@ -61,7 +61,7 @@ var _steer_delta   : float  = 0.0
 
 # - Engine variables -
 var _current_gear  : int   = 1
-var _current_mps   : int   = 0
+var _current_mps   : float = 0
 var _engine_rpm    : int   = 0
 var _ideal_rpm     : int   = 0
 var _clutch_delta  : float = 0.0
@@ -118,11 +118,11 @@ func _ready() -> void:
 
 # - Runs at every frame -
 func _physics_process(delta : float) -> void:
-	_current_mps  = int(transform.basis.xform_inv(linear_velocity).z)
+	_current_mps  = stepify(transform.basis.xform_inv(linear_velocity).z, 0.001)
 	if GameSettings.get_setting("Interface", "UseImperialUnits"):
-		current_speed = int(_current_mps * 2.2369)
+		current_speed = _current_mps * 2.2369
 	else:
-		current_speed = int(_current_mps * 3.6)
+		current_speed = _current_mps * 3.6
 	if Controlled:
 		_manage_input()
 		_cruise_control()
@@ -135,6 +135,9 @@ func _manage_input() -> void:
 	_input_engine = 0.0
 	_input_brake  = 0.0
 	_input_steer  = 0.0
+	
+	# Use a rounded speed for input calculations
+	var rounded_mps : float = round(_current_mps)
 	
 	# Input for Forward/Backward Movement
 	if ! GameSettings.get_setting("Input", "SwitchGearsAutomatically"):
@@ -156,11 +159,11 @@ func _manage_input() -> void:
 			_cruise_active = false
 		
 		# Switch to the neutral gear if standing
-		if _current_mps == 0 and ! input_forward and ! input_backward:
+		if rounded_mps == 0 and ! input_forward and ! input_backward:
 			_current_gear = Data.GearsIdentifier.find("N")
 		
 		# When standing, switch to the gear for the wanted direction
-		if _new_input and _current_mps == 0:
+		if _new_input and rounded_mps == 0:
 			if input_forward:
 				_current_gear = Data.GearsIdentifier.find("1")
 				_input_engine = 1.0
@@ -170,12 +173,12 @@ func _manage_input() -> void:
 		
 		# Manage engine/brake power according to the direction
 		if input_forward and ! _new_input:
-			if _current_mps > 0:
+			if rounded_mps > 0:
 				_input_engine = 1.0
 			else:
 				_input_brake = 1.0
 		if input_backward and ! _new_input:
-			if _current_mps < 0:
+			if rounded_mps < 0:
 				_input_engine = 1.0
 			else:
 				_input_brake = 1.0
@@ -191,11 +194,11 @@ func _manage_input() -> void:
 				_clutch_delta = CLUTCH_SPEED
 	
 	# If moving, disable new input
-	if _current_mps != 0:
+	if rounded_mps != 0:
 		_new_input = false
 	
 	# If standing, apply small value to brake to ensure the vehicle don't roll away
-	if _current_mps == 0 and !_new_input and _input_brake == 0:
+	if rounded_mps == 0 and !_new_input and _input_brake == 0:
 		_input_brake = 0.1
 	
 	# Input for Gear Switching
@@ -255,7 +258,7 @@ func _manage_input() -> void:
 # - Set's the vehicle throttle to keep a certain speed -
 func _cruise_control() -> void:
 	if _cruise_active:
-		var cruise_delta : int   = _cruise_speed - current_speed
+		var cruise_delta : float = _cruise_speed - current_speed
 		var cruise_input : float = _pid_controller.get_pid_output(_pid_gains, cruise_delta)
 		_input_engine = clamp(cruise_input, 0, 1)
 
@@ -319,13 +322,15 @@ func _animate_vehicle(delta : float) -> void:
 # - Informs GimbalCamera over CameraPoint about certain states -
 func _inform_camera() -> void:
 	if _camera_point != null:
+		var rounded_mps : float = round(_current_mps)
+		
 		# Send Vehicle data
-		_camera_point.point_speed = _current_mps
+		_camera_point.point_speed = rounded_mps
 		_camera_point.point_steer = steering
 		# Send Camera state request
-		if _current_mps > 0:
+		if rounded_mps > 0:
 			_camera_point.state_request = CameraPoint.RequestState.RESET
-		elif _current_mps < 0:
+		elif rounded_mps < 0:
 			_camera_point.state_request = CameraPoint.RequestState.BEHIND
 		else:
 			_camera_point.state_request = CameraPoint.RequestState.NONE

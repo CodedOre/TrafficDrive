@@ -57,7 +57,7 @@ func _ready() -> void:
 func _physics_process(delta):
 	if _displayed_vehicle != null:
 		# Update text fields
-		_speed_field.text = str(_displayed_vehicle.current_speed)
+		_speed_field.text = str(int(_displayed_vehicle.current_speed))
 		_gear_field.text  = _displayed_vehicle.Data.GearsIdentifier[_displayed_vehicle._current_gear]
 		
 		# Set Cruise control elements
@@ -71,11 +71,8 @@ func _physics_process(delta):
 		var rpm_ratio    : float = vehicle_rpm / float(MAX_DISPLAYED_RPM)
 		var spin_degree  : int   = MAX_NEEDLE_DEGREE - MIN_NEEDLE_DEGREE
 		var needle_ratio : float = float(spin_degree) * rpm_ratio
+		_rpm_needle.rect_rotation = MIN_NEEDLE_DEGREE + needle_ratio
 		
-		# Interpolate needle rotation
-		var cur_needle_rot : float = _rpm_needle.rect_rotation
-		var tgt_needle_rot : float = MIN_NEEDLE_DEGREE + needle_ratio
-		_rpm_needle.rect_rotation = cur_needle_rot + (tgt_needle_rot - cur_needle_rot) * (delta * NEEDLE_MOVE_SPEED)
 		
 		# Update LightsIcons
 		if _displayed_vehicle._light_manager != null:
