@@ -322,9 +322,6 @@ func _calculate_power(delta: float) -> void:
 		GearState.CLUTCH_ON:
 			_clutch_factor = min(_clutch_factor + 1.0 * delta * GEAR_DELTA_FACTOR, 1.0)
 	
-	# Calculate clutch factor
-	_gear_delta = max(0.0, _gear_delta - delta)
-	var clutch_factor : int   = 1 if _gear_delta == 0 else 0
 	
 	# Calculate RPM using the wheels
 	var rpm_min_clamp        : int   = Data.IdleEngineRPM if Running else 0
