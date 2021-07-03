@@ -9,8 +9,9 @@ class_name Vehicle
 # -- Constants --
 
 # - Properties for a Vehicle -
-const STEER_SPEED  : int   = 60
-const CLUTCH_SPEED : float =  0.75
+const STEER_SPEED      : int   = 60
+const CLUTCH_SPEED     : float =  0.75
+const MIN_CRUISE_SPEED : int   = 25
 
 # -- Properties --
 
@@ -207,17 +208,17 @@ func _manage_input() -> void:
 	
 	# Input for Cruise Control
 	if Input.is_action_just_pressed("vehicle_set_cruise_control"):
-		if ! _cruise_active and current_speed > 45:
+		if ! _cruise_active and current_speed > MIN_CRUISE_SPEED:
 			_cruise_active = true
 			_cruise_speed = stepify(current_speed, 5)
 		else:
 			_cruise_active = false
 	
 	if Input.is_action_just_pressed("vehicle_increase_cruise_control"):
-		_cruise_speed = max(0, _cruise_speed + 5)
+		_cruise_speed = max(MIN_CRUISE_SPEED, _cruise_speed + 5)
 	
 	if Input.is_action_just_pressed("vehicle_decrease_cruise_control"):
-		_cruise_speed = max(0, _cruise_speed - 5)
+		_cruise_speed = max(MIN_CRUISE_SPEED, _cruise_speed - 5)
 	
 	# Input for Steering
 	if Input.is_action_pressed("vehicle_movement_left"):
