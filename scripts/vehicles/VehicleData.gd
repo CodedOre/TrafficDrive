@@ -12,7 +12,6 @@ class_name VehicleData
 const DEFAULT_MAX_ENGINE_FORCE    : int   =     125
 const DEFAULT_MAX_ENGINE_RPM      : int   =    6000
 const DEFAULT_IDLE_ENGINE_RPM     : int   =    1000
-const DEFAULT_RPM_VELOCITY        : int   =     500
 const DEFAULT_ENGINE_POWER_CURVE  : Curve =    null
 
 # Transmission Defaults
@@ -31,7 +30,6 @@ const DEFAULT_STEERING_WHEEL_MULT : int   =       8
 export (int)           var MaxEngineForce          = DEFAULT_MAX_ENGINE_FORCE
 export (int)           var MaxEngineRPM            = DEFAULT_MAX_ENGINE_RPM
 export (int)           var IdleEngineRPM           = DEFAULT_IDLE_ENGINE_RPM
-export (int)           var RPMVelocity             = DEFAULT_RPM_VELOCITY
 export (Curve)         var EnginePowerCurve        = DEFAULT_ENGINE_POWER_CURVE
 
 # - Transmission Properties -
@@ -52,7 +50,6 @@ func _init(
 	_max_engine_force    : int   = DEFAULT_MAX_ENGINE_FORCE,
 	_max_engine_rpm      : int   = DEFAULT_MAX_ENGINE_RPM,
 	_idle_engine_rpm     : int   = DEFAULT_IDLE_ENGINE_RPM,
-	_rpm_velocity        : int   = DEFAULT_RPM_VELOCITY,
 	_engine_power_curve  : Curve = DEFAULT_ENGINE_POWER_CURVE,
 	# Transmission Properties
 	_gears_identifier    : Array = DEFAULT_GEARS_IDENTIFIER,
@@ -67,7 +64,6 @@ func _init(
 	MaxEngineForce          = _max_engine_force
 	MaxEngineRPM            = _max_engine_rpm
 	IdleEngineRPM           = _idle_engine_rpm
-	RPMVelocity             = _rpm_velocity
 	EnginePowerCurve        = _engine_power_curve
 	# Transmission Properties
 	GearsIdentifier         = _gears_identifier

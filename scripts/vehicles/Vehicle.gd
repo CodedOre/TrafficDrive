@@ -63,7 +63,6 @@ var _steer_delta   : float  = 0.0
 var _current_gear  : int   = 1
 var _current_mps   : float = 0
 var _engine_rpm    : int   = 0
-var _ideal_rpm     : int   = 0
 var _clutch_delta  : float = 0.0
 
 # - Cruise control variables -
