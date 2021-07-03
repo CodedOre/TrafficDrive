@@ -6,12 +6,18 @@
 extends VehicleBody
 class_name Vehicle
 
+# -- Enums --
+
+# - Gear State -
+enum GearState {NONE, CLUTCH_OFF, GEAR_SWITCH, CLUTCH_ON}
+
 # -- Constants --
 
 # - Properties for a Vehicle -
-const STEER_SPEED      : int   = 60
-const CLUTCH_SPEED     : float =  0.75
-const MIN_CRUISE_SPEED : int   = 25
+const STEER_SPEED       : int   = 60
+const GEAR_SPEED        : float =  0.25
+const GEAR_DELTA_FACTOR : float = 1.0 / GEAR_SPEED
+const MIN_CRUISE_SPEED  : int   = 25
 
 # -- Properties --
 
@@ -31,7 +37,9 @@ export (bool) var Controlled  = false
 # -- Variables --
 
 # - State of the Vehicle -
-var current_speed : float = 0.0
+var current_speed  : float = 0.0
+var _current_mps   : float = 0
+var _engine_rpm    : int   = 0
 
 # - Internal objects -
 var _light_manager  : VehicleLightsManager
@@ -59,11 +67,12 @@ var _input_steer   : float  = 0.0
 var _steer_angle   : float  = 0.0
 var _steer_delta   : float  = 0.0
 
-# - Engine variables -
+# - Gear variables -
 var _current_gear  : int   = 1
-var _current_mps   : float = 0
-var _engine_rpm    : int   = 0
-var _clutch_delta  : float = 0.0
+var _gear_target   : int   = 1
+var _gear_state            = GearState.NONE
+var _gear_delta    : float = 0.0
+var _clutch_factor : float = 0.0
 
 # - Cruise control variables -
 var _cruise_speed  : int   = 0
@@ -125,6 +134,7 @@ func _physics_process(delta : float) -> void:
 	if Controlled:
 		_manage_input()
 		_cruise_control()
+		_calculate_power(delta)
 		_move_vehicle(delta)
 		_animate_vehicle(delta)
 		_inform_camera()
@@ -163,10 +173,14 @@ func _manage_input() -> void:
 		# When standing, switch to the gear for the wanted direction
 		if _new_input and rounded_mps == 0:
 			if input_forward:
-				_current_gear = Data.GearsIdentifier.find("1")
+				_gear_target = Data.GearsIdentifier.find("1")
+				_gear_state  = GearState.CLUTCH_OFF
+				_gear_delta = GEAR_SPEED
 				_input_engine = 1.0
 			if input_backward:
-				_current_gear = Data.GearsIdentifier.find("R")
+				_gear_target = Data.GearsIdentifier.find("R")
+				_gear_state  = GearState.CLUTCH_OFF
+				_gear_delta = GEAR_SPEED
 				_input_engine = 1.0
 		
 		# Manage engine/brake power according to the direction
@@ -182,14 +196,17 @@ func _manage_input() -> void:
 				_input_brake = 1.0
 		
 		# Switch gears according to the RPM
-		if _current_gear >= Data.GearsIdentifier.find("1"):
-			if _engine_rpm > Data.MaxEngineRPM - 1000:
-				_current_gear = clamp(_current_gear + 1, 0, Data.GearsIdentifier.size() - 1)
-				_clutch_delta = CLUTCH_SPEED
+		if Data.GearsIdentifier.size() - 1 > _current_gear \
+			and _current_gear >= Data.GearsIdentifier.find("1"):
+				if _engine_rpm > Data.MaxEngineRPM - 1000:
+					_gear_target = clamp(_current_gear + 1, 0, Data.GearsIdentifier.size() - 1)
+					_gear_state  = GearState.CLUTCH_OFF
+					_gear_delta = GEAR_SPEED
 		if _current_gear > Data.GearsIdentifier.find("1"):
 			if _engine_rpm < Data.IdleEngineRPM + 1000:
-				_current_gear = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
-				_clutch_delta = CLUTCH_SPEED
+				_gear_target = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
+				_gear_state  = GearState.CLUTCH_OFF
+				_gear_delta = GEAR_SPEED
 	
 	# Deactivate cruise control when braking or accelerating
 	if input_forward or input_backward:
@@ -205,11 +222,15 @@ func _manage_input() -> void:
 	
 	# Input for Gear Switching
 	if Input.is_action_just_pressed("vehicle_gear_up"):
-		_current_gear = clamp(_current_gear + 1, 0, Data.GearsIdentifier.size() - 1)
-		_clutch_delta = CLUTCH_SPEED
+		if _current_gear < Data.GearsIdentifier.size() - 1:
+			_gear_target = _current_gear + 1
+			_gear_state  = GearState.CLUTCH_OFF
+			_gear_delta = GEAR_SPEED
 	if Input.is_action_just_pressed("vehicle_gear_down"):
-		_current_gear = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
-		_clutch_delta = CLUTCH_SPEED
+		if _current_gear > 0:
+			_gear_target = _current_gear - 1
+			_gear_state  = GearState.CLUTCH_OFF
+			_gear_delta = GEAR_SPEED
 	
 	# Input for Cruise Control
 	if Input.is_action_just_pressed("vehicle_set_cruise_control"):
@@ -264,11 +285,35 @@ func _cruise_control() -> void:
 		var cruise_input : float = _pid_controller.get_pid_output(_pid_gains, cruise_delta)
 		_input_engine = clamp(cruise_input, 0, 1)
 
-# - Move the vehicle according to input -
-func _move_vehicle(delta : float) -> void:
+# - Calculate the engine power -
+func _calculate_power(delta: float) -> void:
+	# Simulate Gear Switching
+	if _gear_delta != 0:
+		_gear_delta = max(0.0, _gear_delta - delta)
+	if _gear_delta == 0:
+		match _gear_state:
+			GearState.CLUTCH_OFF:
+				_gear_state = GearState.GEAR_SWITCH
+				_gear_delta = GEAR_SPEED
+			GearState.GEAR_SWITCH:
+				_gear_state = GearState.CLUTCH_ON
+				_gear_delta = GEAR_SPEED
+			GearState.CLUTCH_ON:
+				_gear_state = GearState.NONE
+	match _gear_state:
+		GearState.NONE:
+			_clutch_factor = 1
+		GearState.CLUTCH_OFF:
+			_clutch_factor = max(0.0, _clutch_factor - 1.0 * delta * GEAR_DELTA_FACTOR)
+		GearState.GEAR_SWITCH:
+			_clutch_factor = 0
+			_current_gear = _gear_target
+		GearState.CLUTCH_ON:
+			_clutch_factor = min(_clutch_factor + 1.0 * delta * GEAR_DELTA_FACTOR, 1.0)
+	
 	# Calculate clutch factor
-	_clutch_delta = max(0.0, _clutch_delta - delta)
-	var clutch_factor : int   = 1 if _clutch_delta == 0 else 0
+	_gear_delta = max(0.0, _gear_delta - delta)
+	var clutch_factor : int   = 1 if _gear_delta == 0 else 0
 	
 	# Calculate RPM using the wheels
 	var rpm_min_clamp        : int   = Data.IdleEngineRPM if Running else 0
@@ -282,10 +327,12 @@ func _move_vehicle(delta : float) -> void:
 	var rpm_factor    : float = clamp(float(_engine_rpm) / float(Data.MaxEngineRPM), 0.0, 1.0)
 	var power_factor  : float = Data.EnginePowerCurve.interpolate_baked(rpm_factor)
 	
-	engine_force = clutch_factor * _input_engine \
+	engine_force = _clutch_factor * _input_engine \
 					* power_factor * Data.GearsRatio[_current_gear] \
 					* Data.FinalDriveRatio * Data.MaxEngineForce
-	
+
+# - Move the vehicle according to input -
+func _move_vehicle(delta : float) -> void:
 	# When in reverse, activate reverse lights
 	_light_manager.ReverseLights = _current_gear == Data.GearsIdentifier.find("R")
 	
