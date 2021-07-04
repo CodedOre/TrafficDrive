@@ -127,31 +127,40 @@ func _ready() -> void:
 
 # - Runs at every frame -
 func _physics_process(delta : float) -> void:
+	_acquire_speed()
+	if Controlled:
+		# Input
+		_input_engine()
+		_input_gears()
+		_input_steering()
+		_input_additional()
+	if Controlled and Running:
+		# Movement
+		_cruise_control()
+		_calculate_power(delta)
+		_move_vehicle(delta)
+		# Additional elements
+		_animate_vehicle(delta)
+		_inform_camera()
+
+# - Calculates the vehicles speed -
+func _acquire_speed() -> void:
 	_current_mps  = stepify(transform.basis.xform_inv(linear_velocity).z, 0.001)
 	if GameSettings.get_setting("Interface", "UseImperialUnits"):
 		current_speed = _current_mps * 2.2369
 	else:
 		current_speed = _current_mps * 3.6
-	if Controlled and Running:
-		_manage_input()
-		_cruise_control()
-		_calculate_power(delta)
-		_move_vehicle(delta)
-		_animate_vehicle(delta)
-		_inform_camera()
 
-# - Checks input at every frame -
-func _manage_input() -> void:
+# - Check input for forward/backwards movement -
+func _input_engine() -> void:
 	_input_engine = 0.0
 	_input_brake  = 0.0
-	_input_steer  = 0.0
-	
 	# Use a rounded speed for input calculations
 	var rounded_mps    : float = round(_current_mps)
-	
 	# Input for Forward/Backward Movement
 	var input_forward  : bool  = Input.is_action_pressed("vehicle_movement_forward")
 	var input_backward : bool  = Input.is_action_pressed("vehicle_movement_backward")
+	
 	if ! GameSettings.get_setting("Input", "SwitchGearsAutomatically"):
 		# When driving with gears, we have a simplified input
 		var reverse_gear : bool = _current_gear == Data.GearsIdentifier.find("R")
@@ -202,20 +211,6 @@ func _manage_input() -> void:
 				_input_engine = 1.0
 			else:
 				_input_brake = 1.0
-		
-		# Switch gears according to the RPM
-		if _gear_state == GearState.NONE:
-			if Data.GearsIdentifier.size() - 1 > _current_gear \
-				and _current_gear >= Data.GearsIdentifier.find("1"):
-					if _engine_rpm > Data.MaxEngineRPM - 1000:
-						_gear_target = clamp(_current_gear + 1, 0, Data.GearsIdentifier.size() - 1)
-						_gear_state  = GearState.CLUTCH_OFF
-						_gear_delta = CLUTCH_SPEED
-			if _current_gear > Data.GearsIdentifier.find("1"):
-				if _engine_rpm < Data.IdleEngineRPM + 1000:
-					_gear_target = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
-					_gear_state  = GearState.CLUTCH_OFF
-					_gear_delta = CLUTCH_SPEED
 	
 	# Deactivate cruise control when braking or accelerating
 	if input_forward or input_backward:
@@ -229,6 +224,23 @@ func _manage_input() -> void:
 	# If standing, apply small value to brake to ensure the vehicle don't roll away
 	if rounded_mps == 0 and !_new_input and _input_brake == 0:
 		_input_brake = 0.1
+
+# - Check input for gearbox/cruise control -
+func _input_gears() -> void:
+	if GameSettings.get_setting("Input", "SwitchGearsAutomatically"):
+		# Switch gears according to the RPM
+		if _gear_state == GearState.NONE:
+			if Data.GearsIdentifier.size() - 1 > _current_gear \
+				and _current_gear >= Data.GearsIdentifier.find("1"):
+					if _engine_rpm > Data.MaxEngineRPM - 1000:
+						_gear_target = clamp(_current_gear + 1, 0, Data.GearsIdentifier.size() - 1)
+						_gear_state  = GearState.CLUTCH_OFF
+						_gear_delta = CLUTCH_SPEED
+			if _current_gear > Data.GearsIdentifier.find("1"):
+				if _engine_rpm < Data.IdleEngineRPM + 1000:
+					_gear_target = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
+					_gear_state  = GearState.CLUTCH_OFF
+					_gear_delta = CLUTCH_SPEED
 	
 	# Input for Gear Switching
 	if _gear_state == GearState.NONE:
@@ -256,13 +268,19 @@ func _manage_input() -> void:
 	
 	if Input.is_action_just_pressed("vehicle_decrease_cruise_control"):
 		_cruise_speed = max(MIN_CRUISE_SPEED, _cruise_speed - 5)
+
+# - Check input for right/left movement -
+func _input_steering() -> void:
+	_input_steer  = 0.0
 	
 	# Input for Steering
 	if Input.is_action_pressed("vehicle_movement_left"):
 		_input_steer = 1.0
 	if Input.is_action_pressed("vehicle_movement_right"):
 		_input_steer = -1.0
-	
+
+# - Check input for additional elements -
+func _input_additional() -> void:
 	# Input for Camera
 	if Input.is_action_just_pressed("vehicle_change_camera"):
 		_current_cam = (_current_cam + 1) % _camera_count
