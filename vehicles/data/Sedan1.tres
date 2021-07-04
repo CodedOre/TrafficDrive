@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource( 1 )
 MaxEngineForce = 167
-MaxEngineRPM = 5400
+MaxEngineRPM = 5200
 IdleEngineRPM = 1000
 EnginePowerCurve = ExtResource( 2 )
 GearsIdentifier = [ "R", "N", "1", "2", "3", "4" ]
