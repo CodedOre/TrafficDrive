@@ -14,10 +14,10 @@ enum GearState {NONE, CLUTCH_OFF, GEAR_SWITCH, CLUTCH_ON}
 # -- Constants --
 
 # - Properties for a Vehicle -
-const STEER_SPEED       : int   = 60
-const GEAR_SPEED        : float =  0.25
-const GEAR_DELTA_FACTOR : float =  8.0
-const MIN_CRUISE_SPEED  : int   = 25
+const STEER_SPEED         : int   = 60
+const CLUTCH_SPEED        : float =  0.25
+const CLUTCH_DELTA_FACTOR : float =  8.0
+const MIN_CRUISE_SPEED    : int   = 25
 
 # -- Properties --
 
@@ -171,20 +171,20 @@ func _manage_input() -> void:
 		if rounded_mps == 0 and ! input_forward and ! input_backward and ! _new_input:
 			_gear_target = Data.GearsIdentifier.find("N")
 			_gear_state  = GearState.CLUTCH_OFF
-			_gear_delta = GEAR_SPEED
+			_gear_delta = CLUTCH_SPEED
 		
 		# When standing, switch to the gear for the wanted direction
 		if _new_input and rounded_mps == 0 and ! _gear_start:
 			if input_forward:
 				_gear_target = Data.GearsIdentifier.find("1")
 				_gear_state  = GearState.CLUTCH_OFF
-				_gear_delta = GEAR_SPEED
+				_gear_delta = CLUTCH_SPEED
 				_input_engine = 1.0
 				_gear_start = true
 			if input_backward:
 				_gear_target = Data.GearsIdentifier.find("R")
 				_gear_state  = GearState.CLUTCH_OFF
-				_gear_delta = GEAR_SPEED
+				_gear_delta = CLUTCH_SPEED
 				_input_engine = 1.0
 				_gear_start = true
 		
@@ -210,12 +210,12 @@ func _manage_input() -> void:
 					if _engine_rpm > Data.MaxEngineRPM - 1000:
 						_gear_target = clamp(_current_gear + 1, 0, Data.GearsIdentifier.size() - 1)
 						_gear_state  = GearState.CLUTCH_OFF
-						_gear_delta = GEAR_SPEED
+						_gear_delta = CLUTCH_SPEED
 			if _current_gear > Data.GearsIdentifier.find("1"):
 				if _engine_rpm < Data.IdleEngineRPM + 1000:
 					_gear_target = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
 					_gear_state  = GearState.CLUTCH_OFF
-					_gear_delta = GEAR_SPEED
+					_gear_delta = CLUTCH_SPEED
 	
 	# Deactivate cruise control when braking or accelerating
 	if input_forward or input_backward:
@@ -236,12 +236,12 @@ func _manage_input() -> void:
 			if _current_gear < Data.GearsIdentifier.size() - 1:
 				_gear_target = _current_gear + 1
 				_gear_state  = GearState.CLUTCH_OFF
-				_gear_delta = GEAR_SPEED
+				_gear_delta = CLUTCH_SPEED
 		if Input.is_action_just_pressed("vehicle_gear_down"):
 			if _current_gear > 0:
 				_gear_target = _current_gear - 1
 				_gear_state  = GearState.CLUTCH_OFF
-				_gear_delta = GEAR_SPEED
+				_gear_delta = CLUTCH_SPEED
 	
 	# Input for Cruise Control
 	if Input.is_action_just_pressed("vehicle_set_cruise_control"):
@@ -305,31 +305,39 @@ func _calculate_power(delta: float) -> void:
 		match _gear_state:
 			GearState.CLUTCH_OFF:
 				_gear_state = GearState.GEAR_SWITCH
-				_gear_delta = GEAR_SPEED
+				_gear_delta = CLUTCH_SPEED
 			GearState.GEAR_SWITCH:
 				_gear_state = GearState.CLUTCH_ON
-				_gear_delta = GEAR_SPEED
+				_gear_delta = CLUTCH_SPEED
 			GearState.CLUTCH_ON:
 				_gear_state = GearState.NONE
 	match _gear_state:
 		GearState.NONE:
 			_clutch_factor = 1
 		GearState.CLUTCH_OFF:
-			_clutch_factor = max(0.0, _clutch_factor - 1.0 * delta * GEAR_DELTA_FACTOR)
+			_clutch_factor = max(0.0, _clutch_factor - 1.0 * delta * CLUTCH_DELTA_FACTOR)
 		GearState.GEAR_SWITCH:
 			_clutch_factor = 0
 			_current_gear = _gear_target
 		GearState.CLUTCH_ON:
-			_clutch_factor = min(_clutch_factor + 1.0 * delta * GEAR_DELTA_FACTOR, 1.0)
+			_clutch_factor = min(_clutch_factor + 1.0 * delta * CLUTCH_DELTA_FACTOR, 1.0)
 	
+	# Determine target RPM
+	var target_rpm : int = 0
+	if _current_gear == Data.GearsIdentifier.find("N"):
+		# When in neutral gear, define RPM according to engine input.
+		target_rpm = max(Data.IdleEngineRPM, _input_engine * Data.MaxEngineRPM)
+	else:
+		# Normally, calculate RPM using the wheels
+		var rpm_min_clamp        : int   = Data.IdleEngineRPM if Running else 0
+		var wheel_circumference  : float = 2.0 * PI * _traction_wheel.wheel_radius
+		var wheel_rotation_speed : float = 60.0 * _current_mps / wheel_circumference
+		var drive_rotation_speed : float = wheel_rotation_speed * Data.FinalDriveRatio
+		var calculated_rpm       : float = drive_rotation_speed * Data.GearsRatio[_current_gear]
+		target_rpm = clamp(calculated_rpm, rpm_min_clamp, Data.MaxEngineRPM)
 	
-	# Calculate RPM using the wheels
-	var rpm_min_clamp        : int   = Data.IdleEngineRPM if Running else 0
-	var wheel_circumference  : float = 2.0 * PI * _traction_wheel.wheel_radius
-	var wheel_rotation_speed : float = 60.0 * _current_mps / wheel_circumference
-	var drive_rotation_speed : float = wheel_rotation_speed * Data.FinalDriveRatio
-	var calculated_rpm       : float = drive_rotation_speed * Data.GearsRatio[_current_gear]
-	_engine_rpm = clamp(calculated_rpm, rpm_min_clamp, Data.MaxEngineRPM)
+	# Interpolate RPM to the target
+	_engine_rpm = _engine_rpm + (target_rpm - _engine_rpm) * (delta * 2)
 	
 	# Calculate Engine Force
 	var rpm_factor    : float = clamp(float(_engine_rpm) / float(Data.MaxEngineRPM), 0.0, 1.0)
