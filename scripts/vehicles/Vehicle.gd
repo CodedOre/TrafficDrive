@@ -326,7 +326,7 @@ func _calculate_power(delta: float) -> void:
 	var target_rpm : int = 0
 	if _current_gear == Data.GearsIdentifier.find("N"):
 		# When in neutral gear, define RPM according to engine input.
-		target_rpm = max(Data.IdleEngineRPM, _input_engine * Data.MaxEngineRPM)
+		target_rpm = max(Data.IdleEngineRPM, _input_engine * (Data.MaxEngineRPM - 1000))
 	else:
 		# Normally, calculate RPM using the wheels
 		var rpm_min_clamp        : int   = Data.IdleEngineRPM if Running else 0
@@ -334,13 +334,13 @@ func _calculate_power(delta: float) -> void:
 		var wheel_rotation_speed : float = 60.0 * _current_mps / wheel_circumference
 		var drive_rotation_speed : float = wheel_rotation_speed * Data.FinalDriveRatio
 		var calculated_rpm       : float = drive_rotation_speed * Data.GearsRatio[_current_gear]
-		target_rpm = clamp(calculated_rpm, rpm_min_clamp, Data.MaxEngineRPM)
+		target_rpm = clamp(calculated_rpm, rpm_min_clamp, Data.MaxEngineRPM + 100)
 	
 	# Interpolate RPM to the target
 	_engine_rpm = _engine_rpm + (target_rpm - _engine_rpm) * (delta * 2)
 	
 	# Calculate Engine Force
-	var rpm_factor    : float = clamp(float(_engine_rpm) / float(Data.MaxEngineRPM), 0.0, 1.0)
+	var rpm_factor    : float = float(_engine_rpm) / float(Data.MaxEngineRPM)
 	var power_factor  : float = Data.EnginePowerCurve.interpolate_baked(rpm_factor)
 	
 	engine_force = _clutch_factor * _input_engine \
