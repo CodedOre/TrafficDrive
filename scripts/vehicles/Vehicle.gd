@@ -136,6 +136,7 @@ func _physics_process(delta : float) -> void:
 		_input_additional()
 	if Controlled and Running:
 		# Movement
+		_auto_gears()
 		_cruise_control()
 		_calculate_power(delta)
 		_move_vehicle(delta)
@@ -227,21 +228,6 @@ func _input_engine() -> void:
 
 # - Check input for gearbox/cruise control -
 func _input_gears() -> void:
-	if GameSettings.get_setting("Input", "SwitchGearsAutomatically"):
-		# Switch gears according to the RPM
-		if _gear_state == GearState.NONE:
-			if Data.GearsIdentifier.size() - 1 > _current_gear \
-				and _current_gear >= Data.GearsIdentifier.find("1"):
-					if _engine_rpm > Data.MaxEngineRPM - 1000:
-						_gear_target = clamp(_current_gear + 1, 0, Data.GearsIdentifier.size() - 1)
-						_gear_state  = GearState.CLUTCH_OFF
-						_gear_delta = CLUTCH_SPEED
-			if _current_gear > Data.GearsIdentifier.find("1"):
-				if _engine_rpm < Data.IdleEngineRPM + 1000:
-					_gear_target = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
-					_gear_state  = GearState.CLUTCH_OFF
-					_gear_delta = CLUTCH_SPEED
-	
 	# Input for Gear Switching
 	if _gear_state == GearState.NONE:
 		if Input.is_action_just_pressed("vehicle_gear_up"):
@@ -306,6 +292,23 @@ func _input_additional() -> void:
 		_light_manager.TurnRightLights = ! _light_manager.TurnRightLights
 	if Input.is_action_just_pressed("vehicle_light_hazards"):
 		_light_manager.HazardsLights = ! _light_manager.HazardsLights
+
+# - Manage the "automatic" transmission -
+func _auto_gears() -> void:
+	if GameSettings.get_setting("Input", "SwitchGearsAutomatically"):
+		# Switch gears according to the RPM
+		if _gear_state == GearState.NONE:
+			if Data.GearsIdentifier.size() - 1 > _current_gear \
+				and _current_gear >= Data.GearsIdentifier.find("1"):
+					if _engine_rpm > Data.MaxEngineRPM - 1000:
+						_gear_target = clamp(_current_gear + 1, 0, Data.GearsIdentifier.size() - 1)
+						_gear_state  = GearState.CLUTCH_OFF
+						_gear_delta = CLUTCH_SPEED
+			if _current_gear > Data.GearsIdentifier.find("1"):
+				if _engine_rpm < Data.IdleEngineRPM + 1000:
+					_gear_target = clamp(_current_gear - 1, 0, Data.GearsIdentifier.size() - 1)
+					_gear_state  = GearState.CLUTCH_OFF
+					_gear_delta = CLUTCH_SPEED
 
 # - Set's the vehicle throttle to keep a certain speed -
 func _cruise_control() -> void:
