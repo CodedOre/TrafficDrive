@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/models/vehicles/SUV.glb" type="PackedScene" id=1]
 [ext_resource path="res://assets/materials/Glass.material" type="Material" id=2]
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=3]
 [ext_resource path="res://assets/collisions/vehicles/SUV.shape" type="Shape" id=4]
+[ext_resource path="res://assets/materials/VehicleLights/FrontLightOff.material" type="Material" id=5]
+[ext_resource path="res://assets/materials/VehicleLights/TurningSignalOff.material" type="Material" id=6]
+[ext_resource path="res://assets/materials/VehicleLights/RearLightOff.material" type="Material" id=7]
+[ext_resource path="res://assets/materials/VehicleLights/ReverseLightOff.material" type="Material" id=8]
 
 [node name="SUV" instance=ExtResource( 1 )]
 
@@ -25,10 +29,52 @@ material/0 = ExtResource( 3 )
 [node name="Glass" parent="VehicleBody" index="0"]
 material/0 = ExtResource( 2 )
 
-[node name="Plates" parent="VehicleBody" index="1"]
+[node name="LightFrontLeft" parent="VehicleBody" index="1"]
+material/0 = ExtResource( 5 )
+
+[node name="LightFrontRight" parent="VehicleBody" index="2"]
+material/0 = ExtResource( 5 )
+
+[node name="LightFrontSmallLeft" parent="VehicleBody" index="3"]
+material/0 = ExtResource( 5 )
+
+[node name="LightFrontSmallRight" parent="VehicleBody" index="4"]
+material/0 = ExtResource( 5 )
+
+[node name="LightRearLeft" parent="VehicleBody" index="5"]
+material/0 = ExtResource( 7 )
+
+[node name="LightRearRight" parent="VehicleBody" index="6"]
+material/0 = ExtResource( 7 )
+
+[node name="LightRearSmallLeft" parent="VehicleBody" index="7"]
+material/0 = ExtResource( 7 )
+
+[node name="LightRearSmallRight" parent="VehicleBody" index="8"]
+material/0 = ExtResource( 7 )
+
+[node name="LightReverseLeft" parent="VehicleBody" index="9"]
+material/0 = ExtResource( 8 )
+
+[node name="LightReverseRight" parent="VehicleBody" index="10"]
+material/0 = ExtResource( 8 )
+
+[node name="LightTurningFrontLeft" parent="VehicleBody" index="11"]
+material/0 = ExtResource( 6 )
+
+[node name="LightTurningFrontRight" parent="VehicleBody" index="12"]
+material/0 = ExtResource( 6 )
+
+[node name="LightTurningRearLeft" parent="VehicleBody" index="13"]
+material/0 = ExtResource( 6 )
+
+[node name="LightTurningRearRight" parent="VehicleBody" index="14"]
+material/0 = ExtResource( 6 )
+
+[node name="Plates" parent="VehicleBody" index="15"]
 material/0 = ExtResource( 3 )
 
-[node name="SteeringWheel" parent="VehicleBody" index="2"]
+[node name="SteeringWheel" parent="VehicleBody" index="16"]
 material/0 = ExtResource( 3 )
 
 [node name="CollisionShape" type="CollisionShape" parent="." index="5"]
