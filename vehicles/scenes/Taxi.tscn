@@ -1,23 +1,23 @@
 [gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://assets/models/vehicles/Sedan1.glb" type="PackedScene" id=1]
+[ext_resource path="res://assets/models/vehicles/Taxi.glb" type="PackedScene" id=1]
 [ext_resource path="res://assets/materials/VehicleLights/RearLightOff.material" type="Material" id=2]
 [ext_resource path="res://assets/materials/VehicleLights/FrontLightOff.material" type="Material" id=3]
 [ext_resource path="res://assets/materials/VehicleLights/ReverseLightOff.material" type="Material" id=4]
 [ext_resource path="res://assets/materials/VehicleLights/TurningSignalOff.material" type="Material" id=5]
-[ext_resource path="res://assets/materials/Body.material" type="Material" id=6]
-[ext_resource path="res://assets/materials/Glass.material" type="Material" id=7]
-[ext_resource path="res://scripts/vehicles/Vehicle.gd" type="Script" id=8]
-[ext_resource path="res://scripts/vehicles/VehicleLight.gd" type="Script" id=9]
+[ext_resource path="res://assets/materials/Glass.material" type="Material" id=6]
+[ext_resource path="res://assets/materials/Body.material" type="Material" id=7]
+[ext_resource path="res://scripts/vehicles/VehicleLight.gd" type="Script" id=8]
+[ext_resource path="res://scripts/vehicles/Vehicle.gd" type="Script" id=9]
 [ext_resource path="res://scripts/utils/CameraPoint.gd" type="Script" id=10]
-[ext_resource path="res://assets/collisions/vehicles/Sedan1.shape" type="Shape" id=11]
-[ext_resource path="res://vehicles/data/Sedan1.tres" type="Resource" id=12]
+[ext_resource path="res://assets/collisions/vehicles/Taxi.shape" type="Shape" id=11]
+[ext_resource path="res://vehicles/data/Sedan.tres" type="Resource" id=12]
 
-[node name="Sedan1" instance=ExtResource( 1 )]
+[node name="Taxi1" instance=ExtResource( 1 )]
 collision_layer = 2
 collision_mask = 3
-mass = 187.755
-script = ExtResource( 8 )
+mass = 151.02
+script = ExtResource( 9 )
 Data = ExtResource( 12 )
 Lights = [ NodePath("VehicleBody/LightBrakeLight"), NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningLeft"), NodePath("VehicleBody/LightTurningRight") ]
 Cameras = [ NodePath("CameraPoints/ChaseCamera"), NodePath("CameraPoints/DriverCamera") ]
@@ -30,12 +30,12 @@ use_as_steering = true
 wheel_radius = 0.36
 wheel_rest_length = 0.075
 wheel_friction_slip = 1.0
-suspension_travel = 0.3
+suspension_travel = 0.15
 suspension_stiffness = 65.0
 
 [node name="WheelFrontLeft" parent="WheelFrontLeft" index="0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-material/0 = ExtResource( 6 )
+material/0 = ExtResource( 7 )
 
 [node name="WheelRearLeft" parent="." index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.744977, 0.361439, -1.24979 )
@@ -43,12 +43,12 @@ use_as_traction = true
 wheel_radius = 0.36
 wheel_rest_length = 0.075
 wheel_friction_slip = 1.0
-suspension_travel = 0.3
+suspension_travel = 0.15
 suspension_stiffness = 65.0
 
 [node name="WheelRearLeft" parent="WheelRearLeft" index="0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-material/0 = ExtResource( 6 )
+material/0 = ExtResource( 7 )
 
 [node name="WheelFrontRight" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.744977, 0.361439, 1.63227 )
@@ -56,12 +56,12 @@ use_as_steering = true
 wheel_radius = 0.36
 wheel_rest_length = 0.075
 wheel_friction_slip = 1.0
-suspension_travel = 0.3
+suspension_travel = 0.15
 suspension_stiffness = 65.0
 
 [node name="WheelFrontRight" parent="WheelFrontRight" index="0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-material/0 = ExtResource( 6 )
+material/0 = ExtResource( 7 )
 
 [node name="WheelRearRight" parent="." index="3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.744977, 0.361439, -1.24979 )
@@ -69,23 +69,23 @@ use_as_traction = true
 wheel_radius = 0.36
 wheel_rest_length = 0.075
 wheel_friction_slip = 1.0
-suspension_travel = 0.3
+suspension_travel = 0.15
 suspension_stiffness = 65.0
 
 [node name="WheelRearRight" parent="WheelRearRight" index="0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-material/0 = ExtResource( 6 )
+material/0 = ExtResource( 7 )
 
 [node name="VehicleBody" parent="." index="4"]
-material/0 = ExtResource( 6 )
+material/0 = ExtResource( 7 )
 
 [node name="Glass" parent="VehicleBody" index="0"]
-material/0 = ExtResource( 7 )
+material/0 = ExtResource( 6 )
 
 [node name="LightBrakeLight" parent="VehicleBody" index="1"]
 cast_shadow = 0
 material/0 = ExtResource( 2 )
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 BrakeLight = true
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightBrakeLight" index="0"]
@@ -97,7 +97,7 @@ spot_range = 1.0
 [node name="LightFrontLeft" parent="VehicleBody" index="2"]
 cast_shadow = 0
 material/0 = ExtResource( 3 )
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 HeadLight = true
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightFrontLeft" index="0"]
@@ -110,7 +110,7 @@ spot_angle = 35.0
 [node name="LightFrontRight" parent="VehicleBody" index="3"]
 cast_shadow = 0
 material/0 = ExtResource( 3 )
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 HeadLight = true
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightFrontRight" index="0"]
@@ -123,7 +123,7 @@ spot_angle = 35.0
 [node name="LightRearLeft" parent="VehicleBody" index="4"]
 cast_shadow = 0
 material/0 = ExtResource( 2 )
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 RearLight = true
 BrakeLight = true
 TurningSignal = 1
@@ -138,7 +138,7 @@ spot_angle = 75.0
 [node name="LightRearRight" parent="VehicleBody" index="5"]
 cast_shadow = 0
 material/0 = ExtResource( 2 )
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 RearLight = true
 BrakeLight = true
 TurningSignal = 2
@@ -153,7 +153,7 @@ spot_angle = 75.0
 [node name="LightReverseLeft" parent="VehicleBody" index="6"]
 cast_shadow = 0
 material/0 = ExtResource( 4 )
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 ReverseLight = true
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightReverseLeft" index="0"]
@@ -165,7 +165,7 @@ spot_angle = 75.0
 [node name="LightReverseRight" parent="VehicleBody" index="7"]
 cast_shadow = 0
 material/0 = ExtResource( 4 )
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 ReverseLight = true
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightReverseRight" index="0"]
@@ -177,7 +177,7 @@ spot_angle = 75.0
 [node name="LightTurningLeft" parent="VehicleBody" index="8"]
 cast_shadow = 0
 material/0 = ExtResource( 5 )
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 TurningSignal = 1
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightTurningLeft" index="0"]
@@ -190,7 +190,7 @@ spot_angle = 85.0
 [node name="LightTurningRight" parent="VehicleBody" index="9"]
 cast_shadow = 0
 material/0 = ExtResource( 5 )
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 TurningSignal = 2
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightTurningRight" index="0"]
@@ -201,10 +201,11 @@ spot_range = 3.0
 spot_angle = 85.0
 
 [node name="Plates" parent="VehicleBody" index="10"]
-material/0 = ExtResource( 6 )
+material/0 = ExtResource( 7 )
 
 [node name="SteeringWheel" parent="VehicleBody" index="11"]
-material/0 = ExtResource( 6 )
+transform = Transform( 1, 0, 0, 0, 0.339983, 0.940432, 0, -0.940432, 0.339983, 37.6915, 51.5779, -96.965 )
+material/0 = ExtResource( 7 )
 
 [node name="CameraPoints" type="Spatial" parent="." index="5"]
 
