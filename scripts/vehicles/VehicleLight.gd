@@ -9,16 +9,17 @@ class_name VehicleLight
 
 # -- Enums --
 
-enum Side {NONE, LEFT, RIGHT}
+enum Side      {NONE, LEFT, RIGHT}
+enum FrontMode {NONE, ASSIST, MAIN}
 
 # -- Properties --
 
 # - The usecases for this light -
-export (bool) var HeadLight
-export (bool) var RearLight
-export (bool) var BrakeLight
-export (Side) var TurningSignal
-export (bool) var ReverseLight
+export (FrontMode) var FrontLight
+export (bool)      var RearLight
+export (bool)      var BrakeLight
+export (Side)      var TurningSignal
+export (bool)      var ReverseLight
 
 # -- Variables --
 
@@ -45,14 +46,14 @@ func _modify_light() -> void:
 		GameSettings.VehicleLightNode.OFF:
 			_show_light = false
 		GameSettings.VehicleLightNode.SPOT:
-			if HeadLight:
+			if FrontLight and FrontMode.MAIN:
 				_show_light = true
 			else:
 				_show_light = false
 		GameSettings.VehicleLightNode.FULL:
 			_show_light = true
 	# Adapt to "VehicleLightShadows" setting
-	if HeadLight:
+	if FrontLight and FrontMode.MAIN:
 		var show_shadows : bool
 		if GameSettings.get_setting("Performance", "VehicleLightShadows"):
 			show_shadows = true
