@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://scripts/vehicles/VehicleData.gd" type="Script" id=1]
+[ext_resource path="res://vehicles/data/SUVEngineCurve.tres" type="Curve" id=2]
+
+[resource]
+script = ExtResource( 1 )
+MaxEngineForce = 130
+MaxEngineRPM = 4100
+IdleEngineRPM = 1000
+EnginePowerCurve = ExtResource( 2 )
+GearsIdentifier = [ "R", "N", "1", "2", "3", "4", "5", "6" ]
+GearsRatio = [ -3.154, 0.0, 3.417, 1.783, 1.121, 0.795, 0.647, 0.534 ]
+FinalDriveRatio = 4.47
+MaxBrakeForce = 16
+MaxSteerAngle = 35
+SteeringWheelMultiplier = 8
