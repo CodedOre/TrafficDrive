@@ -1,0 +1,95 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/models/vehicles/Compact.glb" type="PackedScene" id=1]
+[ext_resource path="res://vehicles/data/Compact.tres" type="Resource" id=2]
+[ext_resource path="res://assets/materials/Body.material" type="Material" id=3]
+[ext_resource path="res://assets/materials/Glass.material" type="Material" id=4]
+[ext_resource path="res://assets/materials/VehicleLights/FrontLightOff.material" type="Material" id=5]
+[ext_resource path="res://assets/materials/VehicleLights/RearLightOff.material" type="Material" id=6]
+[ext_resource path="res://assets/materials/VehicleLights/ReverseLightOff.material" type="Material" id=7]
+[ext_resource path="res://assets/materials/VehicleLights/TurningSignalOff.material" type="Material" id=8]
+
+[node name="Compact" instance=ExtResource( 1 )]
+Data = ExtResource( 2 )
+
+[node name="WheelFrontLeft" parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.682014, 0.332806, 1.33543 )
+
+[node name="WheelFrontLeft" parent="WheelFrontLeft" index="0"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+material/0 = ExtResource( 3 )
+
+[node name="WheelRearLeft" parent="." index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.682014, 0.332806, -1.21315 )
+
+[node name="WheelRearLeft" parent="WheelRearLeft" index="0"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+material/0 = ExtResource( 3 )
+
+[node name="WheelFrontRight" parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.682014, 0.332806, 1.33543 )
+
+[node name="WheelFrontRight" parent="WheelFrontRight" index="0"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+material/0 = ExtResource( 3 )
+
+[node name="WheelRearRight" parent="." index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.682014, 0.332806, -1.21315 )
+
+[node name="WheelRearRight" parent="WheelRearRight" index="0"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+material/0 = ExtResource( 3 )
+
+[node name="VehicleBody" parent="." index="4"]
+material/0 = ExtResource( 3 )
+
+[node name="Glass" parent="VehicleBody" index="0"]
+material/0 = ExtResource( 4 )
+
+[node name="LightFrontLeft" parent="VehicleBody" index="1"]
+material/0 = ExtResource( 5 )
+
+[node name="LightFrontRight" parent="VehicleBody" index="2"]
+material/0 = ExtResource( 5 )
+
+[node name="LightFrontSmallLeft" parent="VehicleBody" index="3"]
+material/0 = ExtResource( 5 )
+
+[node name="LightFrontSmallRight" parent="VehicleBody" index="4"]
+material/0 = ExtResource( 5 )
+
+[node name="LightRearLeft" parent="VehicleBody" index="5"]
+material/0 = ExtResource( 6 )
+
+[node name="LightRearRight" parent="VehicleBody" index="6"]
+material/0 = ExtResource( 6 )
+
+[node name="LightRearSmallLeft" parent="VehicleBody" index="7"]
+material/0 = ExtResource( 6 )
+
+[node name="LightRearSmallRight" parent="VehicleBody" index="8"]
+material/0 = ExtResource( 6 )
+
+[node name="LightReverseLeft" parent="VehicleBody" index="9"]
+material/0 = ExtResource( 7 )
+
+[node name="LightReverseRight" parent="VehicleBody" index="10"]
+material/0 = ExtResource( 7 )
+
+[node name="LightTurningFrontLeft" parent="VehicleBody" index="11"]
+material/0 = ExtResource( 8 )
+
+[node name="LightTurningFrontRight" parent="VehicleBody" index="12"]
+material/0 = ExtResource( 8 )
+
+[node name="LightTurningRearLeft" parent="VehicleBody" index="13"]
+material/0 = ExtResource( 8 )
+
+[node name="LightTurningRearRight" parent="VehicleBody" index="14"]
+material/0 = ExtResource( 8 )
+
+[node name="Plates" parent="VehicleBody" index="15"]
+material/0 = ExtResource( 3 )
+
+[node name="SteeringWheel" parent="VehicleBody" index="16"]
+material/0 = ExtResource( 3 )
