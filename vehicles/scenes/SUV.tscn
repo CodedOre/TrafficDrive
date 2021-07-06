@@ -17,7 +17,7 @@ collision_layer = 2
 collision_mask = 3
 mass = 156.02
 Data = ExtResource( 10 )
-Lights = [ NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightFrontSmallLeft"), NodePath("VehicleBody/LightFrontSmallRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightRearSmallLeft"), NodePath("VehicleBody/LightRearSmallRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningFrontLeft"), NodePath("VehicleBody/LightTurningFrontRight"), NodePath("VehicleBody/LightTurningRearLeft"), NodePath("VehicleBody/LightTurningRearRight") ]
+Lights = [ NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightFrontSmallLeft"), NodePath("VehicleBody/LightFrontSmallRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightRearSmallLeft"), NodePath("VehicleBody/LightRearSmallRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningFrontLeft"), NodePath("VehicleBody/LightTurningFrontRight"), NodePath("VehicleBody/LightTurningRearLeft"), NodePath("VehicleBody/LightTurningRearRight"), NodePath("VehicleBody/LightBrakeLight") ]
 Cameras = [ NodePath("CameraPoints/ChaseCamera"), NodePath("CameraPoints/DriverCamera") ]
 OuterMirrorPoint = NodePath("MirrorPoints/OuterMirror")
 SteeringWheel = NodePath("VehicleBody/SteeringWheel")
@@ -80,7 +80,18 @@ material/0 = ExtResource( 3 )
 [node name="Glass" parent="VehicleBody" index="0"]
 material/0 = ExtResource( 2 )
 
-[node name="LightFrontLeft" parent="VehicleBody" index="1"]
+[node name="LightBrakeLight" parent="VehicleBody" index="1"]
+material/0 = ExtResource( 7 )
+script = ExtResource( 9 )
+BrakeLight = true
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightBrakeLight" index="0"]
+transform = Transform( 100, 0, 0, 0, -25.8819, 96.5926, 0, -96.5926, -25.8819, 0, -198, -165 )
+light_color = Color( 1, 0, 0, 1 )
+light_energy = 8.0
+spot_range = 1.0
+
+[node name="LightFrontLeft" parent="VehicleBody" index="2"]
 cast_shadow = 0
 material/0 = ExtResource( 5 )
 script = ExtResource( 9 )
@@ -93,7 +104,7 @@ shadow_enabled = true
 spot_range = 30.0
 spot_angle = 35.0
 
-[node name="LightFrontRight" parent="VehicleBody" index="2"]
+[node name="LightFrontRight" parent="VehicleBody" index="3"]
 cast_shadow = 0
 material/0 = ExtResource( 5 )
 script = ExtResource( 9 )
@@ -106,7 +117,7 @@ shadow_enabled = true
 spot_range = 30.0
 spot_angle = 35.0
 
-[node name="LightFrontSmallLeft" parent="VehicleBody" index="3"]
+[node name="LightFrontSmallLeft" parent="VehicleBody" index="4"]
 cast_shadow = 0
 material/0 = ExtResource( 5 )
 script = ExtResource( 9 )
@@ -118,7 +129,7 @@ light_energy = 4.0
 spot_range = 12.0
 spot_angle = 50.0
 
-[node name="LightFrontSmallRight" parent="VehicleBody" index="4"]
+[node name="LightFrontSmallRight" parent="VehicleBody" index="5"]
 cast_shadow = 0
 material/0 = ExtResource( 5 )
 script = ExtResource( 9 )
@@ -130,7 +141,7 @@ light_energy = 4.0
 spot_range = 12.0
 spot_angle = 50.0
 
-[node name="LightRearLeft" parent="VehicleBody" index="5"]
+[node name="LightRearLeft" parent="VehicleBody" index="6"]
 cast_shadow = 0
 material/0 = ExtResource( 7 )
 script = ExtResource( 9 )
@@ -144,7 +155,7 @@ light_energy = 4.0
 spot_range = 3.0
 spot_angle = 75.0
 
-[node name="LightRearRight" parent="VehicleBody" index="6"]
+[node name="LightRearRight" parent="VehicleBody" index="7"]
 cast_shadow = 0
 material/0 = ExtResource( 7 )
 script = ExtResource( 9 )
@@ -158,7 +169,7 @@ light_energy = 4.0
 spot_range = 3.0
 spot_angle = 75.0
 
-[node name="LightRearSmallLeft" parent="VehicleBody" index="7"]
+[node name="LightRearSmallLeft" parent="VehicleBody" index="8"]
 cast_shadow = 0
 material/0 = ExtResource( 7 )
 script = ExtResource( 9 )
@@ -172,7 +183,7 @@ light_energy = 4.0
 spot_range = 3.0
 spot_angle = 75.0
 
-[node name="LightRearSmallRight" parent="VehicleBody" index="8"]
+[node name="LightRearSmallRight" parent="VehicleBody" index="9"]
 cast_shadow = 0
 material/0 = ExtResource( 7 )
 script = ExtResource( 9 )
@@ -186,7 +197,7 @@ light_energy = 4.0
 spot_range = 3.0
 spot_angle = 75.0
 
-[node name="LightReverseLeft" parent="VehicleBody" index="9"]
+[node name="LightReverseLeft" parent="VehicleBody" index="10"]
 cast_shadow = 0
 material/0 = ExtResource( 8 )
 script = ExtResource( 9 )
@@ -198,7 +209,7 @@ light_energy = 4.0
 spot_range = 4.0
 spot_angle = 65.0
 
-[node name="LightReverseRight" parent="VehicleBody" index="10"]
+[node name="LightReverseRight" parent="VehicleBody" index="11"]
 cast_shadow = 0
 material/0 = ExtResource( 8 )
 script = ExtResource( 9 )
@@ -210,7 +221,7 @@ light_energy = 4.0
 spot_range = 4.0
 spot_angle = 65.0
 
-[node name="LightTurningFrontLeft" parent="VehicleBody" index="11"]
+[node name="LightTurningFrontLeft" parent="VehicleBody" index="12"]
 cast_shadow = 0
 material/0 = ExtResource( 6 )
 script = ExtResource( 9 )
@@ -223,7 +234,7 @@ light_energy = 2.0
 spot_range = 3.0
 spot_angle = 85.0
 
-[node name="LightTurningFrontRight" parent="VehicleBody" index="12"]
+[node name="LightTurningFrontRight" parent="VehicleBody" index="13"]
 cast_shadow = 0
 material/0 = ExtResource( 6 )
 script = ExtResource( 9 )
@@ -236,7 +247,7 @@ light_energy = 2.0
 spot_range = 3.0
 spot_angle = 85.0
 
-[node name="LightTurningRearLeft" parent="VehicleBody" index="13"]
+[node name="LightTurningRearLeft" parent="VehicleBody" index="14"]
 cast_shadow = 0
 material/0 = ExtResource( 6 )
 script = ExtResource( 9 )
@@ -249,7 +260,7 @@ light_energy = 2.0
 spot_range = 3.0
 spot_angle = 85.0
 
-[node name="LightTurningRearRight" parent="VehicleBody" index="14"]
+[node name="LightTurningRearRight" parent="VehicleBody" index="15"]
 cast_shadow = 0
 material/0 = ExtResource( 6 )
 script = ExtResource( 9 )
@@ -262,10 +273,10 @@ light_energy = 2.0
 spot_range = 3.0
 spot_angle = 85.0
 
-[node name="Plates" parent="VehicleBody" index="15"]
+[node name="Plates" parent="VehicleBody" index="16"]
 material/0 = ExtResource( 3 )
 
-[node name="SteeringWheel" parent="VehicleBody" index="16"]
+[node name="SteeringWheel" parent="VehicleBody" index="17"]
 material/0 = ExtResource( 3 )
 
 [node name="CameraPoints" type="Spatial" parent="." index="5"]
