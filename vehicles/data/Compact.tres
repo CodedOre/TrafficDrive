@@ -5,13 +5,13 @@
 
 [resource]
 script = ExtResource( 1 )
-MaxEngineForce = 0
-MaxEngineRPM = 0
-IdleEngineRPM = 0
+MaxEngineForce = 64
+MaxEngineRPM = 6500
+IdleEngineRPM = 1000
 EnginePowerCurve = ExtResource( 2 )
-GearsIdentifier = [ "N" ]
-GearsRatio = [ 0.0 ]
-FinalDriveRatio = 0.0
+GearsIdentifier = [ "R", "N", "1", "2", "3", "4", "5", "6" ]
+GearsRatio = [ -3.833, 0.0, 3.417, 1.958, 1.276, 0.943, 0.757, 0.634 ]
+FinalDriveRatio = 4.353
 MaxBrakeForce = 16
 MaxSteerAngle = 35
 SteeringWheelMultiplier = 8

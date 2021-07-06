@@ -12,6 +12,7 @@
 [ext_resource path="res://assets/collisions/vehicles/Compact.shape" type="Shape" id=10]
 
 [node name="Compact" instance=ExtResource( 1 )]
+mass = 127.245
 Data = ExtResource( 2 )
 Lights = [ NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightFrontSmallLeft"), NodePath("VehicleBody/LightFrontSmallRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightRearSmallLeft"), NodePath("VehicleBody/LightRearSmallRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningFrontLeft"), NodePath("VehicleBody/LightTurningFrontRight"), NodePath("VehicleBody/LightTurningRearLeft"), NodePath("VehicleBody/LightTurningRearRight") ]
 
