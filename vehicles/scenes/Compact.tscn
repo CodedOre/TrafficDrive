@@ -17,6 +17,13 @@ Lights = [ NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFr
 
 [node name="WheelFrontLeft" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.682014, 0.332806, 1.33543 )
+use_as_traction = true
+use_as_steering = true
+wheel_radius = 0.335
+wheel_rest_length = 0.075
+wheel_friction_slip = 1.0
+suspension_travel = 0.28
+suspension_stiffness = 65.0
 
 [node name="WheelFrontLeft" parent="WheelFrontLeft" index="0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
@@ -24,6 +31,11 @@ material/0 = ExtResource( 3 )
 
 [node name="WheelRearLeft" parent="." index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.682014, 0.332806, -1.21315 )
+wheel_radius = 0.335
+wheel_rest_length = 0.075
+wheel_friction_slip = 1.0
+suspension_travel = 0.28
+suspension_stiffness = 65.0
 
 [node name="WheelRearLeft" parent="WheelRearLeft" index="0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
@@ -31,6 +43,12 @@ material/0 = ExtResource( 3 )
 
 [node name="WheelFrontRight" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.682014, 0.332806, 1.33543 )
+use_as_traction = true
+use_as_steering = true
+wheel_rest_length = 0.075
+wheel_friction_slip = 1.0
+suspension_travel = 0.28
+suspension_stiffness = 65.0
 
 [node name="WheelFrontRight" parent="WheelFrontRight" index="0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
@@ -38,6 +56,11 @@ material/0 = ExtResource( 3 )
 
 [node name="WheelRearRight" parent="." index="3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.682014, 0.332806, -1.21315 )
+wheel_radius = 0.335
+wheel_rest_length = 0.075
+wheel_friction_slip = 1.0
+suspension_travel = 0.28
+suspension_stiffness = 65.0
 
 [node name="WheelRearRight" parent="WheelRearRight" index="0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
