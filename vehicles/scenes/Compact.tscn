@@ -13,6 +13,7 @@
 
 [node name="Compact" instance=ExtResource( 1 )]
 Data = ExtResource( 2 )
+Lights = [ NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightFrontSmallLeft"), NodePath("VehicleBody/LightFrontSmallRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightRearSmallLeft"), NodePath("VehicleBody/LightRearSmallRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningFrontLeft"), NodePath("VehicleBody/LightTurningFrontRight"), NodePath("VehicleBody/LightTurningRearLeft"), NodePath("VehicleBody/LightTurningRearRight") ]
 
 [node name="WheelFrontLeft" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.682014, 0.332806, 1.33543 )
@@ -50,45 +51,171 @@ material/0 = ExtResource( 4 )
 
 [node name="LightFrontLeft" parent="VehicleBody" index="1"]
 material/0 = ExtResource( 5 )
+script = ExtResource( 9 )
+FrontLight = 2
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightFrontLeft" index="0"]
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, 62, 204, -68 )
+light_energy = 8.0
+shadow_enabled = true
+spot_range = 30.0
+spot_angle = 35.0
 
 [node name="LightFrontRight" parent="VehicleBody" index="2"]
 material/0 = ExtResource( 5 )
+script = ExtResource( 9 )
+FrontLight = 2
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightFrontRight" index="0"]
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, -62, 204, -68 )
+light_energy = 8.0
+shadow_enabled = true
+spot_range = 30.0
+spot_angle = 35.0
 
 [node name="LightFrontSmallLeft" parent="VehicleBody" index="3"]
 material/0 = ExtResource( 5 )
+script = ExtResource( 9 )
+FrontLight = 1
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightFrontSmallLeft" index="0"]
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, 62, 200, -30 )
+light_energy = 4.0
+spot_range = 12.0
+spot_angle = 50.0
 
 [node name="LightFrontSmallRight" parent="VehicleBody" index="4"]
 material/0 = ExtResource( 5 )
+script = ExtResource( 9 )
+FrontLight = 1
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightFrontSmallRight" index="0"]
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, -62, 200, -30 )
+light_energy = 4.0
+spot_range = 12.0
+spot_angle = 50.0
 
 [node name="LightRearLeft" parent="VehicleBody" index="5"]
 material/0 = ExtResource( 6 )
+script = ExtResource( 9 )
+RearLight = true
+BrakeLight = true
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightRearLeft" index="0"]
+transform = Transform( 70.7747, -19.8181, -67.81, 70.6434, 18.9288, 68.1998, -0.680299, -96.1714, 27.397, 74, -160, -101 )
+light_color = Color( 1, 0, 0, 1 )
+light_energy = 4.0
+spot_range = 3.0
+spot_angle = 75.0
 
 [node name="LightRearRight" parent="VehicleBody" index="6"]
 material/0 = ExtResource( 6 )
+script = ExtResource( 9 )
+RearLight = true
+BrakeLight = true
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightRearRight" index="0"]
+transform = Transform( -51.3836, -52.5503, 67.8099, 70.6434, 18.9288, 68.1998, -48.6749, 82.9468, 27.397, -74, -160, -101 )
+light_color = Color( 1, 0, 0, 1 )
+light_energy = 4.0
+spot_range = 3.0
+spot_angle = 75.0
 
 [node name="LightRearSmallLeft" parent="VehicleBody" index="7"]
 material/0 = ExtResource( 6 )
+script = ExtResource( 9 )
+RearLight = true
+BrakeLight = true
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightRearSmallLeft" index="0"]
+transform = Transform( -86.6025, -8.15666e-06, -50, -50, -2.18557e-06, 86.6025, -8.15666e-06, 100, -2.18557e-06, 62, -180, -48 )
+light_color = Color( 1, 0, 0, 1 )
+light_energy = 4.0
+spot_range = 3.0
+spot_angle = 75.0
 
 [node name="LightRearSmallRight" parent="VehicleBody" index="8"]
 material/0 = ExtResource( 6 )
+script = ExtResource( 9 )
+RearLight = true
+BrakeLight = true
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightRearSmallRight" index="0"]
+transform = Transform( 86.6025, -5.85621e-07, 50, -50, -2.18557e-06, 86.6025, 5.85621e-07, -100, -2.18557e-06, -62, -180, -48 )
+light_color = Color( 1, 0, 0, 1 )
+light_energy = 4.0
+spot_range = 3.0
+spot_angle = 75.0
 
 [node name="LightReverseLeft" parent="VehicleBody" index="9"]
 material/0 = ExtResource( 7 )
+script = ExtResource( 9 )
+ReverseLight = true
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightReverseLeft" index="0"]
+transform = Transform( 90.6308, 4.09542e-07, -42.2618, 42.2618, -1.84732e-06, 90.6308, -4.09542e-07, -100, -1.84732e-06, 68, -167, -97.5 )
+light_energy = 4.0
+spot_range = 4.0
+spot_angle = 65.0
 
 [node name="LightReverseRight" parent="VehicleBody" index="10"]
 material/0 = ExtResource( 7 )
+script = ExtResource( 9 )
+ReverseLight = true
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightReverseRight" index="0"]
+transform = Transform( -90.6308, 8.33274e-06, 42.2618, 42.2618, -1.84732e-06, 90.6308, 8.33274e-06, 100, -1.84732e-06, -68, -167, -97.5 )
+light_energy = 4.0
+spot_range = 4.0
+spot_angle = 65.0
 
 [node name="LightTurningFrontLeft" parent="VehicleBody" index="11"]
 material/0 = ExtResource( 8 )
+script = ExtResource( 9 )
+TurningSignal = 1
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightTurningFrontLeft" index="0"]
+transform = Transform( 52.9919, -2.05479e-06, -84.8048, -84.8048, -3.70694e-06, -52.9919, -2.05479e-06, 100, -3.70694e-06, 71, 180, -75 )
+light_color = Color( 1, 0.654902, 0, 1 )
+light_energy = 2.0
+spot_range = 3.0
+spot_angle = 85.0
 
 [node name="LightTurningFrontRight" parent="VehicleBody" index="12"]
 material/0 = ExtResource( 8 )
+script = ExtResource( 9 )
+TurningSignal = 2
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightTurningFrontRight" index="0"]
+transform = Transform( -52.9919, -6.68749e-06, 84.8048, -84.8048, -3.70694e-06, -52.9919, 6.68749e-06, -100, -3.70694e-06, -71, 180, -75 )
+light_color = Color( 1, 0.654902, 0, 1 )
+light_energy = 2.0
+spot_range = 3.0
+spot_angle = 85.0
 
 [node name="LightTurningRearLeft" parent="VehicleBody" index="13"]
 material/0 = ExtResource( 8 )
+script = ExtResource( 9 )
+TurningSignal = 1
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightTurningRearLeft" index="0"]
+transform = Transform( -42.2618, -6.21846e-06, -90.6308, -90.6308, -3.96161e-06, 42.2618, -6.21847e-06, 100, -3.96159e-06, 74, -165, -84 )
+light_color = Color( 1, 0.654902, 0, 1 )
+light_energy = 2.0
+spot_range = 3.0
+spot_angle = 85.0
 
 [node name="LightTurningRearRight" parent="VehicleBody" index="14"]
 material/0 = ExtResource( 8 )
+script = ExtResource( 9 )
+TurningSignal = 2
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightTurningRearRight" index="0"]
+transform = Transform( 42.2618, -2.52382e-06, 90.6308, -90.6308, -3.9616e-06, 42.2618, 2.52382e-06, -100, -3.9616e-06, -74, -165, -84 )
+light_color = Color( 1, 0.654902, 0, 1 )
+light_energy = 2.0
+spot_range = 3.0
+spot_angle = 85.0
 
 [node name="Plates" parent="VehicleBody" index="15"]
 material/0 = ExtResource( 3 )
