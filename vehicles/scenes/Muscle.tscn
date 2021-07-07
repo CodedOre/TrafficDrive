@@ -11,7 +11,7 @@
 [ext_resource path="res://assets/materials/VehicleLights/TurningSignalOff.material" type="Material" id=9]
 
 [node name="Muscle" instance=ExtResource( 1 )]
-Lights = [ NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightFrontSmallLeft"), NodePath("VehicleBody/LightFrontSmallRight"), NodePath("VehicleBody/LightRearLeftOne"), NodePath("VehicleBody/LightRearLeftTwo"), NodePath("VehicleBody/LightRearRightOne"), NodePath("VehicleBody/LightRearRightTwo"), NodePath("VehicleBody/LightRearSmallLeft"), NodePath("VehicleBody/LightRearSmallRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight") ]
+Lights = [ NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightFrontSmallLeft"), NodePath("VehicleBody/LightFrontSmallRight"), NodePath("VehicleBody/LightRearLeftOne"), NodePath("VehicleBody/LightRearLeftTwo"), NodePath("VehicleBody/LightRearRightOne"), NodePath("VehicleBody/LightRearRightTwo"), NodePath("VehicleBody/LightRearSmallLeft"), NodePath("VehicleBody/LightRearSmallRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningFrontLeft"), NodePath("VehicleBody/LightTurningFrontRight"), NodePath("VehicleBody/LightTurningRearLeft"), NodePath("VehicleBody/LightTurningRearRight") ]
 
 [node name="WheelRearLeft" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.790015, 0.406549, -1.35486 )
@@ -98,7 +98,6 @@ material/0 = ExtResource( 6 )
 script = ExtResource( 5 )
 RearLight = true
 BrakeLight = true
-TurningSignal = 1
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightRearLeftOne" index="0"]
 transform = Transform( 100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 91.5, -257, -78.5 )
@@ -112,10 +111,9 @@ material/0 = ExtResource( 6 )
 script = ExtResource( 5 )
 RearLight = true
 BrakeLight = true
-TurningSignal = 1
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightRearLeftTwo" index="0"]
-transform = Transform( 100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 72.5, -257, -78.2 )
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 52, -257, -78.5 )
 light_color = Color( 1, 0, 0, 1 )
 light_energy = 4.0
 spot_range = 3.0
@@ -126,7 +124,6 @@ material/0 = ExtResource( 6 )
 script = ExtResource( 5 )
 RearLight = true
 BrakeLight = true
-TurningSignal = 2
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightRearRightOne" index="0"]
 transform = Transform( 100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, -91.5, -257, -78.5 )
@@ -140,10 +137,9 @@ material/0 = ExtResource( 6 )
 script = ExtResource( 5 )
 RearLight = true
 BrakeLight = true
-TurningSignal = 2
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightRearRightTwo" index="0"]
-transform = Transform( 100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, -72.5, -257, -78.2 )
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, -52, -257, -78.5 )
 light_color = Color( 1, 0, 0, 1 )
 light_energy = 4.0
 spot_range = 3.0
@@ -181,7 +177,7 @@ script = ExtResource( 5 )
 ReverseLight = true
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightReverseLeft" index="0"]
-transform = Transform( 100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 52, -257, -78.5 )
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 72.2, -258, -80 )
 light_energy = 4.0
 spot_range = 4.0
 spot_angle = 65.0
@@ -192,7 +188,7 @@ script = ExtResource( 5 )
 ReverseLight = true
 
 [node name="Light" type="SpotLight" parent="VehicleBody/LightReverseRight" index="0"]
-transform = Transform( 100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, -52, -257, -78.5 )
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, -72.2, -258, -80 )
 light_energy = 4.0
 spot_range = 4.0
 spot_angle = 65.0
@@ -221,10 +217,34 @@ light_energy = 2.0
 spot_range = 3.0
 spot_angle = 85.0
 
-[node name="Plates" parent="VehicleBody" index="15"]
+[node name="LightTurningRearLeft" parent="VehicleBody" index="15"]
+material/0 = ExtResource( 9 )
+script = ExtResource( 5 )
+TurningSignal = 1
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightTurningRearLeft" index="0"]
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 72.2, -260, -75 )
+light_color = Color( 1, 0.654902, 0, 1 )
+light_energy = 2.0
+spot_range = 3.0
+spot_angle = 85.0
+
+[node name="LightTurningRearRight" parent="VehicleBody" index="16"]
+material/0 = ExtResource( 9 )
+script = ExtResource( 5 )
+TurningSignal = 2
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightTurningRearRight" index="0"]
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, -72.2, -260, -75 )
+light_color = Color( 1, 0.654902, 0, 1 )
+light_energy = 2.0
+spot_range = 3.0
+spot_angle = 85.0
+
+[node name="Plates" parent="VehicleBody" index="17"]
 material/0 = ExtResource( 2 )
 
-[node name="SteeringWheel" parent="VehicleBody" index="16"]
+[node name="SteeringWheel" parent="VehicleBody" index="18"]
 material/0 = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="." index="5"]
