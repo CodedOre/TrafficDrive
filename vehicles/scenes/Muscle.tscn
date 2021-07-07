@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/models/vehicles/Muscle.glb" type="PackedScene" id=1]
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/materials/VehicleLights/RearLightOff.material" type="Material" id=6]
 [ext_resource path="res://assets/materials/VehicleLights/FrontLightOff.material" type="Material" id=7]
 [ext_resource path="res://assets/materials/VehicleLights/ReverseLightOff.material" type="Material" id=8]
+[ext_resource path="res://assets/materials/VehicleLights/TurningSignalOff.material" type="Material" id=9]
 
 [node name="Muscle" instance=ExtResource( 1 )]
 Lights = [ NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightFrontSmallLeft"), NodePath("VehicleBody/LightFrontSmallRight"), NodePath("VehicleBody/LightRearLeftOne"), NodePath("VehicleBody/LightRearLeftTwo"), NodePath("VehicleBody/LightRearRightOne"), NodePath("VehicleBody/LightRearRightTwo"), NodePath("VehicleBody/LightRearSmallLeft"), NodePath("VehicleBody/LightRearSmallRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight") ]
@@ -196,10 +197,34 @@ light_energy = 4.0
 spot_range = 4.0
 spot_angle = 65.0
 
-[node name="Plates" parent="VehicleBody" index="13"]
+[node name="LightTurningFrontLeft" parent="VehicleBody" index="13"]
+material/0 = ExtResource( 9 )
+script = ExtResource( 5 )
+TurningSignal = 1
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightTurningFrontLeft" index="0"]
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, 66, 277, -61 )
+light_color = Color( 1, 0.654902, 0, 1 )
+light_energy = 2.0
+spot_range = 3.0
+spot_angle = 85.0
+
+[node name="LightTurningFrontRight" parent="VehicleBody" index="14"]
+material/0 = ExtResource( 9 )
+script = ExtResource( 5 )
+TurningSignal = 2
+
+[node name="Light" type="SpotLight" parent="VehicleBody/LightTurningFrontRight" index="0"]
+transform = Transform( 100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, -66, 277, -61 )
+light_color = Color( 1, 0.654902, 0, 1 )
+light_energy = 2.0
+spot_range = 3.0
+spot_angle = 85.0
+
+[node name="Plates" parent="VehicleBody" index="15"]
 material/0 = ExtResource( 2 )
 
-[node name="SteeringWheel" parent="VehicleBody" index="14"]
+[node name="SteeringWheel" parent="VehicleBody" index="16"]
 material/0 = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="." index="5"]
