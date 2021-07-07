@@ -89,7 +89,7 @@ signal camera_changed()
 # - Runs at startup -
 func _ready() -> void:
 	# Check for VehicleData
-	if VehicleData == null:
+	if Data == null:
 		push_error("Vehicle: Could not initialize vehicle without VehicleData!")
 		return
 	# Initialize VehicleLightManager
