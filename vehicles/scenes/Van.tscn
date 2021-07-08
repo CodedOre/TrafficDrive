@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/models/vehicles/Van.glb" type="PackedScene" id=1]
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=2]
@@ -9,10 +9,13 @@
 [ext_resource path="res://assets/materials/VehicleLights/TurningSignalOff.material" type="Material" id=7]
 [ext_resource path="res://assets/collisions/vehicles/Van.shape" type="Shape" id=8]
 [ext_resource path="res://scripts/vehicles/VehicleLight.gd" type="Script" id=9]
+[ext_resource path="res://vehicles/data/Van.tres" type="Resource" id=10]
 
 [node name="Van" instance=ExtResource( 1 )]
 collision_layer = 2
 collision_mask = 3
+mass = 243.367
+Data = ExtResource( 10 )
 
 [node name="WheelFrontLeft" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.819473, 0.397583, 1.84117 )
