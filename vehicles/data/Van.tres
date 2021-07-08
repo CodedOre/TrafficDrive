@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://scripts/vehicles/VehicleData.gd" type="Script" id=1]
+[ext_resource path="res://vehicles/data/VanEngineCurve.tres" type="Curve" id=2]
+
+[resource]
+script = ExtResource( 1 )
+MaxEngineForce = 149
+MaxEngineRPM = 5600
+IdleEngineRPM = 1000
+EnginePowerCurve = ExtResource( 2 )
+GearsIdentifier = [ "R", "N", "1", "2", "3", "4" ]
+GearsRatio = [ -2.294, 0.0, 3.059, 1.625, 1.0, 0.696 ]
+FinalDriveRatio = 3.42
+MaxBrakeForce = 16
+MaxSteerAngle = 35
+SteeringWheelMultiplier = 8
