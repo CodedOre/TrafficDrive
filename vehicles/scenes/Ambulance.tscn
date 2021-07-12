@@ -22,30 +22,50 @@ OuterMirrorPoint = NodePath("MirrorPoints/OuterMirror")
 SteeringWheel = NodePath("VehicleBody/SteeringWheel")
 
 [node name="WheelFrontLeft" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.819475, 0.397583, 1.85367 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.819473, 0.397583, 1.84117 )
+use_as_steering = true
+wheel_radius = 0.4
+wheel_friction_slip = 1.0
+suspension_travel = 0.2
+suspension_stiffness = 50.0
 
 [node name="WheelFrontLeft" parent="WheelFrontLeft" index="0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 material/0 = ExtResource( 2 )
 
 [node name="WheelRearLeft" parent="." index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.819475, 0.397583, -1.45996 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.819473, 0.397583, -1.47098 )
+use_as_traction = true
+wheel_radius = 0.4
+wheel_friction_slip = 1.0
+suspension_travel = 0.2
+suspension_stiffness = 50.0
 
 [node name="WheelRearLeft" parent="WheelRearLeft" index="0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 material/0 = ExtResource( 2 )
 
-[node name="WheelFrontRight" parent="." index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.819475, 0.397583, 1.85367 )
+[node name="WheelRearRight" parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.819473, 0.397583, -1.47098 )
+use_as_traction = true
+wheel_radius = 0.4
+wheel_friction_slip = 1.0
+suspension_travel = 0.2
+suspension_stiffness = 50.0
 
-[node name="WheelFrontRight" parent="WheelFrontRight" index="0"]
+[node name="WheelRearRight" parent="WheelRearRight" index="0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 material/0 = ExtResource( 2 )
 
-[node name="WheelRearRight" parent="." index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.819475, 0.397583, -1.45996 )
+[node name="WheelFrontRight" parent="." index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.819473, 0.397583, 1.84117 )
+use_as_steering = true
+wheel_radius = 0.4
+wheel_friction_slip = 1.0
+suspension_travel = 0.2
+suspension_stiffness = 50.0
 
-[node name="WheelRearRight" parent="WheelRearRight" index="0"]
+[node name="WheelFrontRight" parent="WheelFrontRight" index="0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 material/0 = ExtResource( 2 )
 
