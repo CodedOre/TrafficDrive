@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=1]
-[ext_resource path="res://assets/models/enviroment/road/Bare.mesh" type="ArrayMesh" id=2]
+[ext_resource path="res://assets/models/enviroment/road/Basic.mesh" type="ArrayMesh" id=2]
 [ext_resource path="res://assets/models/enviroment/road/Crossing.mesh" type="ArrayMesh" id=3]
 [ext_resource path="res://assets/models/enviroment/road/Dashed1.mesh" type="ArrayMesh" id=4]
 [ext_resource path="res://assets/models/enviroment/road/Dashed2.mesh" type="ArrayMesh" id=5]
@@ -17,13 +17,13 @@
 
 [node name="RoadElements" type="Spatial"]
 
-[node name="Bare" type="MeshInstance" parent="."]
+[node name="Basic" type="MeshInstance" parent="."]
 mesh = ExtResource( 2 )
 material/0 = ExtResource( 1 )
 
-[node name="StaticBody" type="StaticBody" parent="Bare"]
+[node name="StaticBody" type="StaticBody" parent="Basic"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Bare/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Basic/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, -2.5 )
 shape = ExtResource( 13 )
 
