@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=1]
 [ext_resource path="res://assets/models/enviroment/bridge/Underside.mesh" type="ArrayMesh" id=2]
@@ -6,6 +6,11 @@
 [ext_resource path="res://assets/models/enviroment/bridge/Pillar.mesh" type="ArrayMesh" id=4]
 [ext_resource path="res://assets/models/enviroment/bridge/Support.mesh" type="ArrayMesh" id=5]
 [ext_resource path="res://assets/models/enviroment/bridge/Wall.mesh" type="ArrayMesh" id=6]
+[ext_resource path="res://assets/collisions/enviroment/bridge/Underside.shape" type="Shape" id=7]
+[ext_resource path="res://assets/collisions/enviroment/bridge/Support.shape" type="Shape" id=8]
+[ext_resource path="res://assets/collisions/enviroment/bridge/Pillar.shape" type="Shape" id=9]
+[ext_resource path="res://assets/collisions/enviroment/bridge/Wall.shape" type="Shape" id=10]
+[ext_resource path="res://assets/collisions/enviroment/bridge/Edge.shape" type="Shape" id=11]
 
 [node name="FoundationElements" type="Spatial"]
 
@@ -13,22 +18,50 @@
 mesh = ExtResource( 2 )
 material/0 = ExtResource( 1 )
 
+[node name="StaticBody" type="StaticBody" parent="Bridge_Underside"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Bridge_Underside/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, -1.2, -2.5 )
+shape = ExtResource( 7 )
+
 [node name="Bridge_Edge" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0 )
 mesh = ExtResource( 3 )
 material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Bridge_Edge"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Bridge_Edge/StaticBody"]
+shape = ExtResource( 11 )
 
 [node name="Bridge_Pillar" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0 )
 mesh = ExtResource( 4 )
 material/0 = ExtResource( 1 )
 
+[node name="StaticBody" type="StaticBody" parent="Bridge_Pillar"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Bridge_Pillar/StaticBody"]
+shape = ExtResource( 9 )
+
 [node name="Bridge_Support" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6 )
 mesh = ExtResource( 5 )
 material/0 = ExtResource( 1 )
 
+[node name="StaticBody" type="StaticBody" parent="Bridge_Support"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Bridge_Support/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6 )
+shape = ExtResource( 8 )
+
 [node name="Bridge_Wall" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0 )
 mesh = ExtResource( 6 )
 material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Bridge_Wall"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Bridge_Wall/StaticBody"]
+shape = ExtResource( 10 )
