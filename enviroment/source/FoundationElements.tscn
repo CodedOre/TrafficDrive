@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/materials/Body.material" type="Material" id=1]
+[ext_resource path="res://assets/models/enviroment/bridge/Underside.mesh" type="ArrayMesh" id=2]
+[ext_resource path="res://assets/models/enviroment/bridge/Edge.mesh" type="ArrayMesh" id=3]
+[ext_resource path="res://assets/models/enviroment/bridge/Pillar.mesh" type="ArrayMesh" id=4]
+[ext_resource path="res://assets/models/enviroment/bridge/Support.mesh" type="ArrayMesh" id=5]
+[ext_resource path="res://assets/models/enviroment/bridge/Wall.mesh" type="ArrayMesh" id=6]
+
+[node name="FoundationElements" type="Spatial"]
+
+[node name="Bridge_Underside" type="MeshInstance" parent="."]
+mesh = ExtResource( 2 )
+material/0 = ExtResource( 1 )
+
+[node name="Bridge_Edge" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 1 )
+
+[node name="Bridge_Pillar" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0 )
+mesh = ExtResource( 4 )
+material/0 = ExtResource( 1 )
+
+[node name="Bridge_Support" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6 )
+mesh = ExtResource( 5 )
+material/0 = ExtResource( 1 )
+
+[node name="Bridge_Wall" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0 )
+mesh = ExtResource( 6 )
+material/0 = ExtResource( 1 )
