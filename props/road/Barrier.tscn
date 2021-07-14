@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/models/props/road/BarrierBeam.mesh" type="ArrayMesh" id=1]
 [ext_resource path="res://assets/models/props/road/BarrierLegLeft.mesh" type="ArrayMesh" id=2]
@@ -7,10 +7,15 @@
 [ext_resource path="res://assets/collisions/props/road/BarrierBeam.shape" type="Shape" id=5]
 [ext_resource path="res://assets/collisions/props/road/BarrierLeftLeg.shape" type="Shape" id=6]
 [ext_resource path="res://assets/collisions/props/road/BarrierRightLeg.shape" type="Shape" id=7]
+[ext_resource path="res://scripts/props/road/Barrier.gd" type="Script" id=8]
 
 [node name="Barrier" type="Spatial"]
+script = ExtResource( 8 )
 
 [node name="Beam" type="RigidBody" parent="."]
+collision_mask = 2
+contacts_reported = 1
+contact_monitor = true
 
 [node name="MeshInstance" type="MeshInstance" parent="Beam"]
 mesh = ExtResource( 1 )
@@ -20,6 +25,9 @@ material/0 = ExtResource( 4 )
 shape = ExtResource( 5 )
 
 [node name="LegLeft" type="RigidBody" parent="."]
+collision_mask = 2
+contacts_reported = 1
+contact_monitor = true
 
 [node name="MeshInstance" type="MeshInstance" parent="LegLeft"]
 mesh = ExtResource( 2 )
@@ -29,6 +37,9 @@ material/0 = ExtResource( 4 )
 shape = ExtResource( 6 )
 
 [node name="LegRight" type="RigidBody" parent="."]
+collision_mask = 2
+contacts_reported = 1
+contact_monitor = true
 
 [node name="MeshInstance" type="MeshInstance" parent="LegRight"]
 mesh = ExtResource( 3 )
@@ -46,3 +57,7 @@ nodes/node_b = NodePath("../Beam")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 0.825, 0 )
 nodes/node_a = NodePath("../LegRight")
 nodes/node_b = NodePath("../Beam")
+
+[connection signal="body_entered" from="Beam" to="." method="break_barrier" flags=6 binds= [ 1 ]]
+[connection signal="body_entered" from="LegLeft" to="." method="break_barrier" flags=6 binds= [ 0 ]]
+[connection signal="body_entered" from="LegRight" to="." method="break_barrier" flags=6 binds= [ 2 ]]
