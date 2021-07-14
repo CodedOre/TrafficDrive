@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/models/props/road/BarrierBeam.mesh" type="ArrayMesh" id=1]
+[ext_resource path="res://assets/models/props/road/BarrierLegLeft.mesh" type="ArrayMesh" id=2]
+[ext_resource path="res://assets/models/props/road/BarrierLegRight.mesh" type="ArrayMesh" id=3]
+[ext_resource path="res://assets/materials/Body.material" type="Material" id=4]
+[ext_resource path="res://assets/collisions/props/road/BarrierBeam.shape" type="Shape" id=5]
+[ext_resource path="res://assets/collisions/props/road/BarrierLeftLeg.shape" type="Shape" id=6]
+[ext_resource path="res://assets/collisions/props/road/BarrierRightLeg.shape" type="Shape" id=7]
+
+[node name="Barrier" type="Spatial"]
+
+[node name="Beam" type="RigidBody" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="Beam"]
+mesh = ExtResource( 1 )
+material/0 = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Beam"]
+shape = ExtResource( 5 )
+
+[node name="LegLeft" type="RigidBody" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="LegLeft"]
+mesh = ExtResource( 2 )
+material/0 = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="LegLeft"]
+shape = ExtResource( 6 )
+
+[node name="LegRight" type="RigidBody" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="LegRight"]
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="LegRight"]
+shape = ExtResource( 7 )
+
+[node name="LeftToBeamJoint" type="Generic6DOFJoint" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.65, 0.825, 0 )
+nodes/node_a = NodePath("../LegLeft")
+nodes/node_b = NodePath("../Beam")
+
+[node name="RightToBeamJoint" type="Generic6DOFJoint" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, 0.825, 0 )
+nodes/node_a = NodePath("../LegRight")
+nodes/node_b = NodePath("../Beam")
