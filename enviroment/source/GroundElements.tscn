@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=1]
 [ext_resource path="res://assets/models/enviroment/road/Basic.mesh" type="ArrayMesh" id=2]
@@ -40,6 +40,9 @@
 [ext_resource path="res://assets/models/enviroment/misc/SubwayEntrance2.mesh" type="ArrayMesh" id=38]
 [ext_resource path="res://assets/models/enviroment/misc/SubwayEntrance1Roof.mesh" type="ArrayMesh" id=39]
 [ext_resource path="res://assets/materials/Glass.material" type="Material" id=40]
+[ext_resource path="res://assets/collisions/enviroment/misc/SubwayEntrance2.shape" type="Shape" id=41]
+[ext_resource path="res://assets/collisions/enviroment/misc/SubwayEntrance1Roof.shape" type="Shape" id=42]
+[ext_resource path="res://assets/collisions/enviroment/misc/SubwayEntrance1.shape" type="Shape" id=43]
 
 [node name="GroundElements" type="Spatial"]
 
@@ -301,6 +304,7 @@ material/0 = ExtResource( 1 )
 [node name="StaticBody" type="StaticBody" parent="Misc_SubwayEntrance1"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Misc_SubwayEntrance1/StaticBody"]
+shape = ExtResource( 43 )
 
 [node name="Misc_SubwayEntrance1Roof" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0, -5 )
@@ -310,6 +314,7 @@ material/0 = ExtResource( 40 )
 [node name="StaticBody" type="StaticBody" parent="Misc_SubwayEntrance1Roof"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Misc_SubwayEntrance1Roof/StaticBody"]
+shape = ExtResource( 42 )
 
 [node name="Misc_SubwayEntrance2" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, 0 )
@@ -319,3 +324,4 @@ material/0 = ExtResource( 1 )
 [node name="StaticBody" type="StaticBody" parent="Misc_SubwayEntrance2"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Misc_SubwayEntrance2/StaticBody"]
+shape = ExtResource( 41 )
