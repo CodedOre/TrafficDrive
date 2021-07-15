@@ -43,16 +43,16 @@
 [ext_resource path="res://assets/collisions/enviroment/misc/SubwayEntrance2.shape" type="Shape" id=41]
 [ext_resource path="res://assets/collisions/enviroment/misc/SubwayEntrance1Roof.shape" type="Shape" id=42]
 [ext_resource path="res://assets/collisions/enviroment/misc/SubwayEntrance1.shape" type="Shape" id=43]
-[ext_resource path="res://assets/models/enviroment/misc/Grass.mesh" type="ArrayMesh" id=44]
-[ext_resource path="res://assets/models/enviroment/misc/PathStraight.mesh" type="ArrayMesh" id=45]
-[ext_resource path="res://assets/models/enviroment/misc/PathCorner.mesh" type="ArrayMesh" id=46]
-[ext_resource path="res://assets/models/enviroment/misc/PathJunction.mesh" type="ArrayMesh" id=47]
-[ext_resource path="res://assets/models/enviroment/misc/PathTJunction.mesh" type="ArrayMesh" id=48]
-[ext_resource path="res://assets/collisions/enviroment/misc/Grass.shape" type="Shape" id=49]
-[ext_resource path="res://assets/collisions/enviroment/misc/PathStraight.shape" type="Shape" id=50]
-[ext_resource path="res://assets/collisions/enviroment/misc/PathTJunction.shape" type="Shape" id=51]
-[ext_resource path="res://assets/collisions/enviroment/misc/PathJunction.shape" type="Shape" id=52]
-[ext_resource path="res://assets/collisions/enviroment/misc/PathCorner.shape" type="Shape" id=53]
+[ext_resource path="res://assets/models/enviroment/park/Grass.mesh" type="ArrayMesh" id=44]
+[ext_resource path="res://assets/models/enviroment/park/PathStraight.mesh" type="ArrayMesh" id=45]
+[ext_resource path="res://assets/models/enviroment/park/PathCorner.mesh" type="ArrayMesh" id=46]
+[ext_resource path="res://assets/models/enviroment/park/PathJunction.mesh" type="ArrayMesh" id=47]
+[ext_resource path="res://assets/models/enviroment/park/PathTJunction.mesh" type="ArrayMesh" id=48]
+[ext_resource path="res://assets/collisions/enviroment/park/Grass.shape" type="Shape" id=49]
+[ext_resource path="res://assets/collisions/enviroment/park/PathStraight.shape" type="Shape" id=50]
+[ext_resource path="res://assets/collisions/enviroment/park/PathTJunction.shape" type="Shape" id=51]
+[ext_resource path="res://assets/collisions/enviroment/park/PathJunction.shape" type="Shape" id=52]
+[ext_resource path="res://assets/collisions/enviroment/park/PathCorner.shape" type="Shape" id=53]
 
 [node name="GroundElements" type="Spatial"]
 
@@ -306,6 +306,57 @@ material/0 = ExtResource( 1 )
 [node name="CollisionShape" type="CollisionShape" parent="Sidewalk_Construction/StaticBody"]
 shape = ExtResource( 27 )
 
+[node name="Park_Grass" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0, 18 )
+mesh = ExtResource( 44 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Park_Grass"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Park_Grass/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0 )
+shape = ExtResource( 49 )
+
+[node name="Park_PathStraight" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0, 6 )
+mesh = ExtResource( 45 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Park_PathStraight"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Park_PathStraight/StaticBody"]
+shape = ExtResource( 50 )
+
+[node name="Park_PathCorner" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0, 12 )
+mesh = ExtResource( 46 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Park_PathCorner"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Park_PathCorner/StaticBody"]
+shape = ExtResource( 53 )
+
+[node name="Park_PathJunction" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, 12 )
+mesh = ExtResource( 47 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Park_PathJunction"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Park_PathJunction/StaticBody"]
+shape = ExtResource( 52 )
+
+[node name="Park_PathTJunction" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, 6 )
+mesh = ExtResource( 48 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Park_PathTJunction"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Park_PathTJunction/StaticBody"]
+shape = ExtResource( 51 )
+
 [node name="Misc_SubwayEntrance1" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0, 0 )
 mesh = ExtResource( 37 )
@@ -335,54 +386,3 @@ material/0 = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Misc_SubwayEntrance2/StaticBody"]
 shape = ExtResource( 41 )
-
-[node name="Misc_Grass" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0, 18 )
-mesh = ExtResource( 44 )
-material/0 = ExtResource( 1 )
-
-[node name="StaticBody" type="StaticBody" parent="Misc_Grass"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Misc_Grass/StaticBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0 )
-shape = ExtResource( 49 )
-
-[node name="Misc_PathStraight" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0, 6 )
-mesh = ExtResource( 45 )
-material/0 = ExtResource( 1 )
-
-[node name="StaticBody" type="StaticBody" parent="Misc_PathStraight"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Misc_PathStraight/StaticBody"]
-shape = ExtResource( 50 )
-
-[node name="Misc_PathCorner" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0, 12 )
-mesh = ExtResource( 46 )
-material/0 = ExtResource( 1 )
-
-[node name="StaticBody" type="StaticBody" parent="Misc_PathCorner"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Misc_PathCorner/StaticBody"]
-shape = ExtResource( 53 )
-
-[node name="Misc_PathJunction" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, 12 )
-mesh = ExtResource( 47 )
-material/0 = ExtResource( 1 )
-
-[node name="StaticBody" type="StaticBody" parent="Misc_PathJunction"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Misc_PathJunction/StaticBody"]
-shape = ExtResource( 52 )
-
-[node name="Misc_PathTJunction" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, 6 )
-mesh = ExtResource( 48 )
-material/0 = ExtResource( 1 )
-
-[node name="StaticBody" type="StaticBody" parent="Misc_PathTJunction"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Misc_PathTJunction/StaticBody"]
-shape = ExtResource( 51 )
