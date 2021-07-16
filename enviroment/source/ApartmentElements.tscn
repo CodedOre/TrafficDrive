@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=1]
 [ext_resource path="res://assets/models/enviroment/apartment/Basic1.mesh" type="ArrayMesh" id=2]
@@ -39,6 +39,16 @@
 [ext_resource path="res://assets/collisions/enviroment/apartment/Stairs3.shape" type="Shape" id=37]
 [ext_resource path="res://assets/collisions/enviroment/apartment/Stairs2.shape" type="Shape" id=38]
 [ext_resource path="res://assets/collisions/enviroment/apartment/Stairs1.shape" type="Shape" id=39]
+[ext_resource path="res://assets/models/enviroment/apartment/StairsCorner.mesh" type="ArrayMesh" id=40]
+[ext_resource path="res://assets/models/enviroment/apartment/StairsPlanter1.mesh" type="ArrayMesh" id=41]
+[ext_resource path="res://assets/models/enviroment/apartment/StairsPlanter2.mesh" type="ArrayMesh" id=42]
+[ext_resource path="res://assets/models/enviroment/apartment/StairsPlanter4.mesh" type="ArrayMesh" id=43]
+[ext_resource path="res://assets/models/enviroment/apartment/StairsPlanter3.mesh" type="ArrayMesh" id=44]
+[ext_resource path="res://assets/collisions/enviroment/apartment/StairsPlanter2.shape" type="Shape" id=45]
+[ext_resource path="res://assets/collisions/enviroment/apartment/StairsPlanter4.shape" type="Shape" id=46]
+[ext_resource path="res://assets/collisions/enviroment/apartment/StairsPlanter1.shape" type="Shape" id=47]
+[ext_resource path="res://assets/collisions/enviroment/apartment/StairsPlanter3.shape" type="Shape" id=48]
+[ext_resource path="res://assets/collisions/enviroment/apartment/StairsCorner.shape" type="Shape" id=49]
 
 [node name="ApartmentElements" type="Spatial"]
 
@@ -231,8 +241,52 @@ material/0 = ExtResource( 1 )
 [node name="CollisionShape" type="CollisionShape" parent="Apartment_Stairs3/StaticBody"]
 shape = ExtResource( 37 )
 
-[node name="MeshInstance7" type="MeshInstance" parent="."]
+[node name="Apartment_StairsCorner" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 10 )
+mesh = ExtResource( 40 )
+material/0 = ExtResource( 1 )
 
-[node name="StaticBody" type="StaticBody" parent="MeshInstance7"]
+[node name="StaticBody" type="StaticBody" parent="Apartment_StairsCorner"]
 
-[node name="CollisionShape" type="CollisionShape" parent="MeshInstance7/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Apartment_StairsCorner/StaticBody"]
+shape = ExtResource( 49 )
+
+[node name="Apartment_StairsPlanter1" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, 10 )
+mesh = ExtResource( 41 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Apartment_StairsPlanter1"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Apartment_StairsPlanter1/StaticBody"]
+shape = ExtResource( 47 )
+
+[node name="Apartment_StairsPlanter2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, 10 )
+mesh = ExtResource( 42 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Apartment_StairsPlanter2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Apartment_StairsPlanter2/StaticBody"]
+shape = ExtResource( 45 )
+
+[node name="Apartment_StairsPlanter3" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, 14 )
+mesh = ExtResource( 44 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Apartment_StairsPlanter3"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Apartment_StairsPlanter3/StaticBody"]
+shape = ExtResource( 48 )
+
+[node name="Apartment_StairsPlanter4" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, 14 )
+mesh = ExtResource( 43 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Apartment_StairsPlanter4"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Apartment_StairsPlanter4/StaticBody"]
+shape = ExtResource( 46 )
