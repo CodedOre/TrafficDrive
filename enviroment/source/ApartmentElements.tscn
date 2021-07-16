@@ -202,7 +202,7 @@ material/0 = ExtResource( 1 )
 shape = ExtResource( 29 )
 
 [node name="Apartment_Stairs1" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -5 )
 mesh = ExtResource( 36 )
 material/0 = ExtResource( 1 )
 
@@ -212,7 +212,7 @@ material/0 = ExtResource( 1 )
 shape = ExtResource( 39 )
 
 [node name="Apartment_Stairs2" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -5 )
 mesh = ExtResource( 34 )
 material/0 = ExtResource( 1 )
 
