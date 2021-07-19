@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=1]
 [ext_resource path="res://assets/models/enviroment/apartment/Basic1.mesh" type="ArrayMesh" id=2]
@@ -49,6 +49,12 @@
 [ext_resource path="res://assets/collisions/enviroment/apartment/StairsPlanter1.shape" type="Shape" id=47]
 [ext_resource path="res://assets/collisions/enviroment/apartment/StairsPlanter3.shape" type="Shape" id=48]
 [ext_resource path="res://assets/collisions/enviroment/apartment/StairsCorner.shape" type="Shape" id=49]
+[ext_resource path="res://assets/models/enviroment/apartment/FireEscape1.mesh" type="ArrayMesh" id=51]
+[ext_resource path="res://assets/models/enviroment/apartment/FireEscape3.mesh" type="ArrayMesh" id=52]
+[ext_resource path="res://assets/models/enviroment/apartment/FireEscape2.mesh" type="ArrayMesh" id=53]
+[ext_resource path="res://assets/collisions/enviroment/apartment/FireEscape3.shape" type="Shape" id=55]
+[ext_resource path="res://assets/collisions/enviroment/apartment/FireEscape1.shape" type="Shape" id=56]
+[ext_resource path="res://assets/collisions/enviroment/apartment/FireEscape2.shape" type="Shape" id=57]
 
 [node name="ApartmentElements" type="Spatial"]
 
@@ -290,3 +296,33 @@ material/0 = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Apartment_StairsPlanter4/StaticBody"]
 shape = ExtResource( 46 )
+
+[node name="Apartment_FireEscape1" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16 )
+mesh = ExtResource( 51 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Apartment_FireEscape1"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Apartment_FireEscape1/StaticBody"]
+shape = ExtResource( 56 )
+
+[node name="Apartment_FireEscape2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -16 )
+mesh = ExtResource( 53 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Apartment_FireEscape2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Apartment_FireEscape2/StaticBody"]
+shape = ExtResource( 57 )
+
+[node name="Apartment_FireEscape3" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -16 )
+mesh = ExtResource( 52 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Apartment_FireEscape3"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Apartment_FireEscape3/StaticBody"]
+shape = ExtResource( 55 )
