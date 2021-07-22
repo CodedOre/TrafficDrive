@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=2]
+[gd_scene load_steps=88 format=2]
 
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=1]
 [ext_resource path="res://assets/models/enviroment/apartment/Basic1.mesh" type="ArrayMesh" id=2]
@@ -77,6 +77,16 @@
 [ext_resource path="res://assets/collisions/enviroment/office/OldBaseCorner2.shape" type="Shape" id=75]
 [ext_resource path="res://assets/collisions/enviroment/office/OldBaseCorner3.shape" type="Shape" id=76]
 [ext_resource path="res://assets/collisions/enviroment/office/OldBaseCorner4.shape" type="Shape" id=77]
+[ext_resource path="res://assets/models/enviroment/office/OldFloorCorner.mesh" type="ArrayMesh" id=78]
+[ext_resource path="res://assets/models/enviroment/office/OldFloor.mesh" type="ArrayMesh" id=79]
+[ext_resource path="res://assets/collisions/enviroment/office/OldFloor.shape" type="Shape" id=80]
+[ext_resource path="res://assets/collisions/enviroment/office/OldFloorCorner.shape" type="Shape" id=81]
+[ext_resource path="res://assets/models/enviroment/office/OldRoof1.mesh" type="ArrayMesh" id=82]
+[ext_resource path="res://assets/models/enviroment/office/OldRoof2.mesh" type="ArrayMesh" id=83]
+[ext_resource path="res://assets/collisions/enviroment/office/OldRoof2.shape" type="Shape" id=84]
+[ext_resource path="res://assets/models/enviroment/office/OldRoofCorner.mesh" type="ArrayMesh" id=85]
+[ext_resource path="res://assets/collisions/enviroment/office/OldRoofCorner.shape" type="Shape" id=86]
+[ext_resource path="res://assets/collisions/enviroment/office/OldRoof1.shape" type="Shape" id=87]
 
 [node name="ApartmentElements" type="Spatial"]
 
@@ -458,3 +468,54 @@ material/0 = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Office_OldBaseCorner4/StaticBody"]
 shape = ExtResource( 77 )
+
+[node name="Office_OldFloor" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50 )
+mesh = ExtResource( 79 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Office_OldFloor"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Office_OldFloor/StaticBody"]
+shape = ExtResource( 80 )
+
+[node name="Office_OldFloorCorner" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -50 )
+mesh = ExtResource( 78 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Office_OldFloorCorner"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Office_OldFloorCorner/StaticBody"]
+shape = ExtResource( 81 )
+
+[node name="Office_OldRoof1" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -50 )
+mesh = ExtResource( 82 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Office_OldRoof1"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Office_OldRoof1/StaticBody"]
+shape = ExtResource( 87 )
+
+[node name="Office_OldRoof2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -50 )
+mesh = ExtResource( 83 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Office_OldRoof2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Office_OldRoof2/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.365, 0 )
+shape = ExtResource( 84 )
+
+[node name="Office_OldRoofCorner" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -50 )
+mesh = ExtResource( 85 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Office_OldRoofCorner"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Office_OldRoofCorner/StaticBody"]
+shape = ExtResource( 86 )
