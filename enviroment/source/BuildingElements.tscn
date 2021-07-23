@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=2]
+[gd_scene load_steps=94 format=2]
 
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=1]
 [ext_resource path="res://assets/models/enviroment/apartment/Basic1.mesh" type="ArrayMesh" id=2]
@@ -87,6 +87,12 @@
 [ext_resource path="res://assets/models/enviroment/office/OldRoofCorner.mesh" type="ArrayMesh" id=85]
 [ext_resource path="res://assets/collisions/enviroment/office/OldRoofCorner.shape" type="Shape" id=86]
 [ext_resource path="res://assets/collisions/enviroment/office/OldRoof1.shape" type="Shape" id=87]
+[ext_resource path="res://assets/models/enviroment/office/NewBaseCorner.mesh" type="ArrayMesh" id=88]
+[ext_resource path="res://assets/models/enviroment/office/NewBase1.mesh" type="ArrayMesh" id=89]
+[ext_resource path="res://assets/models/enviroment/office/NewBase2.mesh" type="ArrayMesh" id=90]
+[ext_resource path="res://assets/collisions/enviroment/office/NewBase1.shape" type="Shape" id=91]
+[ext_resource path="res://assets/collisions/enviroment/office/NewBaseCorner.shape" type="Shape" id=92]
+[ext_resource path="res://assets/collisions/enviroment/office/NewBase2.shape" type="Shape" id=93]
 
 [node name="ApartmentElements" type="Spatial"]
 
@@ -519,3 +525,33 @@ material/0 = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Office_OldRoofCorner/StaticBody"]
 shape = ExtResource( 86 )
+
+[node name="Office_NewBase1" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -40 )
+mesh = ExtResource( 89 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Office_NewBase1"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Office_NewBase1/StaticBody"]
+shape = ExtResource( 91 )
+
+[node name="Office_NewBase2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -40 )
+mesh = ExtResource( 90 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Office_NewBase2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Office_NewBase2/StaticBody"]
+shape = ExtResource( 93 )
+
+[node name="Office_NewBaseCorner" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 0, -40 )
+mesh = ExtResource( 88 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Office_NewBaseCorner"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Office_NewBaseCorner/StaticBody"]
+shape = ExtResource( 92 )
