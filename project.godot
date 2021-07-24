@@ -51,7 +51,7 @@ _global_script_class_icons={
 [application]
 
 config/name="TrafficDrive"
-run/main_scene="res://Main.tscn"
+run/main_scene="res://game/Main.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="TrafficDrive"
 
