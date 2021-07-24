@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://enviroment/BuildingElements.meshlib" type="MeshLibrary" id=1]
+[ext_resource path="res://enviroment/GroundElements.meshlib" type="MeshLibrary" id=2]
+[ext_resource path="res://enviroment/FoundationElements.meshlib" type="MeshLibrary" id=3]
+
+[node name="Downtown" type="Spatial"]
+
+[node name="Enviroment" type="Spatial" parent="."]
+
+[node name="Buildings" type="GridMap" parent="Enviroment"]
+mesh_library = ExtResource( 1 )
+use_in_baked_light = true
+cell_size = Vector3( 5, 3, 5 )
+cell_center_y = false
+data = {
+"cells": PoolIntArray(  )
+}
+__meta__ = {
+"_editor_clip_": 0
+}
+
+[node name="LowerBuildings" type="GridMap" parent="Enviroment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0 )
+mesh_library = ExtResource( 1 )
+use_in_baked_light = true
+cell_size = Vector3( 5, 3, 5 )
+cell_center_y = false
+data = {
+"cells": PoolIntArray(  )
+}
+__meta__ = {
+"_editor_clip_": 0
+}
+
+[node name="Ground" type="GridMap" parent="Enviroment"]
+mesh_library = ExtResource( 2 )
+use_in_baked_light = true
+cell_size = Vector3( 5, 3, 5 )
+cell_center_y = false
+data = {
+"cells": PoolIntArray(  )
+}
+__meta__ = {
+"_editor_clip_": 0
+}
+
+[node name="Foundation" type="GridMap" parent="Enviroment"]
+mesh_library = ExtResource( 3 )
+use_in_baked_light = true
+cell_size = Vector3( 5, 3, 5 )
+cell_center_y = false
+data = {
+"cells": PoolIntArray(  )
+}
+__meta__ = {
+"_editor_clip_": 0
+}
+
+[node name="Props" type="Spatial" parent="."]
