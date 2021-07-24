@@ -11,26 +11,61 @@
 
 [node name="VehicleSelect" type="Spatial"]
 
-[node name="Compact" parent="." instance=ExtResource( 2 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 47.5, 0, -69.8 )
+[node name="Camera" type="Camera" parent="."]
 
-[node name="Sedan" parent="." instance=ExtResource( 4 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 47.5, 0, -73.3 )
+[node name="Vehicles" type="Spatial" parent="."]
 
-[node name="SUV" parent="." instance=ExtResource( 8 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 47.5, 0, -76.6 )
+[node name="Compact" parent="Vehicles" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 11.6 )
 
-[node name="Muscle" parent="." instance=ExtResource( 5 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 47.5, 0, -79.9 )
+[node name="ViewPoint" type="Position3D" parent="Vehicles/Compact"]
+transform = Transform( 0.939693, 0.0885213, -0.330366, 0, 0.965926, 0.258819, 0.34202, -0.24321, 0.907673, -1, 2, 4 )
 
-[node name="Van" parent="." instance=ExtResource( 13 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 47.5, 0, -83.3 )
+[node name="Sedan" parent="Vehicles" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 8.25 )
 
-[node name="Taxi" parent="." instance=ExtResource( 1 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 47.5, 0, -86.6 )
+[node name="ViewPoint" type="Position3D" parent="Vehicles/Sedan"]
+transform = Transform( 0.965926, 0.0669873, -0.25, 0, 0.965926, 0.258819, 0.258819, -0.25, 0.933013, -1.5, 2.25, 4.5 )
 
-[node name="Police" parent="." instance=ExtResource( 7 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 47.5, 0, -89.9 )
+[node name="SUV" parent="Vehicles" instance=ExtResource( 8 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 4.85 )
 
-[node name="Ambulance" parent="." instance=ExtResource( 3 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 47.5, 0, -93.3 )
+[node name="ViewPoint" type="Position3D" parent="Vehicles/SUV"]
+transform = Transform( 0.984808, 0.0449435, -0.167731, 0, 0.965926, 0.258819, 0.173648, -0.254887, 0.951251, -1, 2, 4.25 )
+
+[node name="Muscle" parent="Vehicles" instance=ExtResource( 5 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 1.6 )
+
+[node name="ViewPoint" type="Position3D" parent="Vehicles/Muscle"]
+transform = Transform( 0.996195, 0.0225576, -0.084186, 0, 0.965926, 0.258819, 0.0871557, -0.257834, 0.96225, -0.5, 2.5, 5 )
+
+[node name="Van" parent="Vehicles" instance=ExtResource( 13 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -1.72 )
+
+[node name="ViewPoint" type="Position3D" parent="Vehicles/Van"]
+transform = Transform( 0.996195, -0.0225576, 0.084186, 0, 0.965926, 0.258819, -0.0871557, -0.257834, 0.96225, 0.5, 2.25, 5 )
+
+[node name="Taxi" parent="Vehicles" instance=ExtResource( 1 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -5.1 )
+
+[node name="ViewPoint" type="Position3D" parent="Vehicles/Taxi"]
+transform = Transform( 0.984808, -0.0449435, 0.167731, 0, 0.965926, 0.258819, -0.173648, -0.254887, 0.951251, 0.5, 2, 4.5 )
+
+[node name="Police" parent="Vehicles" instance=ExtResource( 7 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -8.4 )
+
+[node name="ViewPoint" type="Position3D" parent="Vehicles/Police"]
+transform = Transform( 0.965926, -0.0669873, 0.25, 0, 0.965926, 0.258819, -0.258819, -0.25, 0.933013, 1, 2, 4.5 )
+
+[node name="Ambulance" parent="Vehicles" instance=ExtResource( 3 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -11.8 )
+
+[node name="ViewPoint" type="Position3D" parent="Vehicles/Ambulance"]
+transform = Transform( 0.939693, -0.0885213, 0.330366, 0, 0.965926, 0.258819, -0.34202, -0.24321, 0.907673, 1.35, 2.25, 5 )
+
+[node name="UI" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
