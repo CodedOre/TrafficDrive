@@ -1,6 +1,9 @@
 # Ignore import folder
 .import/
 
+# Ignore compiled MeshLibrary
+enviroment/*.meshlib
+
 # Ignore exported project
 export/
 export.cfg
