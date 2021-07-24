@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=1]
 [ext_resource path="res://assets/models/enviroment/road/Basic.mesh" type="ArrayMesh" id=2]
@@ -34,8 +34,8 @@
 [ext_resource path="res://assets/collisions/enviroment/sidewalk/Gutter.shape" type="Shape" id=32]
 [ext_resource path="res://assets/models/enviroment/sidewalk/Panel1.mesh" type="ArrayMesh" id=33]
 [ext_resource path="res://assets/models/enviroment/sidewalk/Panel2.mesh" type="ArrayMesh" id=34]
-[ext_resource path="res://assets/models/enviroment/sidewalk/Merger.mesh" type="ArrayMesh" id=35]
-[ext_resource path="res://assets/collisions/enviroment/sidewalk/Merger.shape" type="Shape" id=36]
+[ext_resource path="res://assets/models/enviroment/sidewalk/Merger1.mesh" type="ArrayMesh" id=35]
+[ext_resource path="res://assets/collisions/enviroment/sidewalk/Merger1.shape" type="Shape" id=36]
 [ext_resource path="res://assets/models/enviroment/misc/SubwayEntrance1.mesh" type="ArrayMesh" id=37]
 [ext_resource path="res://assets/models/enviroment/misc/SubwayEntrance2.mesh" type="ArrayMesh" id=38]
 [ext_resource path="res://assets/models/enviroment/misc/SubwayEntrance1Roof.mesh" type="ArrayMesh" id=39]
@@ -57,6 +57,8 @@
 [ext_resource path="res://assets/models/enviroment/park/FenceEnd.mesh" type="ArrayMesh" id=55]
 [ext_resource path="res://assets/collisions/enviroment/park/Fence.shape" type="Shape" id=56]
 [ext_resource path="res://assets/collisions/enviroment/park/FenceEnd.shape" type="Shape" id=57]
+[ext_resource path="res://assets/models/enviroment/sidewalk/Merger2.mesh" type="ArrayMesh" id=58]
+[ext_resource path="res://assets/collisions/enviroment/sidewalk/Merger2.shape" type="Shape" id=59]
 
 [node name="GroundElements" type="Spatial"]
 
@@ -240,15 +242,25 @@ material/0 = ExtResource( 1 )
 [node name="CollisionShape" type="CollisionShape" parent="Sidewalk_DipCorner/StaticBody"]
 shape = ExtResource( 23 )
 
-[node name="Sidewalk_Merger" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 0, 18 )
+[node name="Sidewalk_Merger1" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 18 )
 mesh = ExtResource( 35 )
 material/0 = ExtResource( 1 )
 
-[node name="StaticBody" type="StaticBody" parent="Sidewalk_Merger"]
+[node name="StaticBody" type="StaticBody" parent="Sidewalk_Merger1"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Sidewalk_Merger/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Sidewalk_Merger1/StaticBody"]
 shape = ExtResource( 36 )
+
+[node name="Sidewalk_Merger2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 24 )
+mesh = ExtResource( 58 )
+material/0 = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="Sidewalk_Merger2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Sidewalk_Merger2/StaticBody"]
+shape = ExtResource( 59 )
 
 [node name="Sidewalk_Grate1" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 6 )
