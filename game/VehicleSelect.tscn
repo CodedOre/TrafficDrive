@@ -24,8 +24,6 @@ NodePath("Vehicles/Police"): NodePath("Vehicles/Police/ViewPoint"),
 NodePath("Vehicles/Ambulance"): NodePath("Vehicles/Ambulance/ViewPoint")
 }
 
-[node name="Camera" type="Camera" parent="."]
-
 [node name="Vehicles" type="Spatial" parent="."]
 
 [node name="Compact" parent="Vehicles" instance=ExtResource( 2 )]
@@ -125,7 +123,7 @@ size_flags_vertical = 1
 text = "This is the information you want to see about this vehicle, but do you really want to see it?"
 autowrap = true
 
-[node name="OptionButton" type="OptionButton" parent="HUD/SideContainer"]
+[node name="ColorOption" type="OptionButton" parent="HUD/SideContainer"]
 margin_top = 299.0
 margin_right = 275.0
 margin_bottom = 345.0
