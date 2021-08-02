@@ -28,6 +28,8 @@ onready var camera_node : Camera = $Camera
 # - HUD nodes -
 onready var back_button : Button = $HUD/Selector/BackButton
 onready var next_button : Button = $HUD/Selector/NextButton
+onready var name_label  : Label  = $HUD/Selector/NameBox/VehicleName
+onready var info_label  : Label  = $HUD/SideContainer/InfoContainer/InfoLabel
 
 # - Runtime variables -
 var selected_vehicle   : int  = 0
@@ -72,6 +74,8 @@ func select_vehicle(index: int, fast: bool = false):
 	var vehicle_lenght : int = vehicle_pool.size() - 1
 	back_button.disabled = true if selected_vehicle == 0 else false
 	next_button.disabled = true if selected_vehicle == vehicle_lenght else false
+	name_label.text = vehicle_pool[selected_vehicle].VehicleName
+	info_label.text = vehicle_pool[selected_vehicle].VehicleInfo
 
 # - Interpolates camera -
 func _process(delta):
