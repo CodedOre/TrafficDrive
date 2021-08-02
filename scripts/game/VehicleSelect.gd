@@ -32,6 +32,7 @@ onready var color_option : OptionButton = $HUD/SideContainer/ColorOption
 
 # - Runtime variables -
 var selected_vehicle   : int  = 0
+var display_hud        : bool = false
 var interpolate_view   : bool = false
 var viewport_transform : Transform
 var camera_transform   : Transform
@@ -50,6 +51,7 @@ func _ready() -> void:
 			return
 		vehicle_pool.append(get_node(vehicle))
 		viewport_pool.append(get_node(VehicleViews[vehicle]))
+	set_display_hud(display_hud)
 	select_vehicle(0, true)
 
 # - Moves the selection -
@@ -100,11 +102,12 @@ func wanted_transform() -> Transform:
 
 # - DisplayHUD property -
 func get_display_hud() -> bool:
-	return $HUD.visible
+	return display_hud
 
 func set_display_hud(displaying: bool) -> void:
-	$HUD.visible = displaying
-	if displaying:
+	display_hud = displaying
+	$HUD.visible = display_hud
+	if display_hud:
 		var vehicle_lenght : int = vehicle_pool.size() - 1
 		back_button.disabled = true if selected_vehicle == 0 else false
 		next_button.disabled = true if selected_vehicle == vehicle_lenght else false
