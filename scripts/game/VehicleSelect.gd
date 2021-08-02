@@ -48,10 +48,20 @@ func _ready():
 			return
 		vehicle_pool.append(get_node(vehicle))
 		viewport_pool.append(get_node(VehicleViews[vehicle]))
-	select_vehicle(selected_vehicle, false)
+	select_vehicle(0, true)
+
+# - Moves the selection -
+func move_selection(index: int):
+	var new_select = selected_vehicle + index
+	if new_select < 0:
+		new_select = 0
+	if new_select >= vehicle_pool.size():
+		new_select = vehicle_pool.size() - 1
+	select_vehicle(new_select)
 
 # - Select a new vehicle -
-func select_vehicle(index : int, fast: bool = false):
+func select_vehicle(index: int, fast: bool = false):
+	selected_vehicle = index
 	# Set camera to viewport
 	viewport_transform = viewport_pool[selected_vehicle].global_transform
 	if fast:
