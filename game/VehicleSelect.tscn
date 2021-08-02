@@ -13,6 +13,16 @@
 
 [node name="VehicleSelect" type="Spatial"]
 script = ExtResource( 6 )
+VehicleViews = {
+NodePath("Vehicles/Compact"): NodePath("Vehicles/Compact/ViewPoint"),
+NodePath("Vehicles/Sedan"): NodePath("Vehicles/Sedan/ViewPoint"),
+NodePath("Vehicles/SUV"): NodePath("Vehicles/SUV/ViewPoint"),
+NodePath("Vehicles/Muscle"): NodePath("Vehicles/Muscle/ViewPoint"),
+NodePath("Vehicles/Van"): NodePath("Vehicles/Van/ViewPoint"),
+NodePath("Vehicles/Taxi"): NodePath("Vehicles/Taxi/ViewPoint"),
+NodePath("Vehicles/Police"): NodePath("Vehicles/Police/ViewPoint"),
+NodePath("Vehicles/Ambulance"): NodePath("Vehicles/Ambulance/ViewPoint")
+}
 
 [node name="Camera" type="Camera" parent="."]
 
@@ -20,51 +30,56 @@ script = ExtResource( 6 )
 
 [node name="Compact" parent="Vehicles" instance=ExtResource( 2 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 11.6 )
+mode = 1
 
 [node name="ViewPoint" type="Position3D" parent="Vehicles/Compact"]
 transform = Transform( 0.939693, 0.0885213, -0.330366, 0, 0.965926, 0.258819, 0.34202, -0.24321, 0.907673, -1, 1.5, 4 )
 
-[node name="Camera" type="Camera" parent="Vehicles/Compact/ViewPoint"]
-current = true
-
 [node name="Sedan" parent="Vehicles" instance=ExtResource( 4 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 8.25 )
+mode = 1
 
 [node name="ViewPoint" type="Position3D" parent="Vehicles/Sedan"]
 transform = Transform( 0.965926, 0.0669873, -0.25, 0, 0.965926, 0.258819, 0.258819, -0.25, 0.933013, -1.5, 1.75, 4.5 )
 
 [node name="SUV" parent="Vehicles" instance=ExtResource( 8 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 4.85 )
+mode = 1
 
 [node name="ViewPoint" type="Position3D" parent="Vehicles/SUV"]
 transform = Transform( 0.984808, 0.0449435, -0.167731, 0, 0.965926, 0.258819, 0.173648, -0.254887, 0.951251, -1, 1.75, 4.25 )
 
 [node name="Muscle" parent="Vehicles" instance=ExtResource( 5 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 1.6 )
+mode = 1
 
 [node name="ViewPoint" type="Position3D" parent="Vehicles/Muscle"]
 transform = Transform( 0.996195, 0.0225576, -0.084186, 0, 0.965926, 0.258819, 0.0871557, -0.257834, 0.96225, -0.5, 1.5, 5 )
 
 [node name="Van" parent="Vehicles" instance=ExtResource( 13 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -1.72 )
+mode = 1
 
 [node name="ViewPoint" type="Position3D" parent="Vehicles/Van"]
 transform = Transform( 0.996195, -0.0225576, 0.084186, 0, 0.965926, 0.258819, -0.0871557, -0.257834, 0.96225, 0.5, 1.75, 5 )
 
 [node name="Taxi" parent="Vehicles" instance=ExtResource( 1 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -5.1 )
+mode = 1
 
 [node name="ViewPoint" type="Position3D" parent="Vehicles/Taxi"]
 transform = Transform( 0.984808, -0.0449435, 0.167731, 0, 0.965926, 0.258819, -0.173648, -0.254887, 0.951251, 0.5, 1.5, 4.5 )
 
 [node name="Police" parent="Vehicles" instance=ExtResource( 7 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -8.4 )
+mode = 1
 
 [node name="ViewPoint" type="Position3D" parent="Vehicles/Police"]
 transform = Transform( 0.965926, -0.0669873, 0.25, 0, 0.965926, 0.258819, -0.258819, -0.25, 0.933013, 1, 1.5, 4.5 )
 
 [node name="Ambulance" parent="Vehicles" instance=ExtResource( 3 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -11.8 )
+mode = 1
 
 [node name="ViewPoint" type="Position3D" parent="Vehicles/Ambulance"]
 transform = Transform( 0.939693, -0.0885213, 0.330366, 0, 0.965926, 0.258819, -0.34202, -0.24321, 0.907673, 1.35, 1.75, 5 )
@@ -133,12 +148,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NextButton" type="Button" parent="HUD/Selector"]
+[node name="BackButton" type="Button" parent="HUD/Selector"]
 margin_left = 318.0
 margin_right = 394.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 76, 46 )
-text = "Next"
+text = "Back"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -160,12 +175,12 @@ margin_bottom = 38.0
 text = "Selected Vehicle"
 align = 1
 
-[node name="PrevButton" type="Button" parent="HUD/Selector"]
+[node name="NextButton" type="Button" parent="HUD/Selector"]
 margin_left = 630.0
 margin_right = 706.0
 margin_bottom = 46.0
 rect_min_size = Vector2( 76, 46 )
-text = "Back"
+text = "Next"
 __meta__ = {
 "_edit_use_anchors_": false
 }
