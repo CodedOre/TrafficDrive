@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://vehicles/scenes/Taxi.tscn" type="PackedScene" id=1]
 [ext_resource path="res://vehicles/scenes/Compact.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://scripts/game/VehicleSelect.gd" type="Script" id=6]
 [ext_resource path="res://vehicles/scenes/Police.tscn" type="PackedScene" id=7]
 [ext_resource path="res://vehicles/scenes/SUV.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/hud/UITheme.tres" type="Theme" id=9]
 [ext_resource path="res://vehicles/scenes/Van.tscn" type="PackedScene" id=13]
 
 [node name="VehicleSelect" type="Spatial"]
@@ -22,6 +23,9 @@ transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 1
 
 [node name="ViewPoint" type="Position3D" parent="Vehicles/Compact"]
 transform = Transform( 0.939693, 0.0885213, -0.330366, 0, 0.965926, 0.258819, 0.34202, -0.24321, 0.907673, -1, 1.5, 4 )
+
+[node name="Camera" type="Camera" parent="Vehicles/Compact/ViewPoint"]
+current = true
 
 [node name="Sedan" parent="Vehicles" instance=ExtResource( 4 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 8.25 )
@@ -64,3 +68,104 @@ transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -
 
 [node name="ViewPoint" type="Position3D" parent="Vehicles/Ambulance"]
 transform = Transform( 0.939693, -0.0885213, 0.330366, 0, 0.965926, 0.258819, -0.34202, -0.24321, 0.907673, 1.35, 1.75, 5 )
+
+[node name="HUD" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.48987
+margin_right = 4.48987
+theme = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SideContainer" type="VBoxContainer" parent="HUD"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 16.0
+margin_top = -172.5
+margin_right = 275.0
+margin_bottom = 172.5
+rect_min_size = Vector2( 275, 345 )
+custom_constants/separation = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InfoContainer" type="PanelContainer" parent="HUD/SideContainer"]
+margin_right = 275.0
+margin_bottom = 291.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InfoLabel" type="Label" parent="HUD/SideContainer/InfoContainer"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 267.0
+margin_bottom = 283.0
+size_flags_vertical = 1
+text = "This is the information you want to see about this vehicle, but do you really want to see it?"
+autowrap = true
+
+[node name="OptionButton" type="OptionButton" parent="HUD/SideContainer"]
+margin_top = 299.0
+margin_right = 275.0
+margin_bottom = 345.0
+text = "Vehicle Color"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Selector" type="HBoxContainer" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -512.0
+margin_top = -70.0
+margin_right = 512.0
+margin_bottom = -24.0
+custom_constants/separation = 8
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NextButton" type="Button" parent="HUD/Selector"]
+margin_left = 318.0
+margin_right = 394.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 76, 46 )
+text = "Next"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NameBox" type="PanelContainer" parent="HUD/Selector"]
+margin_left = 402.0
+margin_right = 622.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 220, 46 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VehicleName" type="Label" parent="HUD/Selector/NameBox"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 212.0
+margin_bottom = 38.0
+text = "Selected Vehicle"
+align = 1
+
+[node name="PrevButton" type="Button" parent="HUD/Selector"]
+margin_left = 630.0
+margin_right = 706.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 76, 46 )
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
