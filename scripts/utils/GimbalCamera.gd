@@ -213,20 +213,17 @@ func change_point() -> void:
 
 # - Active camera property -
 func set_current(value : bool) -> void:
-	if _state != CameraState.NOSET:
-		_camera_node.set_current(value)
-	else:
-		push_error("CimbalCamera: Target not set!")
+	if value:
+		if _state != CameraState.NOSET:
+			_camera_node.set_current(value)
+		else:
+			push_error("CimbalCamera: Target not set!")
 
 func make_current() -> void:
-	if _state != CameraState.NOSET:
-		_camera_node.make_current()
-	else:
-		push_error("CimbalCamera: Target not set!")
+	set_current(true)
 
 func is_current() -> bool:
 	if _state != CameraState.NOSET:
 		return _camera_node.is_current()
 	else:
-		push_error("CimbalCamera: Target not set!")
 		return false
