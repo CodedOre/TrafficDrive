@@ -24,11 +24,11 @@ var vehicle_pool  : Array = Array()
 var viewport_pool : Array = Array()
 
 # - HUD nodes -
-onready var back_button  : Button       = $HUD/Selector/BackButton
-onready var next_button  : Button       = $HUD/Selector/NextButton
-onready var name_label   : Label        = $HUD/Selector/NameBox/VehicleName
-onready var info_label   : Label        = $HUD/SideContainer/InfoContainer/InfoLabel
-onready var color_option : OptionButton = $HUD/SideContainer/ColorOption
+onready var back_button   : Button       = $HUD/Selector/BackButton
+onready var next_button   : Button       = $HUD/Selector/NextButton
+onready var name_label    : Label        = $HUD/Selector/NameBox/VehicleName
+onready var info_label    : Label        = $HUD/SideContainer/InfoContainer/InfoLabel
+onready var color_option  : OptionButton = $HUD/SideContainer/ColorOption
 
 # - Runtime variables -
 var selected_vehicle   : int  = 0
@@ -36,6 +36,10 @@ var display_hud        : bool = false
 var interpolate_view   : bool = false
 var viewport_transform : Transform
 var camera_transform   : Transform
+
+# -- Signals --
+signal menu_return()
+signal menu_confirm()
 
 # -- Functions --
 
@@ -79,6 +83,12 @@ func select_vehicle(index: int, fast: bool = false) -> void:
 	name_label.text = vehicle_pool[selected_vehicle].VehicleName
 	info_label.text = vehicle_pool[selected_vehicle].VehicleInfo
 
+# - Signals changes to 'Main'
+func return_to_main() -> void:
+	emit_signal("menu_return")
+func confirm_vehicle() -> void:
+	emit_signal("menu_confirm")
+
 # - Interpolates camera -
 func _process(delta: float) -> void:
 	if interpolate_view:
@@ -95,6 +105,10 @@ func _transforms_close(a : Transform, b : Transform, threshold : float) -> bool:
 		and (a.basis.z - b.basis.z).length() < threshold
 		and (a.origin  - b.origin).length()  < threshold
 	)
+
+# - Returns selected vehicle file -
+func chosen_vehicle() -> String:
+	return vehicle_pool[selected_vehicle].filename
 
 # - Returns the wanted camera transform -
 func wanted_transform() -> Transform:
