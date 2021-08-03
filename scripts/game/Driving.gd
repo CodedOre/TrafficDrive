@@ -28,7 +28,11 @@ func _init(vehicle_path: String = ""):
 
 # - Runs at startup -
 func _ready() -> void:
+	# Connect GameSettings
 	GameSettings.connect("setting_changed", self, "_modify_settings")
+	# Connect HUD elements
+	pausescreen.connect("resume_action", self, "_toggle_pause")
+	# Setup vehicle
 	if driven_vehicle_path != null and driven_vehicle_path != "":
 		setup_driving(driven_vehicle_path)
 	else:
@@ -60,11 +64,11 @@ func setup_driving(vehicle_path: String) -> void:
 func _process(_delta) -> void:
 	# Check for input to pause the game
 	if Input.is_action_just_pressed("ui_cancel"):
-		paused = ! paused
-		_manage_pause()
+		_toggle_pause()
 
 # - Manages the pause -
-func _manage_pause() -> void:
+func _toggle_pause() -> void:
+	paused = ! paused
 	# Set mouse capture
 	if paused:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
