@@ -13,6 +13,7 @@
 
 [node name="VehicleSelect" type="Spatial"]
 script = ExtResource( 6 )
+StateCamera = NodePath("Camera")
 VehicleViews = {
 NodePath("Vehicles/Compact"): NodePath("Vehicles/Compact/ViewPoint"),
 NodePath("Vehicles/Sedan"): NodePath("Vehicles/Sedan/ViewPoint"),
@@ -23,6 +24,8 @@ NodePath("Vehicles/Taxi"): NodePath("Vehicles/Taxi/ViewPoint"),
 NodePath("Vehicles/Police"): NodePath("Vehicles/Police/ViewPoint"),
 NodePath("Vehicles/Ambulance"): NodePath("Vehicles/Ambulance/ViewPoint")
 }
+
+[node name="Camera" type="Camera" parent="."]
 
 [node name="Vehicles" type="Spatial" parent="."]
 

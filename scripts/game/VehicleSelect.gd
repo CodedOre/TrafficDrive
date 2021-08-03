@@ -3,7 +3,7 @@
 # --- VehicleSelect Script ---
 # The script for selecting a vehicle.
 
-extends Spatial
+extends GameState
 
 # -- Constants --
 
@@ -15,13 +15,15 @@ const MOVE_THRESHOLD : float = 0.02
 
 # - All vehicles to be selected -
 export (Dictionary) var VehicleViews = Dictionary()
-export (bool)       var DisplayHUD   setget set_display_hud, get_display_hud
 
 # -- Variables --
 
 # - VehicleViews storage -
 var vehicle_pool  : Array = Array()
 var viewport_pool : Array = Array()
+
+# - Internal nodes -
+onready var camera : Camera = $Camera
 
 # - HUD nodes -
 onready var back_button   : Button       = $HUD/Selector/BackButton
@@ -32,10 +34,8 @@ onready var color_option  : OptionButton = $HUD/SideContainer/ColorOption
 
 # - Runtime variables -
 var selected_vehicle   : int  = 0
-var display_hud        : bool = false
 var interpolate_view   : bool = false
 var viewport_transform : Transform
-var camera_transform   : Transform
 
 # -- Signals --
 signal menu_return()
@@ -55,7 +55,6 @@ func _ready() -> void:
 			return
 		vehicle_pool.append(get_node(vehicle))
 		viewport_pool.append(get_node(VehicleViews[vehicle]))
-	set_display_hud(display_hud)
 	select_vehicle(0, true)
 
 # - Moves the selection -
@@ -73,7 +72,7 @@ func select_vehicle(index: int, fast: bool = false) -> void:
 	# Set camera to viewport
 	viewport_transform = viewport_pool[selected_vehicle].global_transform
 	if fast:
-		camera_transform = viewport_transform
+		camera.global_transform = viewport_transform
 	else:
 		interpolate_view = true
 	# Set HUD elements
@@ -92,9 +91,9 @@ func confirm_vehicle() -> void:
 # - Interpolates camera -
 func _process(delta: float) -> void:
 	if interpolate_view:
-		camera_transform = camera_transform.interpolate_with(
+		camera.global_transform = camera.global_transform.interpolate_with(
 			viewport_transform, MOVE_SPEED * delta)
-		if _transforms_close(camera_transform, viewport_transform, MOVE_THRESHOLD):
+		if _transforms_close(camera.global_transform, viewport_transform, MOVE_THRESHOLD):
 			interpolate_view = false
 
 # - If a transform is near of another -
@@ -109,22 +108,3 @@ func _transforms_close(a : Transform, b : Transform, threshold : float) -> bool:
 # - Returns selected vehicle file -
 func chosen_vehicle() -> String:
 	return vehicle_pool[selected_vehicle].filename
-
-# - Returns the wanted camera transform -
-func wanted_transform() -> Transform:
-	return camera_transform
-
-# - DisplayHUD property -
-func get_display_hud() -> bool:
-	return display_hud
-
-func set_display_hud(displaying: bool) -> void:
-	display_hud = displaying
-	$HUD.visible = display_hud
-	if display_hud:
-		var vehicle_lenght : int = vehicle_pool.size() - 1
-		back_button.disabled = true if selected_vehicle == 0 else false
-		next_button.disabled = true if selected_vehicle == vehicle_lenght else false
-	else:
-		back_button.disabled = false
-		next_button.disabled = false

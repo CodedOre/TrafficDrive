@@ -3,7 +3,7 @@
 # --- Driving Script ---
 # The script for the actual driving scene.
 
-extends Spatial
+extends GameState
 
 # -- Variables --
 

@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://hud/game/OuterMirror.tscn" type="PackedScene" id=1]
 [ext_resource path="res://hud/menu/PauseScreen.tscn" type="PackedScene" id=2]
-[ext_resource path="res://city/GameCity.tscn" type="PackedScene" id=4]
 [ext_resource path="res://hud/debug/DebugScreen.tscn" type="PackedScene" id=5]
 [ext_resource path="res://hud/game/VehicleInfo.tscn" type="PackedScene" id=6]
 [ext_resource path="res://utils/GimbalCamera.tscn" type="PackedScene" id=7]
@@ -11,13 +10,11 @@
 [node name="Driving" type="Spatial"]
 pause_mode = 2
 script = ExtResource( 8 )
-
-[node name="GameCity" parent="." instance=ExtResource( 4 )]
-pause_mode = 1
+StateCamera = NodePath("GimbalCamera")
 
 [node name="PlayerSpawn" type="Position3D" parent="."]
 pause_mode = 1
-transform = Transform( 0.573576, 0, 0.819152, 0, 1, 0, -0.819152, 0, 0.573576, 48.5, 0, -65.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="GimbalCamera" parent="." instance=ExtResource( 7 )]
 pause_mode = 1
