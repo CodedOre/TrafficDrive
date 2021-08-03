@@ -7,9 +7,6 @@ extends GameState
 
 # -- Variables --
 
-# - The car to be loaded -
-var driven_vehicle_path : String
-
 # - Internal nodes -
 onready var spawnpoint  : Position3D = $PlayerSpawn
 onready var gimbalcam   : Spatial    = $GimbalCamera
@@ -23,21 +20,12 @@ var paused : bool = false
 
 # -- Functions --
 
-func _init(vehicle_path: String = ""):
-	driven_vehicle_path = vehicle_path
-
 # - Runs at startup -
 func _ready() -> void:
 	# Connect GameSettings
 	GameSettings.connect("setting_changed", self, "_modify_settings")
 	# Connect HUD elements
 	pausescreen.connect("resume_action", self, "_toggle_pause")
-	# Setup vehicle
-	if driven_vehicle_path != null and driven_vehicle_path != "":
-		setup_driving(driven_vehicle_path)
-	else:
-		push_error("Driving: Can't initialize without an path to a vehicle!")
-		setup_driving("res://vehicles/scenes/Police.tscn")
 
 func setup_driving(vehicle_path: String) -> void:
 	if vehicle_path == null or vehicle_path == "":
