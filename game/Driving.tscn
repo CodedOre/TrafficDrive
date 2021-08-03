@@ -29,5 +29,4 @@ pause_mode = 1
 
 [node name="DebugScreen" parent="." instance=ExtResource( 5 )]
 pause_mode = 2
-visible = false
 margin_bottom = 362.0

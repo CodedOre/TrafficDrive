@@ -27,13 +27,14 @@ func _init(vehicle_path: String = ""):
 
 # - Runs at startup -
 func _ready() -> void:
+	GameSettings.connect("setting_changed", self, "_modify_settings")
 	if driven_vehicle_path != null and driven_vehicle_path != "":
 		setup_driving(driven_vehicle_path)
 	else:
 		push_error("Driving: Can't initialize without an path to a vehicle!")
 		setup_driving("res://vehicles/scenes/Police.tscn")
 
-func setup_driving(vehicle_path: String):
+func setup_driving(vehicle_path: String) -> void:
 	if vehicle_path == null or vehicle_path == "":
 		push_error("Driving: Can't initialize without an path to a vehicle!")
 	# Load the selected vehicle
@@ -55,14 +56,14 @@ func setup_driving(vehicle_path: String):
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 # - Runs every frame -
-func _process(_delta):
+func _process(_delta) -> void:
 	# Check for input to pause the game
 	if Input.is_action_just_pressed("ui_cancel"):
 		paused = ! paused
 		_manage_pause()
 
 # - Manages the pause -
-func _manage_pause():
+func _manage_pause() -> void:
 	# Set mouse capture
 	if paused:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -70,3 +71,8 @@ func _manage_pause():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	# Pause the tree and show the menu
 	get_tree().paused = paused
+
+# - Adapt to changed settings -
+func _modify_settings() -> void:
+	outermirror.visible = GameSettings.get_setting("Performance", "OuterMirrorActive")
+	debugscreen.visible = GameSettings.get_setting("Meta", "DisplayDebugInfos")
