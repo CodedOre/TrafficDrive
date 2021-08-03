@@ -7,17 +7,23 @@
 [ext_resource path="res://scripts/game/Driving.gd" type="Script" id=8]
 
 [node name="Driving" type="Spatial"]
+pause_mode = 2
 script = ExtResource( 8 )
 
 [node name="GameCity" parent="." instance=ExtResource( 4 )]
+pause_mode = 1
 
 [node name="PlayerSpawn" type="Position3D" parent="."]
+pause_mode = 1
 transform = Transform( 0.573576, 0, 0.819152, 0, 1, 0, -0.819152, 0, 0.573576, 48.5, 0, -65.5 )
 
 [node name="GimbalCamera" parent="." instance=ExtResource( 7 )]
+pause_mode = 1
 
 [node name="VehicleInfo" parent="." instance=ExtResource( 6 )]
+pause_mode = 1
 
 [node name="DebugScreen" parent="." instance=ExtResource( 5 )]
+pause_mode = 2
 visible = false
 margin_bottom = 362.0
