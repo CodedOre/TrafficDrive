@@ -1,7 +1,9 @@
 ; Informations about this file
 [Meta]
 ; [int] The version of this settings file
-ConfigFileEdition=2
+ConfigFileEdition=3
+; [bool] If the debug screen should be shown
+DisplayDebugInfos=false
 
 ; All settings related to performance
 [Performance]
