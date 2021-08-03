@@ -14,6 +14,7 @@ var driven_vehicle_path : String
 onready var spawnpoint  : Position3D = $PlayerSpawn
 onready var gimbalcam   : Spatial    = $GimbalCamera
 onready var vehicleinfo : Control    = $VehicleInfo
+onready var outermirror : Control    = $OuterMirror
 onready var debugscreen : Control    = $DebugScreen
 
 # - Runtime states -
@@ -42,10 +43,12 @@ func setup_driving(vehicle_path: String):
 	# Setup nodes
 	spawned_vehicle.global_transform = spawnpoint.global_transform
 	gimbalcam.set_vehicle(spawned_vehicle)
+	outermirror.set_displayed_vehicle(spawned_vehicle)
 	vehicleinfo.set_displayed_vehicle(spawned_vehicle)
 	debugscreen.set_debug_vehicle(spawned_vehicle)
 	# Make scene ready for playing
 	gimbalcam.make_current()
+	outermirror.visible = GameSettings.get_setting("Performance", "OuterMirrorActive")
 	debugscreen.visible = GameSettings.get_setting("Meta", "DisplayDebugInfos")
 	spawned_vehicle.Controlled = true
 	spawned_vehicle.Running = true
