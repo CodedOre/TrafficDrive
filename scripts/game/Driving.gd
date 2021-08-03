@@ -15,6 +15,7 @@ onready var spawnpoint  : Position3D = $PlayerSpawn
 onready var gimbalcam   : Spatial    = $GimbalCamera
 onready var vehicleinfo : Control    = $VehicleInfo
 onready var outermirror : Control    = $OuterMirror
+onready var pausescreen : Control    = $PauseScreen
 onready var debugscreen : Control    = $DebugScreen
 
 # - Runtime states -
@@ -69,8 +70,13 @@ func _manage_pause() -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	# Pause the tree and show the menu
-	get_tree().paused = paused
+	# Pause the tree
+	get_tree().paused   =   paused
+	# Change visibility of HUD elements
+	vehicleinfo.visible = ! paused
+	pausescreen.visible =   paused
+	if GameSettings.get_setting("Performance", "OuterMirrorActive"):
+		outermirror.visible = ! paused
 
 # - Adapt to changed settings -
 func _modify_settings() -> void:
