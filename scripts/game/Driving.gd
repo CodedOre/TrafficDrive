@@ -7,33 +7,40 @@ extends Spatial
 
 # -- Variables --
 
+# - The car to be loaded -
+var driven_vehicle_path : String
+
 # - Internal nodes -
 onready var spawnpoint  : Position3D = $PlayerSpawn
 onready var gimbalcam   : Spatial    = $GimbalCamera
 onready var vehicleinfo : Control    = $VehicleInfo
-onready var debugscreen : Control    = $DebugScree
-onready var driven_car  : Vehicle
+onready var debugscreen : Control    = $DebugScreen
 
 # -- Functions --
 
-# - Initializes the scene -
-func _init(vehicle_path: String) -> void:
+func _init(vehicle_path: String):
+	driven_vehicle_path = vehicle_path
+
+# - Runs at startup -
+func _ready() -> void:
+	if driven_vehicle_path != null:
+		setup_driving(driven_vehicle_path)
+
+func setup_driving(vehicle_path: String):
+	if vehicle_path == null:
+		push_error("Driving: Can't initialize without an path to a vehicle!")
 	# Load the selected vehicle
 	var vehicle_scene   : PackedScene = load(vehicle_path)
 	var spawned_vehicle : Vehicle     = vehicle_scene.instance()
 	add_child(spawned_vehicle)
-	driven_car = spawned_vehicle
-
-# - Runs at startup -
-func _ready() -> void:
 	# Setup nodes
-	driven_car.global_transform = spawnpoint.global_transform
-	gimbalcam.set_vehicle(driven_car)
-	vehicleinfo.set_displayed_vehicle(driven_car)
-	debugscreen.set_debug_vehicle(driven_car)
+	spawned_vehicle.global_transform = spawnpoint.global_transform
+	gimbalcam.set_vehicle(spawned_vehicle)
+	vehicleinfo.set_displayed_vehicle(spawned_vehicle)
+	debugscreen.set_debug_vehicle(spawned_vehicle)
 	# Make scene ready for playing
 	gimbalcam.make_current()
 	debugscreen.visible = GameSettings.get_setting("Meta", "DisplayDebugInfos")
-	driven_car.Controlled = true
-	driven_car.Running = true
+	spawned_vehicle.Controlled = true
+	spawned_vehicle.Running = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
