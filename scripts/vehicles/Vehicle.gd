@@ -149,7 +149,7 @@ func _physics_process(delta : float) -> void:
 # - Calculates the vehicles speed -
 func _acquire_speed() -> void:
 	_current_mps  = stepify(transform.basis.xform_inv(linear_velocity).z, 0.001)
-	if GameSettings.get_setting("Interface", "UseImperialUnits"):
+	if GameSettings.get_setting("Gameplay", "UseImperialUnits"):
 		current_speed = _current_mps * 2.2369
 	else:
 		current_speed = _current_mps * 3.6
@@ -297,7 +297,7 @@ func _input_additional() -> void:
 
 # - Manage the "automatic" transmission -
 func _auto_gears() -> void:
-	if GameSettings.get_setting("Input", "SwitchGearsAutomatically"):
+	if GameSettings.get_setting("Gameplay", "SwitchGearsAutomatically"):
 		# Switch gears according to the RPM
 		if _gear_state == GearState.NONE:
 			if Data.GearsIdentifier.size() - 1 > _current_gear \
