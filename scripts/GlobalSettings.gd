@@ -30,3 +30,11 @@ func _set_settings() -> void:
 		DisplaySetting.FULLSCREEN:
 			OS.window_fullscreen = true
 	OS.vsync_enabled = GameSettings.get_setting("Graphics", "EnableVSync")
+	# Key binds
+	for action in GameSettings._config.get_section_keys("Keys"):
+		var input_events = InputMap.get_action_list(action)
+		for event in input_events:
+			InputMap.action_erase_event(action, event)
+		var new_event : InputEventKey = InputEventKey.new()
+		new_event.set_scancode(GameSettings.get_setting("Keys", action))
+		InputMap.action_add_event(action, new_event)

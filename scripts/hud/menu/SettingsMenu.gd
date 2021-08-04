@@ -149,21 +149,23 @@ func _change_keybind(action : String):
 
 # - Detects input when changing keybinds -
 func _input(event):
+	# Check if valid input
 	if ! ParseInput:
 		return
 	if ! event.is_pressed():
 		return
+	# Close options when not changing keys
 	if ! changing_input:
 		if event.is_action("ui_cancel"):
 			emit_signal("close_options")
+	# Change keys (or abort when Esc)
 	if changing_input and event.is_pressed():
-		if event.is_action("ui_cancel"):
-			_abort_keybind()
-			return
-	pass
+		if ! event.is_action("ui_cancel"):
+			GameSettings.set_setting("Keys", changed_action, event.scancode)
+		_close_keybind()
 
 # - Closes the "Change Keybind screen" -
-func _abort_keybind():
+func _close_keybind():
 	changing_input = false
 	changed_action = ""
 	change_key_panel.visible = false

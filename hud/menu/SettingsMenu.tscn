@@ -613,4 +613,4 @@ __meta__ = {
 [connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseDownButton" to="." method="_change_keybind" binds= [ "vehicle_decrease_cruise_control" ]]
 [connection signal="pressed" from="SettingsContainer/MenuBox/ReturnBox/BackButton" to="." method="_close_to_return"]
 [connection signal="pressed" from="SettingsContainer/MenuBox/ReturnBox/ResetButton" to="." method="_reset_settings"]
-[connection signal="pressed" from="ChangeKeys/KeyContainer/KeyPanel/KeyBox/CancelButton" to="." method="_abort_keybind"]
+[connection signal="pressed" from="ChangeKeys/KeyContainer/KeyPanel/KeyBox/CancelButton" to="." method="_close_keybind"]
