@@ -12,11 +12,14 @@ onready var spawnpoint  : Position3D = $PlayerSpawn
 onready var gimbalcam   : Spatial    = $GimbalCamera
 onready var vehicleinfo : Control    = $VehicleInfo
 onready var outermirror : Control    = $OuterMirror
+onready var backdrop    : Control    = $PauseBackdrop
 onready var pausescreen : Control    = $PauseScreen
+onready var settingmenu : Control    = $SettingsMenu
 onready var debugscreen : Control    = $DebugScreen
 
 # - Runtime states -
-var paused : bool = false
+var submenud : bool = false
+var paused   : bool = false
 
 # -- Signals --
 signal return_to_main()
@@ -47,7 +50,10 @@ func setup_driving(vehicle_path: String) -> void:
 func _process(_delta) -> void:
 	# Check for input to pause the game
 	if Input.is_action_just_pressed("ui_cancel"):
-		_toggle_pause()
+		if ! submenud:
+			_toggle_pause()
+		else:
+			_close_options()
 
 # - Manages the pause -
 func _toggle_pause() -> void:
@@ -61,7 +67,22 @@ func _toggle_pause() -> void:
 	get_tree().paused   =   paused
 	# Change visibility of HUD elements
 	vehicleinfo.visible = ! paused
+	outermirror.visible = ! paused
+	debugscreen.visible = ! paused
 	pausescreen.visible =   paused
+	backdrop.visible    =   paused
+
+# - Displays the settings menu -
+func _open_options():
+	submenud = true
+	pausescreen.visible = false
+	settingmenu.visible = true
+
+# - Returns to pause menu from options -
+func _close_options():
+	submenud = false
+	settingmenu.visible = false
+	pausescreen.visible = true
 
 # - Emit signals for other scripts to carry on -
 func _close_to_main() -> void:

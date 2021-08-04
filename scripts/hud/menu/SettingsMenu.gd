@@ -28,6 +28,9 @@ onready var tab_selectors : Dictionary = {
 # - Graphics nodes -
 onready var vehicle_lights = $MenuBox/ContentContainer/Graphics/GraphicsGrid/VehLightOptions
 
+# -- Signals --
+signal close_options()
+
 # -- Functions --
 
 # - Runs at startup -
@@ -48,6 +51,10 @@ func set_tab(selected) -> void:
 			tab_containers[tab].visible = false
 			tab_selectors[tab].pressed = false
 
+# - Signals to close the options -
+func _close_to_return() -> void:
+	emit_signal("close_options")
+
 # - Load the values of the settings -
 func _load_settings() -> void:
 	_display_vehicle_lights()
@@ -58,6 +65,6 @@ func _reset_settings() -> void:
 
 # - VehicleLights settings -
 func _display_vehicle_lights() -> void:
-	vehicle_lights.selected = GameSettings.get_setting("Graphics", "VehicleLights")
+	vehicle_lights.select(GameSettings.get_setting("Graphics", "VehicleLight"))
 func _set_vehicle_lights(setting : int) -> void:
-	GameSettings.set_setting("Graphics", "VehicleLights", setting)
+	GameSettings.set_setting("Graphics", "VehicleLight", setting)

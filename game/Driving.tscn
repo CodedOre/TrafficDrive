@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://hud/game/OuterMirror.tscn" type="PackedScene" id=1]
 [ext_resource path="res://hud/menu/PauseScreen.tscn" type="PackedScene" id=2]
+[ext_resource path="res://hud/menu/SettingsMenu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://hud/debug/DebugScreen.tscn" type="PackedScene" id=5]
 [ext_resource path="res://hud/game/VehicleInfo.tscn" type="PackedScene" id=6]
 [ext_resource path="res://utils/GimbalCamera.tscn" type="PackedScene" id=7]
@@ -25,8 +26,20 @@ pause_mode = 1
 pause_mode = 1
 visible = false
 
+[node name="PauseBackdrop" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.490196 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="PauseScreen" parent="." instance=ExtResource( 2 )]
 pause_mode = 2
+visible = false
+
+[node name="SettingsMenu" parent="." instance=ExtResource( 3 )]
 visible = false
 
 [node name="DebugScreen" parent="." instance=ExtResource( 5 )]
@@ -34,5 +47,7 @@ pause_mode = 2
 visible = false
 margin_bottom = 362.0
 
+[connection signal="open_options" from="PauseScreen" to="." method="_open_options"]
 [connection signal="resume_action" from="PauseScreen" to="." method="_toggle_pause"]
 [connection signal="return_to_main" from="PauseScreen" to="." method="_close_to_main"]
+[connection signal="close_options" from="SettingsMenu" to="." method="_close_options"]

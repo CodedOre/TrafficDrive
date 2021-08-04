@@ -13,9 +13,10 @@ var DisplayedVehicle : Vehicle setget set_displayed_vehicle, get_displayed_vehic
 # -- Variables --
 
 # - Internal nodes -
-onready var _mirror_camera   : Camera    = $Viewport/MirrorCam
-onready var _mirror_viewport : Viewport  = $Viewport
-onready var _mirror_texture  : Polygon2D = $Mirror
+onready var _mirror_node     : Control   = $MirrorNode
+onready var _mirror_camera   : Camera    = $MirrorNode/Viewport/MirrorCam
+onready var _mirror_viewport : Viewport  = $MirrorNode/Viewport
+onready var _mirror_texture  : Polygon2D = $MirrorNode/Mirror
 
 # - Runtime variables -
 var _mirror_active     : bool
@@ -47,10 +48,10 @@ func _modify_settings() -> void:
 		if _displayed_vehicle._outer_mirror_point != null:
 			_mirror_point = _displayed_vehicle._outer_mirror_point
 			_mirror_texture.texture = _mirror_viewport.get_texture()
-			visible = true
+			_mirror_node.visible = true
 	else:
 		_mirror_texture.texture = null
-		visible = false
+		_mirror_node.visible = false
 
 # - DisplayedVehicle property -
 func set_displayed_vehicle(node : Vehicle) -> void:

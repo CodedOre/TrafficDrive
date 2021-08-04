@@ -3,7 +3,7 @@
 [ext_resource path="res://assets/hud/UITheme.tres" type="Theme" id=1]
 [ext_resource path="res://scripts/hud/menu/PauseScreen.gd" type="Script" id=2]
 
-[node name="PauseScreen" type="Control"]
+[node name="PauseScreen" type="CenterContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
@@ -11,23 +11,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Backdrop" type="ColorRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.490196 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="PausePanel" type="PanelContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -124.5
-margin_top = -85.0
-margin_right = 124.5
-margin_bottom = 85.0
+margin_left = 387.0
+margin_top = 215.0
+margin_right = 636.0
+margin_bottom = 385.0
 theme = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -58,4 +46,5 @@ margin_bottom = 154.0
 text = "Return to Main Menu"
 
 [connection signal="pressed" from="PausePanel/ScreenContainer/ResumeButton" to="." method="_close_with_resume"]
+[connection signal="pressed" from="PausePanel/ScreenContainer/SettingsButton" to="." method="_close_with_options"]
 [connection signal="pressed" from="PausePanel/ScreenContainer/MainButton" to="." method="_close_with_main"]
