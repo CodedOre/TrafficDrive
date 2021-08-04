@@ -46,13 +46,15 @@ func set_active_state(key) -> void:
 			_disable_state(game_states[state])
 
 # - Enables a state to be run -
-func _enable_state(state: GameState) -> void:
-	state_manager.add_child(state)
+func _enable_state(state: Spatial) -> void:
+	if ! state.is_inside_tree():
+		state_manager.add_child(state)
 	state._state_camera.make_current()
 
 # - Disables a state to not run -
-func _disable_state(state: GameState) -> void:
-	state_manager.remove_child(state)
+func _disable_state(state: Spatial) -> void:
+	if state.is_inside_tree():
+		state_manager.remove_child(state)
 
 # - State change from VehicleSelect to Driving -
 func drive_selected_vehicle() -> void:
