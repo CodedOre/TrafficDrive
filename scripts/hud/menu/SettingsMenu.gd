@@ -8,7 +8,6 @@ extends CenterContainer
 # -- Enums --
 
 # - The tabs of the menu -
-
 enum SettingTabs {GRAPHICS, GAMEPLAY, INPUT}
 
 # -- Variables --
@@ -26,10 +25,16 @@ onready var tab_selectors : Dictionary = {
 	SettingTabs.INPUT:    $MenuBox/TabsContainer/InputTab
 }
 
+# - Graphics nodes -
+onready var vehicle_lights = $MenuBox/ContentContainer/Graphics/GraphicsGrid/VehLightOptions
+
 # -- Functions --
 
 # - Runs at startup -
 func _ready() -> void:
+	# Connect to Settings changes
+	GameSettings.connect("setting_changed", self, "_load_settings")
+	_load_settings()
 	# Select the first tab
 	set_tab(SettingTabs.GRAPHICS)
 
@@ -42,3 +47,17 @@ func set_tab(selected) -> void:
 		else:
 			tab_containers[tab].visible = false
 			tab_selectors[tab].pressed = false
+
+# - Load the values of the settings -
+func _load_settings() -> void:
+	_display_vehicle_lights()
+
+# - Calls for an complete settings reset -
+func _reset_settings() -> void:
+	GameSettings.reset_settings()
+
+# - VehicleLights settings -
+func _display_vehicle_lights() -> void:
+	vehicle_lights.selected = GameSettings.get_setting("Graphics", "VehicleLights")
+func _set_vehicle_lights(setting : int) -> void:
+	GameSettings.set_setting("Graphics", "VehicleLights", setting)

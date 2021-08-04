@@ -41,25 +41,23 @@ func _ready() -> void:
 
 # - Modifies light node according to setting -
 func _modify_light() -> void:
-	# Adapt to "VehicleLightNode" setting
-	match GameSettings.get_setting("Graphics", "VehicleLightNode"):
-		GameSettings.VehicleLightNode.OFF:
-			_show_light = false
-		GameSettings.VehicleLightNode.SPOT:
+	# Set lights according to "VehicleLight" setting
+	var show_front_shadows : bool = false
+	match GameSettings.get_setting("Graphics", "VehicleLight"):
+		GameSettings.VehicleLight.HIGH:
+			show_front_shadows = true
+			_show_light = true
+		GameSettings.VehicleLight.MEDIUM:
+			show_front_shadows = false
+			_show_light = true
+		GameSettings.VehicleLight.LIGHT:
+			show_front_shadows = false
 			if FrontLight and FrontMode.MAIN:
 				_show_light = true
 			else:
 				_show_light = false
-		GameSettings.VehicleLightNode.FULL:
-			_show_light = true
-	# Adapt to "VehicleLightShadows" setting
 	if FrontLight and FrontMode.MAIN:
-		var show_shadows : bool
-		if GameSettings.get_setting("Graphics", "VehicleLightShadows"):
-			show_shadows = true
-		else:
-			show_shadows = false
-		light_node.shadow_enabled = show_shadows
+		light_node.shadow_enabled = show_front_shadows
 	if ! _show_light:
 		light_node.visible = _show_light
 

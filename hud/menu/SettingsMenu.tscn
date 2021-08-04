@@ -165,7 +165,7 @@ margin_top = 108.0
 margin_right = 374.0
 margin_bottom = 154.0
 text = "High"
-items = [ "High", null, false, 0, null, "Medium", null, false, 1, null, "Light", null, false, 2, null, "Minimum", null, false, 3, null ]
+items = [ "High", null, false, 0, null, "Medium", null, false, 1, null, "Light", null, false, 2, null ]
 selected = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -259,3 +259,5 @@ __meta__ = {
 [connection signal="pressed" from="MenuBox/TabsContainer/GraphicsTab" to="." method="set_tab" binds= [ 0 ]]
 [connection signal="pressed" from="MenuBox/TabsContainer/GameplayTab" to="." method="set_tab" binds= [ 1 ]]
 [connection signal="pressed" from="MenuBox/TabsContainer/InputTab" to="." method="set_tab" binds= [ 2 ]]
+[connection signal="item_selected" from="MenuBox/ContentContainer/Graphics/GraphicsGrid/VehLightOptions" to="." method="_set_vehicle_lights"]
+[connection signal="pressed" from="MenuBox/ReturnBox/ResetButton" to="." method="_reset_settings"]

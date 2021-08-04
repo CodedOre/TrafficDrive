@@ -7,8 +7,8 @@ extends Node
 
 # -- Enums --
 
-# - Performance Settings -
-enum VehicleLightNode    {OFF, SPOT, FULL}
+# - Graphics Settings -
+enum VehicleLight {HIGH, MEDIUM, LIGHT}
 
 # -- Constants --
 
