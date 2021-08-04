@@ -29,8 +29,6 @@ onready var state_manager : Node = $States
 
 # - Runs at startup -
 func _ready():
-	# Setup VehicleSelect
-	state_vehicle_select.connect("menu_confirm", self, "drive_selected_vehicle")
 	# Sets the first state
 	set_active_state(GameState.SELECT)
 

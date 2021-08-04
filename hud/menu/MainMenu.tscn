@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/hud/UITheme.tres" type="Theme" id=1]
+[ext_resource path="res://assets/hud/CarroisGothic.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://scripts/hud/menu/MainMenu.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 64
+font_data = ExtResource( 2 )
+
+[node name="MainMenu" type="CenterContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OuterContainer" type="VBoxContainer" parent="."]
+margin_left = 357.0
+margin_top = 166.0
+margin_right = 667.0
+margin_bottom = 434.0
+custom_constants/separation = 20
+
+[node name="TitleLabel" type="Label" parent="OuterContainer"]
+margin_right = 310.0
+margin_bottom = 78.0
+custom_fonts/font = SubResource( 1 )
+text = "TrafficDrive"
+
+[node name="OptionPanel" type="PanelContainer" parent="OuterContainer"]
+margin_top = 98.0
+margin_right = 310.0
+margin_bottom = 268.0
+
+[node name="InnerContainer" type="VBoxContainer" parent="OuterContainer/OptionPanel"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 302.0
+margin_bottom = 162.0
+custom_constants/separation = 8
+
+[node name="PlayButton" type="Button" parent="OuterContainer/OptionPanel/InnerContainer"]
+margin_right = 294.0
+margin_bottom = 46.0
+text = "Start Driving"
+
+[node name="SettingsButton" type="Button" parent="OuterContainer/OptionPanel/InnerContainer"]
+margin_top = 54.0
+margin_right = 294.0
+margin_bottom = 100.0
+text = "Settings"
+
+[node name="QuitButton" type="Button" parent="OuterContainer/OptionPanel/InnerContainer"]
+margin_top = 108.0
+margin_right = 294.0
+margin_bottom = 154.0
+text = "Quit"
+
+[connection signal="pressed" from="OuterContainer/OptionPanel/InnerContainer/PlayButton" to="." method="_close_with_start"]
+[connection signal="pressed" from="OuterContainer/OptionPanel/InnerContainer/SettingsButton" to="." method="_close_with_options"]
+[connection signal="pressed" from="OuterContainer/OptionPanel/InnerContainer/QuitButton" to="." method="_close_with_quit"]
