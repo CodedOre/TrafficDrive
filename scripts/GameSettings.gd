@@ -80,10 +80,28 @@ func _ready() -> void:
 		_config.set_value("Meta", "ConfigFileEdition", default_edition)
 		_config.save(USER_CONFIG_FILE)
 
+# - Reloads the settings file -
 func reload_settings() -> void:
 	if _config.load(USER_CONFIG_FILE) != OK:
 		push_error("GameSettings: Reloading Settings failed!")
 	emit_signal("setting_changed")
+
+# - Removes the user config and loads in the default one -
+func reset_settings() -> void:
+	# Remove old config
+	var folder : Directory = Directory.new()
+	folder.remove(USER_CONFIG_FILE)
+	# Load default configuration
+	var default_config  : ConfigFile = ConfigFile.new()
+	if ! default_config.load(DEFAULT_CONFIG_FILE) == OK:
+		push_error("GameSettings: Default config file unreadable!")
+		return
+	# Create new config
+	for section in default_config.get_sections():
+		for setting in default_config.get_section_keys(section):
+			var default_value = default_config.get_value(section, setting)
+			_config.set_value(section, setting, default_value)
+	_config.save(USER_CONFIG_FILE)
 
 # - Retrieves a setting -
 func get_setting(section : String, setting : String):
