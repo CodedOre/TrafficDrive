@@ -20,80 +20,80 @@ __meta__ = {
 }
 
 [node name="MenuBox" type="VBoxContainer" parent="."]
-margin_left = 196.0
-margin_top = 74.0
-margin_right = 827.0
-margin_bottom = 525.0
+margin_left = 287.0
+margin_top = 79.0
+margin_right = 737.0
+margin_bottom = 520.0
 custom_constants/separation = 12
 
 [node name="MenuTitle" type="Label" parent="MenuBox"]
-margin_right = 631.0
+margin_right = 450.0
 margin_bottom = 51.0
 custom_fonts/font = SubResource( 1 )
 text = "Settings"
 
-[node name="SettingsPanel" type="PanelContainer" parent="MenuBox"]
+[node name="TabContainer" type="TabContainer" parent="MenuBox"]
 margin_top = 63.0
-margin_right = 631.0
-margin_bottom = 393.0
+margin_right = 450.0
+margin_bottom = 383.0
+rect_min_size = Vector2( 450, 320 )
+tab_align = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MenuBox/SettingsPanel"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 623.0
-margin_bottom = 322.0
-custom_constants/separation = 12
-
-[node name="ColumnsContainer1" type="VBoxContainer" parent="MenuBox/SettingsPanel/HBoxContainer"]
-margin_right = 348.0
-margin_bottom = 314.0
+[node name="Graphics" type="VBoxContainer" parent="MenuBox/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
 custom_constants/separation = 8
 
-[node name="GraphicsTitle" type="Label" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer1"]
-margin_right = 348.0
+[node name="GraphicsTitle" type="Label" parent="MenuBox/TabContainer/Graphics"]
+margin_right = 442.0
 margin_bottom = 39.0
 custom_fonts/font = SubResource( 2 )
 text = "Graphics"
 
-[node name="GraphicsGrid" type="GridContainer" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer1"]
+[node name="GraphicsGrid" type="GridContainer" parent="MenuBox/TabContainer/Graphics"]
 margin_top = 47.0
-margin_right = 348.0
-margin_bottom = 147.0
+margin_right = 442.0
+margin_bottom = 99.0
 custom_constants/vseparation = 8
 columns = 2
 
-[node name="DisplayLabel" type="Label" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer1/GraphicsGrid"]
-margin_top = 8.0
-margin_right = 124.0
-margin_bottom = 38.0
+[node name="DisplayLabel" type="Label" parent="MenuBox/TabContainer/Graphics/GraphicsGrid"]
+margin_top = 3.0
+margin_right = 76.0
+margin_bottom = 17.0
 text = "Display: "
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DisplayOptions" type="OptionButton" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer1/GraphicsGrid"]
-margin_left = 128.0
-margin_right = 348.0
-margin_bottom = 46.0
+[node name="DisplayOptions" type="OptionButton" parent="MenuBox/TabContainer/Graphics/GraphicsGrid"]
+margin_left = 80.0
+margin_right = 211.0
+margin_bottom = 20.0
 text = "Window"
 items = [ "Window", null, false, 0, null, "Borderless", null, false, 1, null, "Fullscreen", null, false, 2, null ]
 selected = 0
 
-[node name="ResolutionLabel" type="Label" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer1/GraphicsGrid"]
-margin_top = 62.0
-margin_right = 124.0
-margin_bottom = 92.0
+[node name="ResolutionLabel" type="Label" parent="MenuBox/TabContainer/Graphics/GraphicsGrid"]
+margin_top = 33.0
+margin_right = 76.0
+margin_bottom = 47.0
 text = "Resolution: "
 
-[node name="ResolutionBox" type="HBoxContainer" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer1/GraphicsGrid"]
-margin_left = 128.0
-margin_top = 54.0
-margin_right = 348.0
-margin_bottom = 100.0
+[node name="ResolutionBox" type="HBoxContainer" parent="MenuBox/TabContainer/Graphics/GraphicsGrid"]
+margin_left = 80.0
+margin_top = 28.0
+margin_right = 211.0
+margin_bottom = 52.0
 
-[node name="WidthEdit" type="LineEdit" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer1/GraphicsGrid/ResolutionBox"]
-margin_right = 100.0
-margin_bottom = 46.0
+[node name="WidthEdit" type="LineEdit" parent="MenuBox/TabContainer/Graphics/GraphicsGrid/ResolutionBox"]
+margin_right = 58.0
+margin_bottom = 24.0
 max_length = 4
 context_menu_enabled = false
 shortcut_keys_enabled = false
@@ -102,17 +102,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="xLabel" type="Label" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer1/GraphicsGrid/ResolutionBox"]
-margin_left = 104.0
-margin_top = 8.0
-margin_right = 116.0
-margin_bottom = 38.0
+[node name="xLabel" type="Label" parent="MenuBox/TabContainer/Graphics/GraphicsGrid/ResolutionBox"]
+margin_left = 62.0
+margin_top = 5.0
+margin_right = 69.0
+margin_bottom = 19.0
 text = "x"
 
-[node name="HeightEdit" type="LineEdit" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer1/GraphicsGrid/ResolutionBox"]
-margin_left = 120.0
-margin_right = 220.0
-margin_bottom = 46.0
+[node name="HeightEdit" type="LineEdit" parent="MenuBox/TabContainer/Graphics/GraphicsGrid/ResolutionBox"]
+margin_left = 73.0
+margin_right = 131.0
+margin_bottom = 24.0
 max_length = 4
 context_menu_enabled = false
 virtual_keyboard_enabled = false
@@ -122,19 +122,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColumnsSeparator" type="VSeparator" parent="MenuBox/SettingsPanel/HBoxContainer"]
-margin_left = 360.0
-margin_right = 364.0
-margin_bottom = 314.0
-
-[node name="ColumnsContainer2" type="VBoxContainer" parent="MenuBox/SettingsPanel/HBoxContainer"]
-margin_left = 376.0
-margin_right = 615.0
-margin_bottom = 314.0
+[node name="Gameplay" type="VBoxContainer" parent="MenuBox/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
 custom_constants/separation = 8
 
-[node name="GameplayTitle" type="Label" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer2"]
-margin_right = 239.0
+[node name="GameplayTitle" type="Label" parent="MenuBox/TabContainer/Gameplay"]
+margin_right = 442.0
 margin_bottom = 39.0
 custom_fonts/font = SubResource( 2 )
 text = "Gameplay"
@@ -142,55 +141,58 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ImperialCheck" type="CheckBox" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer2"]
+[node name="ImperialCheck" type="CheckBox" parent="MenuBox/TabContainer/Gameplay"]
 margin_top = 47.0
-margin_right = 239.0
-margin_bottom = 93.0
+margin_right = 442.0
+margin_bottom = 71.0
 text = "Imperial Units"
 
-[node name="AutoGearCheck" type="CheckBox" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer2"]
-margin_top = 101.0
-margin_right = 239.0
-margin_bottom = 147.0
+[node name="AutoGearCheck" type="CheckBox" parent="MenuBox/TabContainer/Gameplay"]
+margin_top = 79.0
+margin_right = 442.0
+margin_bottom = 103.0
 text = "Automatic Gearbox"
 
-[node name="MirrorCheck" type="CheckBox" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer2"]
-margin_top = 155.0
-margin_right = 239.0
-margin_bottom = 201.0
+[node name="MirrorCheck" type="CheckBox" parent="MenuBox/TabContainer/Gameplay"]
+margin_top = 111.0
+margin_right = 442.0
+margin_bottom = 135.0
 text = "Rear Mirror"
 
-[node name="SettingsDivide1" type="HSeparator" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer2"]
-margin_top = 209.0
-margin_right = 239.0
-margin_bottom = 213.0
+[node name="Input" type="VBoxContainer" parent="MenuBox/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 48.0
+margin_right = -4.0
+margin_bottom = -4.0
 
-[node name="InputTitle" type="Label" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer2"]
-margin_top = 221.0
-margin_right = 239.0
-margin_bottom = 260.0
+[node name="InputTitle" type="Label" parent="MenuBox/TabContainer/Input"]
+margin_right = 442.0
+margin_bottom = 39.0
 custom_fonts/font = SubResource( 2 )
 text = "Input"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CheckBox" type="CheckBox" parent="MenuBox/SettingsPanel/HBoxContainer/ColumnsContainer2"]
-margin_top = 268.0
-margin_right = 239.0
-margin_bottom = 314.0
+[node name="CheckBox" type="CheckBox" parent="MenuBox/TabContainer/Input"]
+margin_top = 43.0
+margin_right = 442.0
+margin_bottom = 89.0
+text = "Invert Mouse"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ReturnBox" type="HBoxContainer" parent="MenuBox"]
-margin_top = 405.0
-margin_right = 631.0
-margin_bottom = 451.0
+margin_top = 395.0
+margin_right = 450.0
+margin_bottom = 441.0
 custom_constants/separation = 20
 
 [node name="BackButton" type="Button" parent="MenuBox/ReturnBox"]
-margin_right = 305.0
+margin_right = 215.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
 text = "Back"
@@ -199,8 +201,8 @@ __meta__ = {
 }
 
 [node name="ApplyButton" type="Button" parent="MenuBox/ReturnBox"]
-margin_left = 325.0
-margin_right = 631.0
+margin_left = 235.0
+margin_right = 450.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
 text = "Apply"
