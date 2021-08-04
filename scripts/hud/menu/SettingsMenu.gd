@@ -3,7 +3,7 @@
 # --- SettingsMenu Script ---
 # A script for controlling the settings menu.
 
-extends CenterContainer
+extends Control
 
 # -- Enums --
 
@@ -15,50 +15,50 @@ enum SettingTabs {GRAPHICS, GAMEPLAY, INPUT, KEYS}
 # - Tab control -
 var current_tab # SettingTabs
 onready var tab_containers : Dictionary = {
-	SettingTabs.GRAPHICS: $MenuBox/ContentContainer/Graphics,
-	SettingTabs.GAMEPLAY: $MenuBox/ContentContainer/Gameplay,
-	SettingTabs.INPUT:    $MenuBox/ContentContainer/Input,
-	SettingTabs.KEYS:     $MenuBox/ContentContainer/Keys
+	SettingTabs.GRAPHICS: $SettingsContainer/MenuBox/ContentContainer/Graphics,
+	SettingTabs.GAMEPLAY: $SettingsContainer/MenuBox/ContentContainer/Gameplay,
+	SettingTabs.INPUT:    $SettingsContainer/MenuBox/ContentContainer/Input,
+	SettingTabs.KEYS:     $SettingsContainer/MenuBox/ContentContainer/Keys
 }
 onready var tab_selectors : Dictionary = {
-	SettingTabs.GRAPHICS: $MenuBox/TabsContainer/GraphicsTab,
-	SettingTabs.GAMEPLAY: $MenuBox/TabsContainer/GameplayTab,
-	SettingTabs.INPUT:    $MenuBox/TabsContainer/InputTab,
-	SettingTabs.KEYS:     $MenuBox/TabsContainer/KeysTab
+	SettingTabs.GRAPHICS: $SettingsContainer/MenuBox/TabsContainer/GraphicsTab,
+	SettingTabs.GAMEPLAY: $SettingsContainer/MenuBox/TabsContainer/GameplayTab,
+	SettingTabs.INPUT:    $SettingsContainer/MenuBox/TabsContainer/InputTab,
+	SettingTabs.KEYS:     $SettingsContainer/MenuBox/TabsContainer/KeysTab
 }
 
 # - Input actions -
-var changeable_inputs : Dictionary = {
-	"vehicle_movement_forward": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/ForwardButton,
-	"vehicle_movement_backward": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/BackwardsButton,
-	"vehicle_movement_left": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/SteerLeftButton,
-	"vehicle_movement_right": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/SteerRightButton,
-	"vehicle_gear_up": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/GearUpButton,
-	"vehicle_gear_down": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/GearDownButton,
-	"vehicle_light_night": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/HeadlightsButton,
-	"vehicle_light_turn_left": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/TurnLeftButton,
-	"vehicle_light_turn_right": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/TurnRightButton,
-	"vehicle_light_hazards": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/HazardsButton,
-	"vehicle_change_camera": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CameraButton,
-	"vehicle_set_cruise_control": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseControlButton,
-	"vehicle_increase_cruise_control": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseUpButton,
-	"vehicle_decrease_cruise_control": $MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseDownButton
+onready var changeable_inputs : Dictionary = {
+	"vehicle_movement_forward": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/ForwardButton,
+	"vehicle_movement_backward": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/BackwardsButton,
+	"vehicle_movement_left": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/SteerLeftButton,
+	"vehicle_movement_right": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/SteerRightButton,
+	"vehicle_gear_up": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/GearUpButton,
+	"vehicle_gear_down": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/GearDownButton,
+	"vehicle_light_night": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/HeadlightsButton,
+	"vehicle_light_turn_left": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/TurnLeftButton,
+	"vehicle_light_turn_right": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/TurnRightButton,
+	"vehicle_light_hazards": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/HazardsButton,
+	"vehicle_change_camera": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CameraButton,
+	"vehicle_set_cruise_control": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseControlButton,
+	"vehicle_increase_cruise_control": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseUpButton,
+	"vehicle_decrease_cruise_control": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseDownButton
 }
 
 # - Graphics nodes -
-onready var display_options : OptionButton = $MenuBox/ContentContainer/Graphics/GraphicsGrid/DisplayOptions
-onready var vsync_option    : CheckBox     = $MenuBox/ContentContainer/Graphics/GraphicsGrid/VSyncCheck
-onready var vehicle_lights  : OptionButton = $MenuBox/ContentContainer/Graphics/GraphicsGrid/VehLightOptions
+onready var display_options : OptionButton = $SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/DisplayOptions
+onready var vsync_option    : CheckBox     = $SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/VSyncCheck
+onready var vehicle_lights  : OptionButton = $SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/VehLightOptions
 
 # - Gameplay nodes -
-onready var automatic_option : CheckBox = $MenuBox/ContentContainer/Gameplay/AutoGearCheck
-onready var imperial_option  : CheckBox = $MenuBox/ContentContainer/Gameplay/ImperialCheck
-onready var mirror_option    : CheckBox = $MenuBox/ContentContainer/Gameplay/MirrorCheck
+onready var automatic_option : CheckBox = $SettingsContainer/MenuBox/ContentContainer/Gameplay/AutoGearCheck
+onready var imperial_option  : CheckBox = $SettingsContainer/MenuBox/ContentContainer/Gameplay/ImperialCheck
+onready var mirror_option    : CheckBox = $SettingsContainer/MenuBox/ContentContainer/Gameplay/MirrorCheck
 
 # - Input nodes -
-onready var invert_option      : CheckBox = $MenuBox/ContentContainer/Input/InvertCheck
-onready var sensitivity_value  : Label    = $MenuBox/ContentContainer/Input/SensitivityBox/SensitivityValue
-onready var sensitivity_slider : HSlider  = $MenuBox/ContentContainer/Input/SensitivityBox/SensitivitySlider
+onready var invert_option      : CheckBox = $SettingsContainer/MenuBox/ContentContainer/Input/InvertCheck
+onready var sensitivity_value  : Label    = $SettingsContainer/MenuBox/ContentContainer/Input/SensitivityBox/SensitivityValue
+onready var sensitivity_slider : HSlider  = $SettingsContainer/MenuBox/ContentContainer/Input/SensitivityBox/SensitivitySlider
 
 # - Runtime variables -
 var changing_input : bool = false
@@ -101,6 +101,7 @@ func _load_settings() -> void:
 	invert_option.pressed = GameSettings.get_setting("Input", "MouseXInverted")
 	sensitivity_slider.value = GameSettings.get_setting("Input", "MouseSensitivity")
 	sensitivity_value.text = str(sensitivity_slider.value)
+	_display_set_keys()
 
 # - Sets the settings to the wanted value -
 func _set_display_options(setting : int) -> void:
