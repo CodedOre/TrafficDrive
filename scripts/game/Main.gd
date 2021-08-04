@@ -65,10 +65,11 @@ func select_a_vehicle() -> void:
 func drive_selected_vehicle() -> void:
 	# Get selected vehicle
 	var selected_vehicle : String = state_vehicle_select.chosen_vehicle()
+	var paint            : int    = state_vehicle_select.chosen_paint()
 	# Change states
 	set_active_state(GameState.DRIVE)
 	# Setup new scene
-	state_driving.setup_driving(selected_vehicle)
+	state_driving.setup_driving(selected_vehicle, paint)
 
 # - State change to TitleScreen -
 func return_to_main() -> void:

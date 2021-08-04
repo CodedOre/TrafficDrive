@@ -112,6 +112,12 @@ func _transforms_close(a : Transform, b : Transform, threshold : float) -> bool:
 		and (a.origin  - b.origin).length()  < threshold
 	)
 
-# - Returns selected vehicle file -
+# - Returns selected settings -
 func chosen_vehicle() -> String:
 	return vehicle_pool[selected_vehicle].filename
+func chosen_paint() -> int:
+	return color_option.selected
+
+# - Sets the paint of the vehicle -
+func set_paint(index : int):
+	vehicle_pool[selected_vehicle].VehiclePaint = index

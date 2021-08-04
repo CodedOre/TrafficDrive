@@ -30,7 +30,7 @@ signal return_to_main()
 # -- Functions --
 
 # - Sets up the driven vehicle -
-func setup_driving(vehicle_path: String) -> void:
+func setup_driving(vehicle_path: String, paint: int) -> void:
 	if vehicle_path == null or vehicle_path == "":
 		push_error("Driving: Can't initialize without an path to a vehicle!")
 	# Load the selected vehicle
@@ -38,6 +38,7 @@ func setup_driving(vehicle_path: String) -> void:
 	driven_vehicle = vehicle_scene.instance()
 	add_child(driven_vehicle)
 	# Setup nodes
+	driven_vehicle.VehiclePaint = paint
 	driven_vehicle.global_transform = spawnpoint.global_transform
 	gimbalcam.set_vehicle(driven_vehicle)
 	outermirror.set_displayed_vehicle(driven_vehicle)
