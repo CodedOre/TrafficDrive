@@ -26,7 +26,9 @@ onready var tab_selectors : Dictionary = {
 }
 
 # - Graphics nodes -
-onready var vehicle_lights = $MenuBox/ContentContainer/Graphics/GraphicsGrid/VehLightOptions
+onready var display_options : OptionButton = $MenuBox/ContentContainer/Graphics/GraphicsGrid/DisplayOptions
+onready var vsync_option    : CheckBox     = $MenuBox/ContentContainer/Graphics/GraphicsGrid/VSyncCheck
+onready var vehicle_lights  : OptionButton = $MenuBox/ContentContainer/Graphics/GraphicsGrid/VehLightOptions
 
 # -- Signals --
 signal close_options()
@@ -57,11 +59,25 @@ func _close_to_return() -> void:
 
 # - Load the values of the settings -
 func _load_settings() -> void:
+	_display_display_options()
+	_display_vsync_option()
 	_display_vehicle_lights()
 
 # - Calls for an complete settings reset -
 func _reset_settings() -> void:
 	GameSettings.reset_settings()
+
+# - DisplayOption settings -
+func _display_display_options() -> void:
+	display_options.select(GameSettings.get_setting("Graphics", "Display"))
+func _set_display_options(setting : int) -> void:
+	GameSettings.set_setting("Graphics", "Display", setting)
+
+# - VSync setting -
+func _display_vsync_option() -> void:
+	vsync_option.pressed = GameSettings.get_setting("Graphics", "EnableVSync")
+func _set_vsync_option(setting : bool) -> void:
+	GameSettings.set_setting("Graphics", "EnableVSync", setting)
 
 # - VehicleLights settings -
 func _display_vehicle_lights() -> void:

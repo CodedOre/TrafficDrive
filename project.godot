@@ -64,6 +64,7 @@ config/custom_user_dir_name="TrafficDrive"
 [autoload]
 
 GameSettings="*res://scripts/GameSettings.gd"
+GlobalSettings="*res://scripts/GlobalSettings.gd"
 
 [input]
 

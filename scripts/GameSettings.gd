@@ -102,6 +102,7 @@ func reset_settings() -> void:
 			var default_value = default_config.get_value(section, setting)
 			_config.set_value(section, setting, default_value)
 	_config.save(USER_CONFIG_FILE)
+	emit_signal("setting_changed")
 
 # - Retrieves a setting -
 func get_setting(section : String, setting : String):
