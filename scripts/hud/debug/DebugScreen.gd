@@ -21,6 +21,12 @@ var _debugged_vehicle : Vehicle
 
 # -- Functions --
 
+# - Runs at startup -
+func _ready() -> void:
+	# Connect GameSettings
+	GameSettings.connect("setting_changed", self, "_modify_settings")
+	visible = GameSettings.get_setting("Meta", "DisplayDebugInfos")
+
 # - DebuggedVehicle property -
 func set_debug_vehicle(node : Vehicle) -> void:
 	_debugged_vehicle = node
@@ -29,3 +35,7 @@ func set_debug_vehicle(node : Vehicle) -> void:
 
 func get_debug_vehicle() -> Vehicle:
 	return _debugged_vehicle
+
+# - Adapt to changed settings -
+func _modify_settings() -> void:
+	visible = GameSettings.get_setting("Meta", "DisplayDebugInfos")

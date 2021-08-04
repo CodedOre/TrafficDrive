@@ -23,11 +23,7 @@ signal return_to_main()
 
 # -- Functions --
 
-# - Runs at startup -
-func _ready() -> void:
-	# Connect GameSettings
-	GameSettings.connect("setting_changed", self, "_modify_settings")
-
+# - Sets up the driven vehicle -
 func setup_driving(vehicle_path: String) -> void:
 	if vehicle_path == null or vehicle_path == "":
 		push_error("Driving: Can't initialize without an path to a vehicle!")
@@ -43,8 +39,6 @@ func setup_driving(vehicle_path: String) -> void:
 	debugscreen.set_debug_vehicle(spawned_vehicle)
 	# Make scene ready for playing
 	gimbalcam.make_current()
-	outermirror.visible = GameSettings.get_setting("Performance", "OuterMirrorActive")
-	debugscreen.visible = GameSettings.get_setting("Meta", "DisplayDebugInfos")
 	spawned_vehicle.Controlled = true
 	spawned_vehicle.Running = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -68,13 +62,6 @@ func _toggle_pause() -> void:
 	# Change visibility of HUD elements
 	vehicleinfo.visible = ! paused
 	pausescreen.visible =   paused
-	if GameSettings.get_setting("Performance", "OuterMirrorActive"):
-		outermirror.visible = ! paused
-
-# - Adapt to changed settings -
-func _modify_settings() -> void:
-	outermirror.visible = GameSettings.get_setting("Performance", "OuterMirrorActive")
-	debugscreen.visible = GameSettings.get_setting("Meta", "DisplayDebugInfos")
 
 # - Emit signals for other scripts to carry on -
 func _close_to_main() -> void:

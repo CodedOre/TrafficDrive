@@ -42,7 +42,7 @@ func _nonrot_transform(base : Spatial) -> Transform:
 
 # - Change internal variables when settings were modified -
 func _modify_settings() -> void:
-	_mirror_active = GameSettings.get_setting("Performance", "OuterMirrorActive")
+	_mirror_active = GameSettings.get_setting("Gameplay", "OuterMirrorActive")
 	if _mirror_active:
 		if _displayed_vehicle._outer_mirror_point != null:
 			_mirror_point = _displayed_vehicle._outer_mirror_point

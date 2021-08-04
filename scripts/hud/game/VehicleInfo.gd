@@ -95,7 +95,7 @@ func _physics_process(delta):
 
 # - Change speed display between km/h and mph
 func _set_units() -> void:
-	if GameSettings.get_setting("Interface", "UseImperialUnits"):
+	if GameSettings.get_setting("Gameplay", "UseImperialUnits"):
 		_speed_label.text = "mph"
 	else:
 		_speed_label.text = "km/h"
