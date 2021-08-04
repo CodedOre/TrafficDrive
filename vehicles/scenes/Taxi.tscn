@@ -21,6 +21,7 @@ VehicleName = "Taxi"
 VehicleInfo = "The classic cab you call so you get stuck in traffic jam without even driving."
 Data = ExtResource( 12 )
 PaintPalette = ExtResource( 9 )
+Paintable = [ NodePath("VehicleBody") ]
 Lights = [ NodePath("VehicleBody/LightBrakeLight"), NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningLeft"), NodePath("VehicleBody/LightTurningRight") ]
 Cameras = [ NodePath("CameraPoints/ChaseCamera"), NodePath("CameraPoints/DriverCamera") ]
 OuterMirrorPoint = NodePath("MirrorPoints/OuterMirror")

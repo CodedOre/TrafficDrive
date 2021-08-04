@@ -81,6 +81,13 @@ func select_vehicle(index: int, fast: bool = false) -> void:
 	next_button.disabled = true if selected_vehicle == vehicle_lenght else false
 	name_label.text = vehicle_pool[selected_vehicle].VehicleName
 	info_label.text = vehicle_pool[selected_vehicle].VehicleInfo
+	# Set paint options
+	color_option.clear()
+	var palette : PaintPalette = vehicle_pool[selected_vehicle].PaintPalette
+	for paint in palette.PaintPalette:
+		var name : String = paint.resource_path.get_file().trim_suffix('.material')
+		color_option.add_item(name)
+	color_option.select(vehicle_pool[selected_vehicle].VehiclePaint)
 
 # - Signals changes to 'Main'
 func return_to_main() -> void:

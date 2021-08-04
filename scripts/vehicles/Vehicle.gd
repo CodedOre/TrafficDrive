@@ -25,9 +25,13 @@ const MIN_CRUISE_SPEED    : int   = 25
 export (String)   var VehicleName
 export (String)   var VehicleInfo
 export (Resource) var Data
+
+# - Data to recolor the vehicle -
 export (Resource) var PaintPalette
+export (int)      var VehiclePaint setget set_paint, get_paint
 
 # - NodePaths from the Vehicle -
+export (Array, NodePath) onready var Paintable
 export (Array, NodePath) onready var Lights
 export (Array, NodePath) onready var Cameras
 export        (NodePath) onready var OuterMirrorPoint
@@ -43,14 +47,16 @@ export (bool) var Controlled  = false
 var current_speed  : float = 0.0
 var _current_mps   : float = 0
 var _engine_rpm    : int   = 0
+var _current_paint : int   = 0
 
 # - Internal objects -
-var _light_manager  : VehicleLightsManager
-var _pid_controller : PIDController
-var _light_nodes    : Array = Array()
-var _camera_nodes   : Array = Array()
-var _steer_wheel    : MeshInstance
-var _traction_wheel : VehicleWheel
+var _light_manager   : VehicleLightsManager
+var _pid_controller  : PIDController
+var _light_nodes     : Array = Array()
+var _camera_nodes    : Array = Array()
+var _paintable_nodes : Array = Array()
+var _steer_wheel     : MeshInstance
+var _traction_wheel  : VehicleWheel
 
 # - Camera variables -
 var _camera_count : int
@@ -95,6 +101,14 @@ func _ready() -> void:
 	if Data == null:
 		push_error("Vehicle: Could not initialize vehicle without VehicleData!")
 		return
+	# Initialize Paintable
+	for path in Paintable:
+		var mesh = get_node(path)
+		if ! mesh is MeshInstance:
+			push_error("Vehicle: Paintable need to be a MeshInstance!")
+			continue
+		_paintable_nodes.append(mesh)
+	set_paint(_current_paint)
 	# Initialize VehicleLightManager
 	for path in Lights:
 		_light_nodes.append(get_node(path))
@@ -420,3 +434,11 @@ func _inform_camera() -> void:
 			_camera_point.state_request = CameraPoint.RequestState.BEHIND
 		else:
 			_camera_point.state_request = CameraPoint.RequestState.NONE
+
+func set_paint(index : int) -> void:
+	_current_paint = index
+	for mesh in _paintable_nodes:
+		mesh.material_override = PaintPalette.PaintPalette[index]
+
+func get_paint() -> int:
+	return _current_paint

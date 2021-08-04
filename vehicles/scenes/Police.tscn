@@ -21,6 +21,7 @@ VehicleName = "Police"
 VehicleInfo = "The iconic vehicle to prevent crime on the streets."
 Data = ExtResource( 12 )
 PaintPalette = ExtResource( 9 )
+Paintable = [ NodePath("VehicleBody") ]
 Lights = [ NodePath("VehicleBody/LightBrakeLight"), NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningLeft"), NodePath("VehicleBody/LightTurningRight") ]
 Cameras = [ NodePath("CameraPoints/ChaseCamera"), NodePath("CameraPoints/DriverCamera") ]
 OuterMirrorPoint = NodePath("MirrorPoints/OuterMirror")
