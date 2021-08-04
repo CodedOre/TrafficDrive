@@ -7,6 +7,9 @@ extends GameState
 
 # -- Variables --
 
+# - The driven vehicle -
+var driven_vehicle : Vehicle
+
 # - Internal nodes -
 onready var spawnpoint  : Position3D = $PlayerSpawn
 onready var gimbalcam   : Spatial    = $GimbalCamera
@@ -32,18 +35,18 @@ func setup_driving(vehicle_path: String) -> void:
 		push_error("Driving: Can't initialize without an path to a vehicle!")
 	# Load the selected vehicle
 	var vehicle_scene   : PackedScene = load(vehicle_path)
-	var spawned_vehicle : Vehicle     = vehicle_scene.instance()
-	add_child(spawned_vehicle)
+	driven_vehicle = vehicle_scene.instance()
+	add_child(driven_vehicle)
 	# Setup nodes
-	spawned_vehicle.global_transform = spawnpoint.global_transform
-	gimbalcam.set_vehicle(spawned_vehicle)
-	outermirror.set_displayed_vehicle(spawned_vehicle)
-	vehicleinfo.set_displayed_vehicle(spawned_vehicle)
-	debugscreen.set_debug_vehicle(spawned_vehicle)
+	driven_vehicle.global_transform = spawnpoint.global_transform
+	gimbalcam.set_vehicle(driven_vehicle)
+	outermirror.set_displayed_vehicle(driven_vehicle)
+	vehicleinfo.set_displayed_vehicle(driven_vehicle)
+	debugscreen.set_debug_vehicle(driven_vehicle)
 	# Make scene ready for playing
 	gimbalcam.make_current()
-	spawned_vehicle.Controlled = true
-	spawned_vehicle.Running = true
+	driven_vehicle.Controlled = true
+	driven_vehicle.Running = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 # - Runs every frame -
@@ -86,4 +89,15 @@ func _close_options():
 
 # - Emit signals for other scripts to carry on -
 func _close_to_main() -> void:
+	# De-Pause (for the next load-in)
+	_toggle_pause()
+	# Clear the vehicle from the tree
+	var clear_vehicle : Vehicle = driven_vehicle
+	driven_vehicle = null
+	gimbalcam.set_vehicle(null)
+	outermirror.set_displayed_vehicle(null)
+	vehicleinfo.set_displayed_vehicle(null)
+	debugscreen.set_debug_vehicle(null)
+	clear_vehicle.queue_free()
+	# Return to the main menu
 	emit_signal("return_to_main")

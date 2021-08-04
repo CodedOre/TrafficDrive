@@ -28,7 +28,7 @@ func set_debug_vehicle(node : Vehicle) -> void:
 		if node is Vehicle:
 			_debug_vehicle = node
 			_valid_vehicle = true
-	_update_static_labels()
+			_update_static_labels()
 	_show_or_hide()
 
 func get_debug_vehicle() -> Vehicle:

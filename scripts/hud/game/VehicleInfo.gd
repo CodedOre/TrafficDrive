@@ -102,12 +102,13 @@ func _set_units() -> void:
 
 # - DisplayedVehicle property -
 func set_displayed_vehicle(object : Vehicle) -> void:
-	_displayed_vehicle = object
-	# Set MaxRPM range
-	var vehicle_max_rpm : float = float(_displayed_vehicle.Data.MaxEngineRPM)
-	var max_rpm_ratio   : float = (vehicle_max_rpm / float(MAX_DISPLAYED_RPM))
-	var rpm_range_val   : int   = int(abs(1 - max_rpm_ratio) * 100) + 10
-	_rpm_range.value = rpm_range_val
+	if object != null:
+		_displayed_vehicle = object
+		# Set MaxRPM range
+		var vehicle_max_rpm : float = float(_displayed_vehicle.Data.MaxEngineRPM)
+		var max_rpm_ratio   : float = (vehicle_max_rpm / float(MAX_DISPLAYED_RPM))
+		var rpm_range_val   : int   = int(abs(1 - max_rpm_ratio) * 100) + 10
+		_rpm_range.value = rpm_range_val
 
 func get_displayed_vehicle() -> Vehicle:
 	return _displayed_vehicle

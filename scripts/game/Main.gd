@@ -74,5 +74,6 @@ func drive_selected_vehicle() -> void:
 func return_to_main() -> void:
 	# Sets pause mode (in case we're coming from Driving)
 	get_tree().paused = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	# Change states
 	set_active_state(GameState.TITLE)

@@ -37,7 +37,7 @@ func set_debug_vehicle(node : Vehicle) -> void:
 			_debug_vehicle = node
 			_debug_manager = manager
 			_valid_vehicle = true
-	_update_static_labels()
+			_update_static_labels()
 	_show_or_hide()
 
 func get_debug_vehicle() -> Vehicle:

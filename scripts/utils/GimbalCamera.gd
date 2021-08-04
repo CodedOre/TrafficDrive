@@ -201,8 +201,9 @@ func set_vehicle(node : Vehicle) -> void:
 		if vehicle.is_connected("camera_changed", self, "change_point"):
 			vehicle.disconnect("camera_changed", self, "change_point")
 	vehicle = node
-	set_camera_point(vehicle._camera_point)
-	vehicle.connect("camera_changed", self, "change_point")
+	if node != null:
+		set_camera_point(vehicle._camera_point)
+		vehicle.connect("camera_changed", self, "change_point")
 
 func get_vehicle() -> Vehicle:
 	return vehicle
