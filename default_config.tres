@@ -1,7 +1,7 @@
 ; Informations about this file
 [Meta]
 ; [int] The version of this settings file
-ConfigFileEdition=8
+ConfigFileEdition=9
 ; [bool] If the debug screen should be shown
 DisplayDebugInfos=false
 
@@ -22,6 +22,23 @@ MouseXInverted=false
 MouseYInverted=false
 ; [int]  How sensitive mouse input should be
 MouseSensitivity=2
+
+; Changeable keybinds
+[Keys]
+vehicle_movement_forward=87
+vehicle_movement_backward=83
+vehicle_movement_left=65
+vehicle_movement_right=68
+vehicle_gear_up=81
+vehicle_gear_down=69
+vehicle_light_night=72
+vehicle_light_turn_left=71
+vehicle_light_turn_right=74
+vehicle_light_hazards=82
+vehicle_change_camera=67
+vehicle_set_cruise_control=16777240
+vehicle_increase_cruise_control=16777235
+vehicle_decrease_cruise_control=16777236
 
 ; All settings related to the interface
 [Gameplay]
