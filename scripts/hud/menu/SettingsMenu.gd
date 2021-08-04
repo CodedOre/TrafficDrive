@@ -60,8 +60,12 @@ onready var invert_option      : CheckBox = $SettingsContainer/MenuBox/ContentCo
 onready var sensitivity_value  : Label    = $SettingsContainer/MenuBox/ContentContainer/Input/SensitivityBox/SensitivityValue
 onready var sensitivity_slider : HSlider  = $SettingsContainer/MenuBox/ContentContainer/Input/SensitivityBox/SensitivitySlider
 
+# - Key nodes -
+onready var change_key_panel : Control = $ChangeKeys
+
 # - Runtime variables -
-var changing_input : bool = false
+var changing_input : bool   = false
+var changed_action : String = ""
 
 # -- Signals --
 signal close_options()
@@ -131,3 +135,15 @@ func _display_set_keys() -> void:
 		var input_button : Button = changeable_inputs[action]
 		var input_event  : int    = GameSettings.get_setting("Keys", action)
 		input_button.text = OS.get_scancode_string(input_event)
+
+# - Activates the "Change Keybind screen" -
+func _change_keybind(action : String):
+	changed_action = action
+	change_key_panel.visible = true
+	changing_input = true
+
+# - Closes the "Change Keybind screen" -
+func _abort_keybind():
+	changing_input = false
+	changed_action = ""
+	change_key_panel.visible = false

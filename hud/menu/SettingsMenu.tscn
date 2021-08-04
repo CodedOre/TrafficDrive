@@ -543,10 +543,8 @@ __meta__ = {
 
 [node name="ChangeKeys" type="ColorRect" parent="."]
 visible = false
-margin_left = 512.0
-margin_top = 300.0
-margin_right = 512.0
-margin_bottom = 300.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.686275 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -560,10 +558,10 @@ __meta__ = {
 }
 
 [node name="KeyPanel" type="PanelContainer" parent="ChangeKeys/KeyContainer"]
-margin_left = -1.0
-margin_top = -1.0
-margin_right = 15.0
-margin_bottom = 15.0
+margin_left = 504.0
+margin_top = 292.0
+margin_right = 520.0
+margin_bottom = 308.0
 
 [node name="KeyBox" type="VBoxContainer" parent="ChangeKeys/KeyContainer/KeyPanel"]
 margin_left = 8.0
@@ -599,5 +597,20 @@ __meta__ = {
 [connection signal="toggled" from="SettingsContainer/MenuBox/ContentContainer/Gameplay/MirrorCheck" to="." method="_set_mirror_option"]
 [connection signal="toggled" from="SettingsContainer/MenuBox/ContentContainer/Input/InvertCheck" to="." method="_set_invert_option"]
 [connection signal="value_changed" from="SettingsContainer/MenuBox/ContentContainer/Input/SensitivityBox/SensitivitySlider" to="." method="_set_mouse_sensitivity"]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/ForwardButton" to="." method="_change_keybind" binds= [ "vehicle_movement_forward" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/BackwardsButton" to="." method="_change_keybind" binds= [ "vehicle_movement_backward" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/SteerLeftButton" to="." method="_change_keybind" binds= [ "vehicle_movement_left" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/SteerRightButton" to="." method="_change_keybind" binds= [ "vehicle_movement_right" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/GearUpButton" to="." method="_change_keybind" binds= [ "vehicle_gear_up" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/GearDownButton" to="." method="_change_keybind" binds= [ "vehicle_gear_down" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/HeadlightsButton" to="." method="_change_keybind" binds= [ "vehicle_light_night" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/TurnLeftButton" to="." method="_change_keybind" binds= [ "vehicle_light_turn_left" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/TurnRightButton" to="." method="_change_keybind" binds= [ "vehicle_light_turn_right" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/HazardsButton" to="." method="_change_keybind" binds= [ "vehicle_light_hazards" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CameraButton" to="." method="_change_keybind" binds= [ "vehicle_change_camera" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseControlButton" to="." method="_change_keybind" binds= [ "vehicle_set_cruise_control" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseUpButton" to="." method="_change_keybind" binds= [ "vehicle_increase_cruise_control" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseDownButton" to="." method="_change_keybind" binds= [ "vehicle_decrease_cruise_control" ]]
 [connection signal="pressed" from="SettingsContainer/MenuBox/ReturnBox/BackButton" to="." method="_close_to_return"]
 [connection signal="pressed" from="SettingsContainer/MenuBox/ReturnBox/ResetButton" to="." method="_reset_settings"]
+[connection signal="pressed" from="ChangeKeys/KeyContainer/KeyPanel/KeyBox/CancelButton" to="." method="_abort_keybind"]
