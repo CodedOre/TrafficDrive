@@ -25,9 +25,9 @@ MouseSensitivity=2
 
 ; All settings related to the interface
 [Gameplay]
+; [bool] If the vehicles should use automatic gear switching
+SwitchGearsAutomatically=true
 ; [bool] If imperial units should be used
 UseImperialUnits=false
 ; [bool] If the OuterMirror should be active.
 OuterMirrorActive=true
-; [bool] If the vehicles should use automatic gear switching
-SwitchGearsAutomatically=true

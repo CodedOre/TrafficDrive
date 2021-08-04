@@ -73,6 +73,7 @@ margin_bottom = 441.0
 rect_min_size = Vector2( 450, 320 )
 
 [node name="Graphics" type="VBoxContainer" parent="MenuBox/ContentContainer"]
+visible = false
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 442.0
@@ -139,7 +140,6 @@ size_flags_horizontal = 3
 text = "Enable VSync"
 
 [node name="Gameplay" type="VBoxContainer" parent="MenuBox/ContentContainer"]
-visible = false
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 442.0
@@ -155,17 +155,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ImperialCheck" type="CheckBox" parent="MenuBox/ContentContainer/Gameplay"]
+[node name="AutoGearCheck" type="CheckBox" parent="MenuBox/ContentContainer/Gameplay"]
 margin_top = 47.0
 margin_right = 434.0
 margin_bottom = 93.0
-text = "Imperial Units"
+text = "Automatic Gearbox"
 
-[node name="AutoGearCheck" type="CheckBox" parent="MenuBox/ContentContainer/Gameplay"]
+[node name="ImperialCheck" type="CheckBox" parent="MenuBox/ContentContainer/Gameplay"]
 margin_top = 101.0
 margin_right = 434.0
 margin_bottom = 147.0
-text = "Automatic Gearbox"
+text = "Imperial Units"
 
 [node name="MirrorCheck" type="CheckBox" parent="MenuBox/ContentContainer/Gameplay"]
 margin_top = 155.0
@@ -229,5 +229,8 @@ __meta__ = {
 [connection signal="item_selected" from="MenuBox/ContentContainer/Graphics/GraphicsGrid/DisplayOptions" to="." method="_set_display_options"]
 [connection signal="item_selected" from="MenuBox/ContentContainer/Graphics/GraphicsGrid/VehLightOptions" to="." method="_set_vehicle_lights"]
 [connection signal="toggled" from="MenuBox/ContentContainer/Graphics/GraphicsGrid/VSyncCheck" to="." method="_set_vsync_option"]
+[connection signal="toggled" from="MenuBox/ContentContainer/Gameplay/AutoGearCheck" to="." method="_set_automatic_gears"]
+[connection signal="toggled" from="MenuBox/ContentContainer/Gameplay/ImperialCheck" to="." method="_set_imperial_units"]
+[connection signal="toggled" from="MenuBox/ContentContainer/Gameplay/MirrorCheck" to="." method="_set_mirror_option"]
 [connection signal="pressed" from="MenuBox/ReturnBox/BackButton" to="." method="_close_to_return"]
 [connection signal="pressed" from="MenuBox/ReturnBox/ResetButton" to="." method="_reset_settings"]

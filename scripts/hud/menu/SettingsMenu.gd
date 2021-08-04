@@ -30,6 +30,11 @@ onready var display_options : OptionButton = $MenuBox/ContentContainer/Graphics/
 onready var vsync_option    : CheckBox     = $MenuBox/ContentContainer/Graphics/GraphicsGrid/VSyncCheck
 onready var vehicle_lights  : OptionButton = $MenuBox/ContentContainer/Graphics/GraphicsGrid/VehLightOptions
 
+# - Gameplay nodes -
+onready var automatic_option : CheckBox = $MenuBox/ContentContainer/Gameplay/AutoGearCheck
+onready var imperial_option  : CheckBox = $MenuBox/ContentContainer/Gameplay/ImperialCheck
+onready var mirror_option    : CheckBox = $MenuBox/ContentContainer/Gameplay/MirrorCheck
+
 # -- Signals --
 signal close_options()
 
@@ -59,28 +64,27 @@ func _close_to_return() -> void:
 
 # - Load the values of the settings -
 func _load_settings() -> void:
-	_display_display_options()
-	_display_vsync_option()
-	_display_vehicle_lights()
+	display_options.select(GameSettings.get_setting("Graphics", "Display"))
+	vsync_option.pressed = GameSettings.get_setting("Graphics", "EnableVSync")
+	vehicle_lights.select(GameSettings.get_setting("Graphics", "VehicleLight"))
+	automatic_option.pressed = GameSettings.get_setting("Gameplay", "SwitchGearsAutomatically")
+	imperial_option.pressed = GameSettings.get_setting("Gameplay", "UseImperialUnits")
+	mirror_option.pressed = GameSettings.get_setting("Gameplay", "OuterMirrorActive")
+
+# - Sets the settings to the wanted value -
+func _set_display_options(setting : int) -> void:
+	GameSettings.set_setting("Graphics", "Display", setting)
+func _set_vsync_option(setting : bool) -> void:
+	GameSettings.set_setting("Graphics", "EnableVSync", setting)
+func _set_vehicle_lights(setting : int) -> void:
+	GameSettings.set_setting("Graphics", "VehicleLight", setting)
+func _set_automatic_gears(setting : bool) -> void:
+	GameSettings.set_setting("Gameplay", "SwitchGearsAutomatically", setting)
+func _set_imperial_units(setting : bool) -> void:
+	GameSettings.set_setting("Gameplay", "UseImperialUnits", setting)
+func _set_mirror_option(setting : bool) -> void:
+	GameSettings.set_setting("Gameplay", "OuterMirrorActive", setting)
 
 # - Calls for an complete settings reset -
 func _reset_settings() -> void:
 	GameSettings.reset_settings()
-
-# - DisplayOption settings -
-func _display_display_options() -> void:
-	display_options.select(GameSettings.get_setting("Graphics", "Display"))
-func _set_display_options(setting : int) -> void:
-	GameSettings.set_setting("Graphics", "Display", setting)
-
-# - VSync setting -
-func _display_vsync_option() -> void:
-	vsync_option.pressed = GameSettings.get_setting("Graphics", "EnableVSync")
-func _set_vsync_option(setting : bool) -> void:
-	GameSettings.set_setting("Graphics", "EnableVSync", setting)
-
-# - VehicleLights settings -
-func _display_vehicle_lights() -> void:
-	vehicle_lights.select(GameSettings.get_setting("Graphics", "VehicleLight"))
-func _set_vehicle_lights(setting : int) -> void:
-	GameSettings.set_setting("Graphics", "VehicleLight", setting)

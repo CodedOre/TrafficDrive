@@ -164,7 +164,7 @@ func _input_engine() -> void:
 	var input_forward  : bool  = Input.is_action_pressed("vehicle_movement_forward")
 	var input_backward : bool  = Input.is_action_pressed("vehicle_movement_backward")
 	
-	if ! GameSettings.get_setting("Input", "SwitchGearsAutomatically"):
+	if ! GameSettings.get_setting("Gameplay", "SwitchGearsAutomatically"):
 		# When driving with gears, we have a simplified input
 		var reverse_gear : bool = _current_gear == Data.GearsIdentifier.find("R")
 		if (input_forward and !reverse_gear) \
