@@ -10,3 +10,5 @@ StateCamera = NodePath("Camera")
 [node name="Camera" type="Camera" parent="."]
 
 [node name="MainMenu" parent="." instance=ExtResource( 1 )]
+
+[connection signal="start_game" from="MainMenu" to="." method="_close_with_start"]

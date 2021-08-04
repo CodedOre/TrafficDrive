@@ -8,16 +8,18 @@ extends Node
 # -- Enums --
 
 # - The state of this scene -
-enum GameState {SELECT, DRIVE}
+enum GameState {TITLE, SELECT, DRIVE}
 
 # -- Variables --
 
 # - The nodes for the various states -
+onready var state_title_screen   = $States/TitleScreen
 onready var state_vehicle_select = $States/VehicleSelect
 onready var state_driving        = $States/Driving
 
 # - The states and the corresponding nodes -
 onready var game_states : Dictionary = {
+	GameState.TITLE  : state_title_screen,
 	GameState.SELECT : state_vehicle_select,
 	GameState.DRIVE  : state_driving
 }
@@ -30,7 +32,7 @@ onready var state_manager : Node = $States
 # - Runs at startup -
 func _ready():
 	# Sets the first state
-	set_active_state(GameState.SELECT)
+	set_active_state(GameState.TITLE)
 
 # - Sets a state to be active -
 func set_active_state(key) -> void:
@@ -54,6 +56,11 @@ func _disable_state(state: Spatial) -> void:
 	if state.is_inside_tree():
 		state_manager.remove_child(state)
 
+# - State change from TitleScreen to VehicleSelect -
+func select_a_vehicle() -> void:
+	# Change states
+	set_active_state(GameState.SELECT)
+
 # - State change from VehicleSelect to Driving -
 func drive_selected_vehicle() -> void:
 	# Get selected vehicle
@@ -62,3 +69,10 @@ func drive_selected_vehicle() -> void:
 	set_active_state(GameState.DRIVE)
 	# Setup new scene
 	state_driving.setup_driving(selected_vehicle)
+
+# - State change to TitleScreen -
+func return_to_main() -> void:
+	# Sets pause mode (in case we're coming from Driving)
+	get_tree().paused = false
+	# Change states
+	set_active_state(GameState.TITLE)

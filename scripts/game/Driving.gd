@@ -18,14 +18,15 @@ onready var debugscreen : Control    = $DebugScreen
 # - Runtime states -
 var paused : bool = false
 
+# -- Signals --
+signal return_to_main()
+
 # -- Functions --
 
 # - Runs at startup -
 func _ready() -> void:
 	# Connect GameSettings
 	GameSettings.connect("setting_changed", self, "_modify_settings")
-	# Connect HUD elements
-	pausescreen.connect("resume_action", self, "_toggle_pause")
 
 func setup_driving(vehicle_path: String) -> void:
 	if vehicle_path == null or vehicle_path == "":
@@ -74,3 +75,7 @@ func _toggle_pause() -> void:
 func _modify_settings() -> void:
 	outermirror.visible = GameSettings.get_setting("Performance", "OuterMirrorActive")
 	debugscreen.visible = GameSettings.get_setting("Meta", "DisplayDebugInfos")
+
+# - Emit signals for other scripts to carry on -
+func _close_to_main() -> void:
+	emit_signal("return_to_main")
