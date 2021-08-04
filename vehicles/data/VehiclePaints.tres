@@ -1,0 +1,19 @@
+[gd_resource type="Resource" load_steps=14 format=2]
+
+[ext_resource path="res://scripts/vehicles/PaintPalette.gd" type="Script" id=1]
+[ext_resource path="res://assets/materials/VehiclePaint/Red.material" type="Material" id=2]
+[ext_resource path="res://assets/materials/VehiclePaint/Black.material" type="Material" id=3]
+[ext_resource path="res://assets/materials/VehiclePaint/Cyan.material" type="Material" id=4]
+[ext_resource path="res://assets/materials/VehiclePaint/DarkGrey.material" type="Material" id=5]
+[ext_resource path="res://assets/materials/VehiclePaint/Yellow.material" type="Material" id=6]
+[ext_resource path="res://assets/materials/VehiclePaint/Blue.material" type="Material" id=7]
+[ext_resource path="res://assets/materials/VehiclePaint/DarkBlue.material" type="Material" id=8]
+[ext_resource path="res://assets/materials/VehiclePaint/Grey.material" type="Material" id=9]
+[ext_resource path="res://assets/materials/VehiclePaint/Purple.material" type="Material" id=10]
+[ext_resource path="res://assets/materials/VehiclePaint/Green.material" type="Material" id=11]
+[ext_resource path="res://assets/materials/VehiclePaint/Turquoise.material" type="Material" id=12]
+[ext_resource path="res://assets/materials/VehiclePaint/Brown.material" type="Material" id=13]
+
+[resource]
+script = ExtResource( 1 )
+PaintPalette = [ ExtResource( 3 ), ExtResource( 7 ), ExtResource( 13 ), ExtResource( 4 ), ExtResource( 8 ), ExtResource( 5 ), ExtResource( 11 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 2 ), ExtResource( 12 ), ExtResource( 6 ) ]

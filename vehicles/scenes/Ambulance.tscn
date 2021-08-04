@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/models/vehicles/Ambulance.glb" type="PackedScene" id=1]
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://scripts/vehicles/VehicleLight.gd" type="Script" id=9]
 [ext_resource path="res://vehicles/data/Van.tres" type="Resource" id=10]
 [ext_resource path="res://scripts/utils/CameraPoint.gd" type="Script" id=11]
+[ext_resource path="res://vehicles/data/Liveries.tres" type="Resource" id=12]
 
 [node name="Ambulance" instance=ExtResource( 1 )]
 collision_layer = 2
@@ -18,6 +19,7 @@ collision_mask = 3
 VehicleName = "Ambulance"
 VehicleInfo = "A vehicle to respond to medical emergencies."
 Data = ExtResource( 10 )
+PaintPalette = ExtResource( 12 )
 Lights = [ NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningFrontLeft"), NodePath("VehicleBody/LightTurningFrontRight"), NodePath("VehicleBody/LightTurningRearLeft"), NodePath("VehicleBody/LightTurningRearRight") ]
 Cameras = [ NodePath("CameraPoints/ChaseCamera"), NodePath("CameraPoints/DriverCamera") ]
 OuterMirrorPoint = NodePath("MirrorPoints/OuterMirror")

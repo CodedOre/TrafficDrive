@@ -22,10 +22,10 @@ const MIN_CRUISE_SPEED    : int   = 25
 # -- Properties --
 
 # - The data for this vehicle -
-export (String)          var VehicleName
-export (String)          var VehicleInfo
-export (Resource)        var Data
-export (Array, Material) var PaintPalette
+export (String)   var VehicleName
+export (String)   var VehicleInfo
+export (Resource) var Data
+export (Resource) var PaintPalette
 
 # - NodePaths from the Vehicle -
 export (Array, NodePath) onready var Lights

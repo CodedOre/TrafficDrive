@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/models/vehicles/Police.glb" type="PackedScene" id=1]
 [ext_resource path="res://assets/materials/Body.material" type="Material" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/materials/VehicleLights/TurningSignalOff.material" type="Material" id=6]
 [ext_resource path="res://assets/materials/VehicleLights/RearLightOff.material" type="Material" id=7]
 [ext_resource path="res://scripts/vehicles/VehicleLight.gd" type="Script" id=8]
+[ext_resource path="res://vehicles/data/Liveries.tres" type="Resource" id=9]
 [ext_resource path="res://scripts/utils/CameraPoint.gd" type="Script" id=10]
 [ext_resource path="res://assets/collisions/vehicles/Police.shape" type="Shape" id=11]
 [ext_resource path="res://vehicles/data/Sedan.tres" type="Resource" id=12]
@@ -19,6 +20,7 @@ mass = 151.02
 VehicleName = "Police"
 VehicleInfo = "The iconic vehicle to prevent crime on the streets."
 Data = ExtResource( 12 )
+PaintPalette = ExtResource( 9 )
 Lights = [ NodePath("VehicleBody/LightBrakeLight"), NodePath("VehicleBody/LightFrontLeft"), NodePath("VehicleBody/LightFrontRight"), NodePath("VehicleBody/LightRearLeft"), NodePath("VehicleBody/LightRearRight"), NodePath("VehicleBody/LightReverseLeft"), NodePath("VehicleBody/LightReverseRight"), NodePath("VehicleBody/LightTurningLeft"), NodePath("VehicleBody/LightTurningRight") ]
 Cameras = [ NodePath("CameraPoints/ChaseCamera"), NodePath("CameraPoints/DriverCamera") ]
 OuterMirrorPoint = NodePath("MirrorPoints/OuterMirror")
