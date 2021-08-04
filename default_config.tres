@@ -8,7 +8,7 @@ DisplayDebugInfos=false
 ; All settings related to performance
 [Graphics]
 ; [enum] How much detail will be used for lights of an vehicle.
-VehicleLight=2
+VehicleLight=1
 
 ; All settings related to input
 [Input]
