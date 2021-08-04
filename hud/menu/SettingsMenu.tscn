@@ -1,0 +1,175 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/hud/CarroisGothic.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/hud/UITheme.tres" type="Theme" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 42
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 1 )
+
+[node name="SettingsMenu" type="CenterContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuBox" type="VBoxContainer" parent="."]
+margin_left = 336.0
+margin_top = 77.0
+margin_right = 688.0
+margin_bottom = 522.0
+custom_constants/separation = 12
+
+[node name="MenuTitle" type="Label" parent="MenuBox"]
+margin_right = 352.0
+margin_bottom = 51.0
+custom_fonts/font = SubResource( 1 )
+text = "Settings"
+
+[node name="SettingsPanel" type="PanelContainer" parent="MenuBox"]
+margin_top = 63.0
+margin_right = 352.0
+margin_bottom = 387.0
+
+[node name="SettingsBox" type="VBoxContainer" parent="MenuBox/SettingsPanel"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 344.0
+margin_bottom = 316.0
+custom_constants/separation = 8
+
+[node name="GraphicsTitle" type="Label" parent="MenuBox/SettingsPanel/SettingsBox"]
+margin_right = 336.0
+margin_bottom = 39.0
+custom_fonts/font = SubResource( 2 )
+text = "Graphics"
+
+[node name="GraphicsGrid" type="GridContainer" parent="MenuBox/SettingsPanel/SettingsBox"]
+margin_top = 47.0
+margin_right = 336.0
+margin_bottom = 141.0
+custom_constants/vseparation = 8
+columns = 2
+
+[node name="DisplayLabel" type="Label" parent="MenuBox/SettingsPanel/SettingsBox/GraphicsGrid"]
+margin_top = 8.0
+margin_right = 124.0
+margin_bottom = 38.0
+text = "Display: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DisplayOptions" type="OptionButton" parent="MenuBox/SettingsPanel/SettingsBox/GraphicsGrid"]
+margin_left = 128.0
+margin_right = 336.0
+margin_bottom = 46.0
+text = "Window"
+items = [ "Window", null, false, 0, null, "Borderless", null, false, 1, null, "Fullscreen", null, false, 2, null ]
+selected = 0
+
+[node name="ResolutionLabel" type="Label" parent="MenuBox/SettingsPanel/SettingsBox/GraphicsGrid"]
+margin_top = 59.0
+margin_right = 124.0
+margin_bottom = 89.0
+text = "Resolution: "
+
+[node name="ResolutionBox" type="HBoxContainer" parent="MenuBox/SettingsPanel/SettingsBox/GraphicsGrid"]
+margin_left = 128.0
+margin_top = 54.0
+margin_right = 336.0
+margin_bottom = 94.0
+
+[node name="WidthEdit" type="LineEdit" parent="MenuBox/SettingsPanel/SettingsBox/GraphicsGrid/ResolutionBox"]
+margin_right = 94.0
+margin_bottom = 40.0
+max_length = 4
+context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="xLabel" type="Label" parent="MenuBox/SettingsPanel/SettingsBox/GraphicsGrid/ResolutionBox"]
+margin_left = 98.0
+margin_top = 5.0
+margin_right = 110.0
+margin_bottom = 35.0
+text = "x"
+
+[node name="HeightEdit" type="LineEdit" parent="MenuBox/SettingsPanel/SettingsBox/GraphicsGrid/ResolutionBox"]
+margin_left = 114.0
+margin_right = 208.0
+margin_bottom = 40.0
+max_length = 4
+context_menu_enabled = false
+virtual_keyboard_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsDivide1" type="HSeparator" parent="MenuBox/SettingsPanel/SettingsBox"]
+margin_top = 149.0
+margin_right = 336.0
+margin_bottom = 153.0
+
+[node name="GameplayTitle" type="Label" parent="MenuBox/SettingsPanel/SettingsBox"]
+margin_top = 161.0
+margin_right = 336.0
+margin_bottom = 200.0
+custom_fonts/font = SubResource( 2 )
+text = "Gameplay"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameplayBox" type="VBoxContainer" parent="MenuBox/SettingsPanel/SettingsBox"]
+margin_top = 208.0
+margin_right = 336.0
+margin_bottom = 308.0
+custom_constants/separation = 8
+
+[node name="ImperialCheck" type="CheckBox" parent="MenuBox/SettingsPanel/SettingsBox/GameplayBox"]
+margin_right = 336.0
+margin_bottom = 46.0
+text = "Imperial Units"
+
+[node name="MirrorCheck" type="CheckBox" parent="MenuBox/SettingsPanel/SettingsBox/GameplayBox"]
+margin_top = 54.0
+margin_right = 336.0
+margin_bottom = 100.0
+text = "Rear Mirror"
+
+[node name="ReturnBox" type="HBoxContainer" parent="MenuBox"]
+margin_top = 399.0
+margin_right = 352.0
+margin_bottom = 445.0
+custom_constants/separation = 20
+
+[node name="BackButton" type="Button" parent="MenuBox/ReturnBox"]
+margin_right = 166.0
+margin_bottom = 46.0
+size_flags_horizontal = 3
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ApplyButton" type="Button" parent="MenuBox/ReturnBox"]
+margin_left = 186.0
+margin_right = 352.0
+margin_bottom = 46.0
+size_flags_horizontal = 3
+text = "Apply"
+__meta__ = {
+"_edit_use_anchors_": false
+}
