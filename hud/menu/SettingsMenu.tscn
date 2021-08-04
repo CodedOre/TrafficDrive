@@ -89,13 +89,13 @@ text = "Graphics"
 [node name="GraphicsGrid" type="GridContainer" parent="MenuBox/ContentContainer/Graphics"]
 margin_top = 47.0
 margin_right = 434.0
-margin_bottom = 147.0
+margin_bottom = 201.0
 custom_constants/vseparation = 8
 columns = 2
 
 [node name="DisplayLabel" type="Label" parent="MenuBox/ContentContainer/Graphics/GraphicsGrid"]
 margin_top = 8.0
-margin_right = 124.0
+margin_right = 150.0
 margin_bottom = 38.0
 text = "Display: "
 __meta__ = {
@@ -103,8 +103,8 @@ __meta__ = {
 }
 
 [node name="DisplayOptions" type="OptionButton" parent="MenuBox/ContentContainer/Graphics/GraphicsGrid"]
-margin_left = 128.0
-margin_right = 348.0
+margin_left = 154.0
+margin_right = 374.0
 margin_bottom = 46.0
 text = "Window"
 items = [ "Window", null, false, 0, null, "Borderless", null, false, 1, null, "Fullscreen", null, false, 2, null ]
@@ -112,14 +112,14 @@ selected = 0
 
 [node name="ResolutionLabel" type="Label" parent="MenuBox/ContentContainer/Graphics/GraphicsGrid"]
 margin_top = 62.0
-margin_right = 124.0
+margin_right = 150.0
 margin_bottom = 92.0
 text = "Resolution: "
 
 [node name="ResolutionBox" type="HBoxContainer" parent="MenuBox/ContentContainer/Graphics/GraphicsGrid"]
-margin_left = 128.0
+margin_left = 154.0
 margin_top = 54.0
-margin_right = 348.0
+margin_right = 374.0
 margin_bottom = 100.0
 
 [node name="WidthEdit" type="LineEdit" parent="MenuBox/ContentContainer/Graphics/GraphicsGrid/ResolutionBox"]
@@ -149,6 +149,24 @@ context_menu_enabled = false
 virtual_keyboard_enabled = false
 shortcut_keys_enabled = false
 selecting_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VehLightLabel" type="Label" parent="MenuBox/ContentContainer/Graphics/GraphicsGrid"]
+margin_top = 116.0
+margin_right = 150.0
+margin_bottom = 146.0
+text = "Vehicle Lights:"
+
+[node name="VehLightOptions" type="OptionButton" parent="MenuBox/ContentContainer/Graphics/GraphicsGrid"]
+margin_left = 154.0
+margin_top = 108.0
+margin_right = 374.0
+margin_bottom = 154.0
+text = "High"
+items = [ "High", null, false, 0, null, "Medium", null, false, 1, null, "Light", null, false, 2, null, "Minimum", null, false, 3, null ]
+selected = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -228,12 +246,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ApplyButton" type="Button" parent="MenuBox/ReturnBox"]
+[node name="ResetButton" type="Button" parent="MenuBox/ReturnBox"]
 margin_left = 235.0
 margin_right = 450.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
-text = "Apply"
+text = "Reset"
 __meta__ = {
 "_edit_use_anchors_": false
 }
