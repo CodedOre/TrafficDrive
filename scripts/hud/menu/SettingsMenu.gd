@@ -10,6 +10,11 @@ extends Control
 # - The tabs of the menu -
 enum SettingTabs {GRAPHICS, GAMEPLAY, INPUT, KEYS}
 
+# -- Properties --
+
+# - If _input is used -
+export (bool) var ParseInput = true
+
 # -- Variables --
 
 # - Tab control -
@@ -141,6 +146,21 @@ func _change_keybind(action : String):
 	changed_action = action
 	change_key_panel.visible = true
 	changing_input = true
+
+# - Detects input when changing keybinds -
+func _input(event):
+	if ! ParseInput:
+		return
+	if ! event.is_pressed():
+		return
+	if ! changing_input:
+		if event.is_action("ui_cancel"):
+			emit_signal("close_options")
+	if changing_input and event.is_pressed():
+		if event.is_action("ui_cancel"):
+			_abort_keybind()
+			return
+	pass
 
 # - Closes the "Change Keybind screen" -
 func _abort_keybind():

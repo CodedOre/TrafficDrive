@@ -41,6 +41,7 @@ visible = false
 
 [node name="SettingsMenu" parent="." instance=ExtResource( 3 )]
 visible = false
+ParseInput = false
 
 [node name="DebugScreen" parent="." instance=ExtResource( 5 )]
 pause_mode = 2

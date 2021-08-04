@@ -49,14 +49,13 @@ func setup_driving(vehicle_path: String) -> void:
 	driven_vehicle.Running = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-# - Runs every frame -
+# - Check for input to pause the game -
 func _process(_delta) -> void:
-	# Check for input to pause the game
 	if Input.is_action_just_pressed("ui_cancel"):
 		if ! submenud:
 			_toggle_pause()
-		else:
-			_close_options()
+		if submenud and ! settingmenu.visible:
+			submenud = false
 
 # - Manages the pause -
 func _toggle_pause() -> void:
@@ -80,10 +79,11 @@ func _open_options():
 	submenud = true
 	pausescreen.visible = false
 	settingmenu.visible = true
+	settingmenu.ParseInput = true
 
 # - Returns to pause menu from options -
 func _close_options():
-	submenud = false
+	settingmenu.ParseInput = false
 	settingmenu.visible = false
 	pausescreen.visible = true
 

@@ -24,8 +24,3 @@ func _toggle_options():
 	open_options = ! open_options
 	$MainMenu.visible     = ! open_options
 	$SettingsMenu.visible =   open_options
-
-# - Runs every frame to get Esc input -
-func _process(_delta):
-	if Input.is_action_just_pressed("ui_cancel") and open_options:
-		_toggle_options()
