@@ -1,6 +1,6 @@
 [gd_scene load_steps=104 format=2]
 
-[ext_resource path="res://assets/materials/Body.material" type="Material" id=1]
+[ext_resource path="res://assets/materials/CityBody.material" type="Material" id=1]
 [ext_resource path="res://assets/models/enviroment/apartment/Basic1.mesh" type="ArrayMesh" id=2]
 [ext_resource path="res://assets/collisions/enviroment/apartment/Basic1.shape" type="Shape" id=3]
 [ext_resource path="res://assets/models/enviroment/apartment/Basic2.mesh" type="ArrayMesh" id=4]

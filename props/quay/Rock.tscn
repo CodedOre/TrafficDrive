@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/collisions/props/quay/Rock.shape" type="Shape" id=1]
 [ext_resource path="res://assets/models/props/quay/Rock.glb" type="PackedScene" id=2]
-[ext_resource path="res://assets/materials/Body.material" type="Material" id=3]
+[ext_resource path="res://assets/materials/CityBody.material" type="Material" id=3]
 
 [node name="Rock" instance=ExtResource( 2 )]
 

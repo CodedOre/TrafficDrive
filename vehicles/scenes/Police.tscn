@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/models/vehicles/Police.glb" type="PackedScene" id=1]
-[ext_resource path="res://assets/materials/Body.material" type="Material" id=2]
+[ext_resource path="res://assets/materials/VehicleBody.material" type="Material" id=2]
 [ext_resource path="res://assets/materials/Glass.material" type="Material" id=3]
 [ext_resource path="res://assets/materials/VehicleLights/FrontLightOff.material" type="Material" id=4]
 [ext_resource path="res://assets/materials/VehicleLights/ReverseLightOff.material" type="Material" id=5]

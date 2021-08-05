@@ -1,6 +1,6 @@
 [gd_scene load_steps=26 format=2]
 
-[ext_resource path="res://assets/materials/Body.material" type="Material" id=1]
+[ext_resource path="res://assets/materials/CityBody.material" type="Material" id=1]
 [ext_resource path="res://assets/models/enviroment/bridge/Underside.mesh" type="ArrayMesh" id=2]
 [ext_resource path="res://assets/models/enviroment/bridge/Edge.mesh" type="ArrayMesh" id=3]
 [ext_resource path="res://assets/models/enviroment/bridge/Pillar1.mesh" type="ArrayMesh" id=4]
