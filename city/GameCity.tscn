@@ -4,4 +4,6 @@
 
 [node name="GameCity" type="Spatial"]
 
-[node name="Downtown" parent="." instance=ExtResource( 1 )]
+[node name="Districts" type="Node" parent="."]
+
+[node name="Downtown" parent="Districts" instance=ExtResource( 1 )]
