@@ -1,74 +1,68 @@
+# Copyright 2019, Tapio Pyrhönen
+
+# --- Enviroment script ---
+# The main script for the Day/Night cycle
+
 extends WorldEnvironment
 
-# Debug label
-export (NodePath) var dlabel
+# -- Properties --
 
-# Random generation settings
-#export var game_seed = 13
-#export var ground_size = 1024.0 * 3.0
-#export var ground_lod_step = 4.0
-#export var ground_xz_scale = 1.5
-
-# Wind settings
-var use_wind = true
-var wind_nodes
-var wind_dir = Vector2(1.0, 0.0)
-var wind_speed = 0.05
-var wind_uv_offset = Vector2(0.0, 0.0)
+# - Wind texture -
 export (Texture) var wind_tex
 
-# Atmosphere, weather and time of day
+# - External nodes -
 export (NodePath) var sun
-export (NodePath) var clouds
+export (NodePath) var sky
 export (NodePath) var water
-var env
 
-var time_of_day = 48000.0 # 0 -> 86400
-var day_phase = 0.0 # -PI -> PI
-var game_timescale = 60.0 # 1.0 = realtime
+# - Sky colors -
+export (Color) var day_color_sun        = Color(1,          1,        1,        1)
+export (Color) var day_color_sky        = Color(0.388235,   0.490196, 0.890196, 1)
+export (Color) var day_color_horizon    = Color(0.817383,   0.883606, 0.96875,  1)
+export (Color) var sunset_color_sun     = Color(1,          0.376471, 0,        1)
+export (Color) var sunset_color_sky     = Color(0,          0.007843, 0.215686, 1)
+export (Color) var sunset_color_horizon = Color(0.545098,   0.167647, 0.105882, 1)
+export (Color) var night_color_sun      = Color(0.117647,   0.12549,  0.219608, 1)
+export (Color) var night_color_sky      = Color(0.023529,   0.023529, 0.031373, 1)
+export (Color) var night_color_horizon  = Color(0.047059,   0.054902, 0.164706, 1)
+export (Color) var dawn_color_sun       = Color(1,          0.678431, 0,        1)
+export (Color) var dawn_color_sky       = Color(0,0.082353, 0.215686,           1)
+export (Color) var dawn_color_horizon   = Color(0.545098,   0.188235, 0.105882, 1)
 
-# Sky and light colors
-export var day_color_sun = Color(1,1,1,1)
-export var day_color_sky = Color(0.388235,0.490196,0.890196,1)
-export var day_color_horizon = Color(0.817383,0.883606,0.96875,1)
-export var sunset_color_sun = Color(1,0.376471,0,1)
-export var sunset_color_sky = Color(0,0.007843,0.215686,1)
-export var sunset_color_horizon = Color(0.545098,0.167647,0.105882,1)
-export var night_color_sun = Color(0.117647,0.12549,0.219608,1)
-export var night_color_sky = Color(0.023529,0.023529,0.031373,1)
-export var night_color_horizon = Color(0.047059,0.054902,0.164706,1)
-export var dawn_color_sun = Color(1,0.678431,0,1)
-export var dawn_color_sky = Color(0,0.082353,0.215686,1)
-export var dawn_color_horizon = Color(0.545098,0.188235,0.105882,1)
+# -- Variables --
+
+# - Internal nodes -
+var env : Environment
+
+# - Wind settings -
+var use_wind       : bool    = true
+var wind_nodes     : Array   = Array()
+var wind_dir       : Vector2 = Vector2(1.0, 0.0)
+var wind_speed     : float   = 0.05
+var wind_uv_offset : Vector2 = Vector2(0.0, 0.0)
+
+# - Time settings -
+var time_paused    : float = false
+var time_of_day    : float = 48000.0 # 0 -> 86400
+var day_phase      : float = 0.0 # -PI -> PI
+var game_timescale : float = 60.0 # 1.0 = realtime
+
+# - Sky colors -
 var sun_c = day_color_sun
 var sky_c = day_color_sky
 var hor_c = day_color_horizon
 var fog_c = hor_c
 
+# -- Functions --
+
+# - Runs at startup -
 func _ready():
-	dlabel = get_node(dlabel)
-	
-	sun = get_node(sun)
-	clouds = get_node(clouds)
+	# Get nodes
+	sun   = get_node(sun)
+	sky   = get_node(sky)
 	water = get_node(water)
-	env = get_environment()
-	
-	var vp = get_viewport()
-#	vp.size = vp.size / 2.0
-	
-#	print("\nexport var day_color_sun = Color(",day_color_sun,")")
-#	print("export var day_color_sky = Color(",day_color_sky,")")
-#	print("export var day_color_horizon = Color(",day_color_horizon,")")
-#	print("export var sunset_color_sun = Color(",sunset_color_sun,")")
-#	print("export var sunset_color_sky = Color(",sunset_color_sky,")")
-#	print("export var sunset_color_horizon = Color(",sunset_color_horizon,")")
-#	print("export var night_color_sun = Color(",night_color_sun,")")
-#	print("export var night_color_sky = Color(",night_color_sky,")")
-#	print("export var night_color_horizon = Color(",night_color_horizon,")")
-#	print("export var dawn_color_sun = Color(",dawn_color_sun,")")
-#	print("export var dawn_color_sky = Color(",dawn_color_sky,")")
-#	print("export var dawn_color_horizon = Color(",dawn_color_horizon,")\n")
-	
+	env   = get_environment()
+	var vp : Viewport = get_viewport()
 	
 	# Setup wind nodes
 	wind_nodes = get_tree().get_nodes_in_group("Wind")
@@ -81,66 +75,52 @@ func _ready():
 	environment.set_dof_blur_far_distance(64.0)
 	#environment.set_dof_blur_far_transition(Globals.ground_size * 0.5)
 
+# - Runs at every frame -
 func _process(delta):
-	# Update infolabel
-	var s = str("Fps: ", Performance.get_monitor(Performance.TIME_FPS), "\n")
-	var pos = get_viewport().get_camera().global_transform.origin
-	s = str(s, "X: %.1f" % pos.x, "\n")
-	s = str(s, "Y: %.1f" % pos.y, "\n")
-	s = str(s, "Z: %.1f" % pos.z, "\n")
-	dlabel.set_text(s)
+#	if(Input.is_key_pressed(KEY_SHIFT)):
+#		wind_speed = lerp(wind_speed, 0.2, delta)
+#	else:
+#		wind_speed = lerp(wind_speed, 0.3, delta)
+	# Set wind speed
+	wind_speed = lerp(wind_speed, 0.3, delta)
 	
-#	"%10.3f" % 10000.5555
-	
-#	if(Input.is_action_just_pressed("shoot")):
-#		print_stray_nodes()
-	
-	if(Input.is_key_pressed(KEY_SHIFT)):
-		wind_speed = lerp(wind_speed, 0.2, delta)
-	else:
-		wind_speed = lerp(wind_speed, 0.3, delta)
-	
-	
-	
+	# Run update functions
 	upd_time_of_day(delta)
 	upd_wind(delta)
 	upd_sun()
 	upd_fog()
 	
+	# Update sky
 	var a = float(OS.get_ticks_msec()) / 4000.0
 	a = (sin(a+day_phase) + (cos(a / 3.0))) / 2.0
 	a *= abs(a)
 	a /= 7.0
-	clouds.set_cloudiness(clamp(a + 0.5, 0.0, 1.0))
+	sky.set_cloudiness(clamp(a + 0.5, 0.0, 1.0))
 
-
+# - Updates the time -
 func upd_time_of_day(delta):
+	if (time_paused):
+		return
 	
-#	if(paused == false):
+	# Set the time
 	time_of_day += delta * game_timescale
-	
 	day_phase = time_of_day / (86400.0 / (PI * 2.0))
 	
-	if(Input.is_key_pressed(KEY_X)):
-		time_of_day += delta * 60 * 60 * 2
-#		print(time_of_day)
-	if(Input.is_key_pressed(KEY_Z)):
-		time_of_day -= delta * 60 * 60 * 2
-#		print(time_of_day)
-		
+	# Handle time overflow
 	if(time_of_day > 86400.0):
 		time_of_day -= 86400.0
 	if(time_of_day < 0.0):
 		time_of_day += 86400.0
 
+# - Update the wind -
 func upd_wind(delta):
-	if(use_wind == false):
+	if(! use_wind):
 		return
 	
+	# Set wind direction
 	wind_dir.x = sin(0.00001 * OS.get_ticks_msec())
 	wind_dir.y = cos(0.00001 * OS.get_ticks_msec())
 	
-	# Upd wind
 	wind_dir = wind_dir.normalized()
 	wind_uv_offset += wind_dir * wind_speed * delta
 	
@@ -149,9 +129,9 @@ func upd_wind(delta):
 		n.material_override.set_shader_param("wind_uv_offset", wind_uv_offset)
 		n.material_override.set_shader_param("wind_dir", wind_dir)
 		n.material_override.set_shader_param("wind_speed", wind_speed)
-	
+
+# - Update the sun and sky -
 func upd_sun():
-	
 	# Directional Light angle
 	var pos = sun.get_global_transform().origin
 	var a = day_phase + PI/3.0
@@ -159,14 +139,6 @@ func upd_sun():
 	var dir = Vector3(1, 0, 0)
 	dir = dir.rotated(celesial_pole, -a)
 	sun.look_at(pos + dir, Vector3(0,1,0))
-	
-
-	
-	# Sun angle
-#	var longitude = a * 360 / (PI * 2.0) - 90.0
-#	var latitude = sin_a * 45.0
-#	sky.set_sun_longitude(longitude)
-#	sky.set_sun_latitude(latitude)
 	
 	# Sky colors
 	var p_day = clamp(-sin(a), 0.0, 1.0)
@@ -194,7 +166,6 @@ func upd_sun():
 	
 	# Directional Light color
 	var sin_a = -sin(a)
-#	var p = clamp(sin_a, 0.0, 1.0)
 	var energy = clamp(sin_a * 1.5, 0.0, 1.0)
 	if(energy > 0.0):
 		sun.set_visible(true)
@@ -202,15 +173,14 @@ func upd_sun():
 		sun.set_color(hor_c)
 	else:
 		sun.set_visible(false)
-#	sun.set_visible(false)
 	
-	clouds.material_override.set_shader_param("sun_color", sun_c)
-	clouds.material_override.set_shader_param("sky_color", sky_c)
-	clouds.material_override.set_shader_param("horizon_color", hor_c)
-	clouds.set_cloud_colors(sky_c.linear_interpolate(Color.black, 0.1), hor_c.linear_interpolate(Color.white, 0.1), hor_c)
+	sky.material_override.set_shader_param("sun_color", sun_c)
+	sky.material_override.set_shader_param("sky_color", sky_c)
+	sky.material_override.set_shader_param("horizon_color", hor_c)
+	sky.set_cloud_colors(sky_c.linear_interpolate(Color.black, 0.1), hor_c.linear_interpolate(Color.white, 0.1), hor_c)
 	water.set_water_colors(sky_c, (sky_c + hor_c) / 2.0, hor_c)
 
-
+# - Update fog color -
 func upd_fog():
 	fog_c = sky_c.linear_interpolate(hor_c, 0.8)
 	env.set_fog_color(fog_c)

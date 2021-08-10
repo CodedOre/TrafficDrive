@@ -22,7 +22,7 @@ func _process(delta):
 
 # - Updates the mesh to cover the complete viewport -
 func follow_camera():
-	var cam = get_viewport().get_camera()
+	var cam : Camera = get_viewport().get_camera()
 	transform = cam.global_transform
 	translate(Vector3(0.0, 0.0, 8.0 - cam.far))
 	scale = Vector3(cam.far * 4.0, cam.far * 3.0, 1.0)
