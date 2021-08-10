@@ -79,7 +79,6 @@ func drive_selected_vehicle() -> void:
 # - State change to TitleScreen -
 func return_to_main() -> void:
 	# Resets the city time
-	city.set_time(48000.0)
 	city.set_pause(true)
 	# Sets pause mode (in case we're coming from Driving)
 	get_tree().paused = false
