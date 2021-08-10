@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://assets/models/world/EndlessSea.tres" type="PlaneMesh" id=1]
+[ext_resource path="res://assets/models/enviroment/terrain/Water.tres" type="PlaneMesh" id=1]
 
 [node name="TerrainElements" type="Spatial"]
 
