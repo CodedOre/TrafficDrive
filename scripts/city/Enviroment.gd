@@ -45,7 +45,7 @@ var wind_uv_offset : Vector2 = Vector2(0.0, 0.0)
 var time_paused    : bool  = true
 var time_of_day    : float = 48000.0 # 0 -> 86400
 var day_phase      : float = 0.0     # -PI -> PI
-var game_timescale : float = 2400.0   # 1.0 = realtime
+var game_timescale : float = 240.0   # 1.0 = realtime
 
 # - Sky colors -
 var sun_c = day_color_sun
