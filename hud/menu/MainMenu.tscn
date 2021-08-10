@@ -8,57 +8,74 @@
 size = 64
 font_data = ExtResource( 2 )
 
-[node name="MainMenu" type="CenterContainer"]
+[node name="MainMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="OuterContainer" type="VBoxContainer" parent="."]
+[node name="MenuContainer" type="CenterContainer" parent="."]
 margin_left = 357.0
 margin_top = 166.0
 margin_right = 667.0
 margin_bottom = 434.0
+
+[node name="OuterContainer" type="VBoxContainer" parent="MenuContainer"]
+margin_right = 310.0
+margin_bottom = 268.0
 custom_constants/separation = 20
 
-[node name="TitleLabel" type="Label" parent="OuterContainer"]
+[node name="TitleLabel" type="Label" parent="MenuContainer/OuterContainer"]
 margin_right = 310.0
 margin_bottom = 78.0
 custom_fonts/font = SubResource( 1 )
 text = "TrafficDrive"
 
-[node name="OptionPanel" type="PanelContainer" parent="OuterContainer"]
+[node name="OptionPanel" type="PanelContainer" parent="MenuContainer/OuterContainer"]
 margin_top = 98.0
 margin_right = 310.0
 margin_bottom = 268.0
 
-[node name="InnerContainer" type="VBoxContainer" parent="OuterContainer/OptionPanel"]
+[node name="InnerContainer" type="VBoxContainer" parent="MenuContainer/OuterContainer/OptionPanel"]
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 302.0
 margin_bottom = 162.0
 custom_constants/separation = 8
 
-[node name="PlayButton" type="Button" parent="OuterContainer/OptionPanel/InnerContainer"]
+[node name="PlayButton" type="Button" parent="MenuContainer/OuterContainer/OptionPanel/InnerContainer"]
 margin_right = 294.0
 margin_bottom = 46.0
 text = "Start Driving"
 
-[node name="SettingsButton" type="Button" parent="OuterContainer/OptionPanel/InnerContainer"]
+[node name="SettingsButton" type="Button" parent="MenuContainer/OuterContainer/OptionPanel/InnerContainer"]
 margin_top = 54.0
 margin_right = 294.0
 margin_bottom = 100.0
 text = "Settings"
 
-[node name="QuitButton" type="Button" parent="OuterContainer/OptionPanel/InnerContainer"]
+[node name="QuitButton" type="Button" parent="MenuContainer/OuterContainer/OptionPanel/InnerContainer"]
 margin_top = 108.0
 margin_right = 294.0
 margin_bottom = 154.0
 text = "Quit"
 
-[connection signal="pressed" from="OuterContainer/OptionPanel/InnerContainer/PlayButton" to="." method="_close_with_start"]
-[connection signal="pressed" from="OuterContainer/OptionPanel/InnerContainer/SettingsButton" to="." method="_close_with_options"]
-[connection signal="pressed" from="OuterContainer/OptionPanel/InnerContainer/QuitButton" to="." method="_close_with_quit"]
+[node name="CreditsButton" type="Button" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -105.0
+margin_top = -59.0
+margin_right = -10.0
+margin_bottom = -10.0
+rect_min_size = Vector2( 95, 46 )
+text = "Credits"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="MenuContainer/OuterContainer/OptionPanel/InnerContainer/PlayButton" to="." method="_close_with_start"]
+[connection signal="pressed" from="MenuContainer/OuterContainer/OptionPanel/InnerContainer/SettingsButton" to="." method="_close_with_options"]
+[connection signal="pressed" from="MenuContainer/OuterContainer/OptionPanel/InnerContainer/QuitButton" to="." method="_close_with_quit"]
+[connection signal="pressed" from="CreditsButton" to="." method="_close_with_credits"]

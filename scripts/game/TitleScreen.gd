@@ -9,6 +9,7 @@ extends GameState
 
 # - Runtime states -
 var open_options : bool = false
+var open_credits : bool = false
 
 # -- Signals --
 signal start_game()
@@ -24,3 +25,9 @@ func _toggle_options():
 	open_options = ! open_options
 	$MainMenu.visible     = ! open_options
 	$SettingsMenu.visible =   open_options
+
+# - Toggles the visibility of the credits screen -
+func _toggle_credits():
+	open_credits = ! open_credits
+	$MainMenu.visible      = ! open_credits
+	$CreditsScreen.visible =   open_credits
