@@ -147,6 +147,9 @@ func _modify_settings() -> void:
 	_x_dir             =   -1 if GameSettings.get_setting("Input", "MouseXInverted") else  1
 	_y_dir             =    1 if GameSettings.get_setting("Input", "MouseYInverted") else -1
 	_mouse_sensitivity = 0.001 * GameSettings.get_setting("Input", "MouseSensitivity")
+	var dist_set : int = GameSettings.get_setting("Graphics", "RenderDistance")
+	var distance : int = GameSettings.RENDER_DISTANCE_VALUES[dist_set]
+	_camera_node.far   = distance
 
 # - Resets the camera to original position -
 func reset_camera() -> void:

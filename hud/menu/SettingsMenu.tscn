@@ -92,29 +92,28 @@ margin_bottom = 441.0
 rect_min_size = Vector2( 450, 320 )
 
 [node name="Graphics" type="VBoxContainer" parent="SettingsContainer/MenuBox/ContentContainer"]
-visible = false
 margin_left = 8.0
 margin_top = 8.0
-margin_right = 442.0
+margin_right = 496.0
 margin_bottom = 312.0
 custom_constants/separation = 8
 
 [node name="GraphicsTitle" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Graphics"]
-margin_right = 434.0
+margin_right = 488.0
 margin_bottom = 39.0
 custom_fonts/font = SubResource( 2 )
 text = "Graphics"
 
 [node name="GraphicsGrid" type="GridContainer" parent="SettingsContainer/MenuBox/ContentContainer/Graphics"]
 margin_top = 47.0
-margin_right = 434.0
-margin_bottom = 201.0
+margin_right = 488.0
+margin_bottom = 255.0
 custom_constants/vseparation = 8
 columns = 2
 
 [node name="DisplayLabel" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid"]
 margin_top = 8.0
-margin_right = 215.0
+margin_right = 242.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
 text = "Display: "
@@ -123,8 +122,8 @@ __meta__ = {
 }
 
 [node name="DisplayOptions" type="OptionButton" parent="SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid"]
-margin_left = 219.0
-margin_right = 434.0
+margin_left = 246.0
+margin_right = 488.0
 margin_bottom = 46.0
 size_flags_horizontal = 3
 text = "Window"
@@ -133,15 +132,15 @@ selected = 0
 
 [node name="VehLightLabel" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid"]
 margin_top = 62.0
-margin_right = 215.0
+margin_right = 242.0
 margin_bottom = 92.0
 size_flags_horizontal = 3
 text = "Vehicle Lights:"
 
 [node name="VehLightOptions" type="OptionButton" parent="SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid"]
-margin_left = 219.0
+margin_left = 246.0
 margin_top = 54.0
-margin_right = 434.0
+margin_right = 488.0
 margin_bottom = 100.0
 size_flags_horizontal = 3
 text = "High"
@@ -151,10 +150,30 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VSyncCheck" type="CheckBox" parent="SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid"]
+[node name="DistanceLabel" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid"]
+margin_top = 116.0
+margin_right = 242.0
+margin_bottom = 146.0
+size_flags_horizontal = 3
+text = "Render Distance:"
+
+[node name="DistanceOption" type="OptionButton" parent="SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid"]
+margin_left = 246.0
 margin_top = 108.0
-margin_right = 215.0
+margin_right = 488.0
 margin_bottom = 154.0
+size_flags_horizontal = 3
+text = "Medium"
+items = [ "Low", null, false, 0, null, "Medium", null, false, 1, null, "Far", null, false, 2, null, "Ultra", null, false, 3, null ]
+selected = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VSyncCheck" type="CheckBox" parent="SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid"]
+margin_top = 162.0
+margin_right = 242.0
+margin_bottom = 208.0
 size_flags_horizontal = 3
 text = "Enable VSync"
 
@@ -250,6 +269,7 @@ step = 0.25
 value = 2.0
 
 [node name="Keys" type="VBoxContainer" parent="SettingsContainer/MenuBox/ContentContainer"]
+visible = false
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 496.0
@@ -591,6 +611,7 @@ __meta__ = {
 [connection signal="pressed" from="SettingsContainer/MenuBox/TabsContainer/KeysTab" to="." method="set_tab" binds= [ 3 ]]
 [connection signal="item_selected" from="SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/DisplayOptions" to="." method="_set_display_options"]
 [connection signal="item_selected" from="SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/VehLightOptions" to="." method="_set_vehicle_lights"]
+[connection signal="item_selected" from="SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/DistanceOption" to="." method="set_render_distance"]
 [connection signal="toggled" from="SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/VSyncCheck" to="." method="_set_vsync_option"]
 [connection signal="toggled" from="SettingsContainer/MenuBox/ContentContainer/Gameplay/AutoGearCheck" to="." method="_set_automatic_gears"]
 [connection signal="toggled" from="SettingsContainer/MenuBox/ContentContainer/Gameplay/ImperialCheck" to="." method="_set_imperial_units"]

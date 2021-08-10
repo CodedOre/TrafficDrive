@@ -9,6 +9,7 @@ extends Node
 
 # - Graphics Settings -
 enum VehicleLight {HIGH, MEDIUM, LIGHT}
+enum RenderDistance {LOW, MEDIUM, FAR, ULTRA}
 
 # -- Constants --
 
@@ -16,6 +17,14 @@ enum VehicleLight {HIGH, MEDIUM, LIGHT}
 const DEFAULT_CONFIG_FILE : String =  "res://default_config.tres"
 const    USER_CONFIG_FILE : String = "user://TrafficDrive.tres"
 const    USER_BACKUP_FILE : String = "user://TrafficDrive.bak.tres"
+
+# - Graphics Settings -
+const RENDER_DISTANCE_VALUES = {
+	RenderDistance.LOW:    100,
+	RenderDistance.MEDIUM: 250,
+	RenderDistance.FAR:    450,
+	RenderDistance.ULTRA:  750
+}
 
 # -- Variables --
 

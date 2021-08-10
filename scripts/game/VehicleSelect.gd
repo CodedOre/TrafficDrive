@@ -56,6 +56,8 @@ func _ready() -> void:
 		vehicle_pool.append(get_node(vehicle))
 		viewport_pool.append(get_node(VehicleViews[vehicle]))
 	select_vehicle(0, true)
+	# Connects GameSettings changes
+	GameSettings.connect("setting_changed", self, "_update_settings")
 
 # - Moves the selection -
 func move_selection(index: int) -> void:
@@ -121,3 +123,9 @@ func chosen_paint() -> int:
 # - Sets the paint of the vehicle -
 func set_paint(index : int):
 	vehicle_pool[selected_vehicle].VehiclePaint = index
+
+# - Updates the camera render distance -
+func _update_settings() -> void:
+	var dist_set : int = GameSettings.get_setting("Graphics", "RenderDistance")
+	var distance : int = GameSettings.RENDER_DISTANCE_VALUES[dist_set]
+	$Camera.far   = distance
