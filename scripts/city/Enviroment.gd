@@ -77,11 +77,6 @@ func _ready():
 
 # - Runs at every frame -
 func _process(delta):
-#	if(Input.is_key_pressed(KEY_SHIFT)):
-#		wind_speed = lerp(wind_speed, 0.2, delta)
-#	else:
-#		wind_speed = lerp(wind_speed, 0.3, delta)
-	# Set wind speed
 	wind_speed = lerp(wind_speed, 0.3, delta)
 	
 	# Run update functions
@@ -178,7 +173,7 @@ func upd_sun():
 	sky.material_override.set_shader_param("sky_color", sky_c)
 	sky.material_override.set_shader_param("horizon_color", hor_c)
 	sky.set_cloud_colors(sky_c.linear_interpolate(Color.black, 0.1), hor_c.linear_interpolate(Color.white, 0.1), hor_c)
-	water.set_water_colors(sky_c, (sky_c + hor_c) / 2.0, hor_c)
+	#water.set_water_colors(sky_c, (sky_c + hor_c) / 2.0, hor_c)
 
 # - Update fog color -
 func upd_fog():
