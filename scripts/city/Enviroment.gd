@@ -42,10 +42,10 @@ var wind_speed     : float   = 0.05
 var wind_uv_offset : Vector2 = Vector2(0.0, 0.0)
 
 # - Time settings -
-var time_paused    : float = false
+var time_paused    : bool  = true
 var time_of_day    : float = 48000.0 # 0 -> 86400
-var day_phase      : float = 0.0 # -PI -> PI
-var game_timescale : float = 60.0 # 1.0 = realtime
+var day_phase      : float = 0.0     # -PI -> PI
+var game_timescale : float = 2400.0   # 1.0 = realtime
 
 # - Sky colors -
 var sun_c = day_color_sun
@@ -94,11 +94,10 @@ func _process(delta):
 
 # - Updates the time -
 func upd_time_of_day(delta):
-	if (time_paused):
-		return
+	if (! time_paused):
+		time_of_day += delta * game_timescale
 	
 	# Set the time
-	time_of_day += delta * game_timescale
 	day_phase = time_of_day / (86400.0 / (PI * 2.0))
 	
 	# Handle time overflow

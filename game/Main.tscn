@@ -40,4 +40,5 @@ transform = Transform( 0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 5
 [connection signal="start_game" from="States/TitleScreen" to="." method="select_a_vehicle"]
 [connection signal="menu_confirm" from="States/VehicleSelect" to="." method="drive_selected_vehicle"]
 [connection signal="menu_return" from="States/VehicleSelect" to="." method="return_to_main"]
+[connection signal="check_pause" from="States/Driving" to="." method="check_pause"]
 [connection signal="return_to_main" from="States/Driving" to="." method="return_to_main"]

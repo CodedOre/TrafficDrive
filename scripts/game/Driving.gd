@@ -25,6 +25,7 @@ var submenud : bool = false
 var paused   : bool = false
 
 # -- Signals --
+signal check_pause()
 signal return_to_main()
 
 # -- Functions --
@@ -74,6 +75,7 @@ func _toggle_pause() -> void:
 	debugscreen.visible = ! paused
 	pausescreen.visible =   paused
 	backdrop.visible    =   paused
+	emit_signal("check_pause")
 
 # - Displays the settings menu -
 func _open_options():

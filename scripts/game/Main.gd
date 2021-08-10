@@ -12,6 +12,9 @@ enum GameState {TITLE, SELECT, DRIVE}
 
 # -- Variables --
 
+# - Internal nodes -
+onready var city = $GameCity
+
 # - The nodes for the various states -
 onready var state_title_screen   = $States/TitleScreen
 onready var state_vehicle_select = $States/VehicleSelect
@@ -68,13 +71,22 @@ func drive_selected_vehicle() -> void:
 	var paint            : int    = state_vehicle_select.chosen_paint()
 	# Change states
 	set_active_state(GameState.DRIVE)
+	# Activates the city time
+	city.set_pause(false)
 	# Setup new scene
 	state_driving.setup_driving(selected_vehicle, paint)
 
 # - State change to TitleScreen -
 func return_to_main() -> void:
+	# Resets the city time
+	city.set_time(48000.0)
+	city.set_pause(true)
 	# Sets pause mode (in case we're coming from Driving)
 	get_tree().paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	# Change states
 	set_active_state(GameState.TITLE)
+
+# - Stops the city time when paused -
+func check_pause():
+	city.set_pause(game_states[GameState.DRIVE].paused)
