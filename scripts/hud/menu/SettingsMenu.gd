@@ -52,9 +52,10 @@ onready var changeable_inputs : Dictionary = {
 
 # - Graphics nodes -
 onready var display_options : OptionButton = $SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/DisplayOptions
-onready var vsync_option    : CheckBox     = $SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/VSyncCheck
 onready var vehicle_lights  : OptionButton = $SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/VehLightOptions
 onready var render_distance : OptionButton = $SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/DistanceOption
+onready var vsync_option    : CheckBox     = $SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/VSyncCheck
+onready var ssao_option     : CheckBox     = $SettingsContainer/MenuBox/ContentContainer/Graphics/GraphicsGrid/SSAOCheck
 
 # - Gameplay nodes -
 onready var automatic_option : CheckBox = $SettingsContainer/MenuBox/ContentContainer/Gameplay/AutoGearCheck
@@ -104,6 +105,7 @@ func _close_to_return() -> void:
 func _load_settings() -> void:
 	display_options.select(GameSettings.get_setting("Graphics", "Display"))
 	vsync_option.pressed = GameSettings.get_setting("Graphics", "EnableVSync")
+	ssao_option.pressed = GameSettings.get_setting("Graphics", "EnableSSAO")
 	vehicle_lights.select(GameSettings.get_setting("Graphics", "VehicleLight"))
 	render_distance.select(GameSettings.get_setting("Graphics", "RenderDistance"))
 	automatic_option.pressed = GameSettings.get_setting("Gameplay", "SwitchGearsAutomatically")
@@ -119,6 +121,8 @@ func _set_display_options(setting : int) -> void:
 	GameSettings.set_setting("Graphics", "Display", setting)
 func _set_vsync_option(setting : bool) -> void:
 	GameSettings.set_setting("Graphics", "EnableVSync", setting)
+func _set_ssao_option(setting : bool) -> void:
+	GameSettings.set_setting("Graphics", "EnableSSAO", setting)
 func _set_vehicle_lights(setting : int) -> void:
 	GameSettings.set_setting("Graphics", "VehicleLight", setting)
 func set_render_distance(setting : int) -> void:

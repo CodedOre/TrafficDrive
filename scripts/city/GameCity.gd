@@ -27,6 +27,9 @@ func set_pause(pause : bool) -> void:
 
 # - Updates the render distance -
 func _update_settings() -> void:
+	# Set RenderDistance
 	var dist_set : int = GameSettings.get_setting("Graphics", "RenderDistance")
 	var distance : int = GameSettings.RENDER_DISTANCE_VALUES[dist_set]
 	env.environment.fog_depth_end = distance
+	# Set SSAO
+	env.environment.ssao_enabled = GameSettings.get_setting("Graphics", "EnableSSAO")
