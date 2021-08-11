@@ -104,3 +104,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -69.518, -5.6, 19.131 )
 
 [node name="Rock_10" parent="Props" instance=ExtResource( 4 )]
 transform = Transform( -0.846853, 0, -0.531827, 0, 1, 0, 0.531827, 0, -0.846853, -68.3855, -5.62999, 22.497 )
+
+[connection signal="body_entered" from="DistrictArea" to="." method="_district_entered"]

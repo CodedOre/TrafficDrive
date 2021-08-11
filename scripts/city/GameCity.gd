@@ -8,7 +8,11 @@ extends Spatial
 # -- Variables --
 
 # - Internal nodes -
-onready var env : WorldEnvironment = $Environment
+onready var districts : Node             = $Districts
+onready var env       : WorldEnvironment = $Environment
+
+# - Runtime states -
+var active_district : Spatial
 
 # -- Functions --
 
@@ -16,6 +20,9 @@ onready var env : WorldEnvironment = $Environment
 func _ready() -> void:
 	# Connects settings
 	GameSettings.connect("setting_changed", self, "_update_settings")
+	# Connects all districts
+	for area in districts.get_children():
+		area.connect("district_entered", self, "set_active_district", [area])
 
 # - Sets the time -
 func set_time(time : float) -> void:
@@ -33,3 +40,7 @@ func _update_settings() -> void:
 	env.environment.fog_depth_end = distance
 	# Set SSAO
 	env.environment.ssao_enabled = GameSettings.get_setting("Graphics", "EnableSSAO")
+
+# - Set the current active district -
+func set_active_district(district: Spatial) -> void:
+	active_district = district

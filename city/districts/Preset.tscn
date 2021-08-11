@@ -64,3 +64,5 @@ __meta__ = {
 }
 
 [node name="Props" type="Spatial" parent="."]
+
+[connection signal="body_entered" from="DistrictArea" to="." method="_district_entered"]
