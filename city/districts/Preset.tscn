@@ -1,10 +1,16 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://enviroment/BuildingElements.meshlib" type="MeshLibrary" id=1]
 [ext_resource path="res://enviroment/GroundElements.meshlib" type="MeshLibrary" id=2]
 [ext_resource path="res://enviroment/FoundationElements.meshlib" type="MeshLibrary" id=3]
+[ext_resource path="res://scripts/city/District.gd" type="Script" id=4]
 
 [node name="Downtown" type="Spatial"]
+script = ExtResource( 4 )
+
+[node name="DistrictArea" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="DistrictArea"]
 
 [node name="Enviroment" type="Spatial" parent="."]
 
