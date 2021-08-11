@@ -92,6 +92,7 @@ margin_bottom = 441.0
 rect_min_size = Vector2( 450, 320 )
 
 [node name="Graphics" type="VBoxContainer" parent="SettingsContainer/MenuBox/ContentContainer"]
+visible = false
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 496.0
@@ -277,7 +278,6 @@ step = 0.25
 value = 2.0
 
 [node name="Keys" type="VBoxContainer" parent="SettingsContainer/MenuBox/ContentContainer"]
-visible = false
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 496.0
@@ -301,7 +301,7 @@ scroll_horizontal_enabled = false
 
 [node name="KeysGrid" type="GridContainer" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer"]
 margin_right = 400.0
-margin_bottom = 696.0
+margin_bottom = 746.0
 rect_min_size = Vector2( 400, 0 )
 custom_constants/vseparation = 4
 custom_constants/hseparation = 8
@@ -476,14 +476,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CameraLabel" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
+[node name="ResetLabel" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
 margin_top = 508.0
 margin_right = 196.0
 margin_bottom = 538.0
 size_flags_horizontal = 3
-text = "Change Camera:"
+text = "Reset Vehicle:"
 
-[node name="CameraButton" type="Button" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
+[node name="ResetButton" type="Button" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
 margin_left = 204.0
 margin_top = 500.0
 margin_right = 400.0
@@ -493,14 +493,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CruiseControlLabel" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
+[node name="CameraLabel" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
 margin_top = 558.0
 margin_right = 196.0
 margin_bottom = 588.0
 size_flags_horizontal = 3
-text = "Cruise Control:"
+text = "Change Camera:"
 
-[node name="CruiseControlButton" type="Button" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
+[node name="CameraButton" type="Button" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
 margin_left = 204.0
 margin_top = 550.0
 margin_right = 400.0
@@ -510,14 +510,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CruiseUpLabel" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
+[node name="CruiseControlLabel" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
 margin_top = 608.0
 margin_right = 196.0
 margin_bottom = 638.0
 size_flags_horizontal = 3
-text = "Cruise Control +5:"
+text = "Cruise Control:"
 
-[node name="CruiseUpButton" type="Button" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
+[node name="CruiseControlButton" type="Button" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
 margin_left = 204.0
 margin_top = 600.0
 margin_right = 400.0
@@ -527,18 +527,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CruiseDownLabel" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
+[node name="CruiseUpLabel" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
 margin_top = 658.0
 margin_right = 196.0
 margin_bottom = 688.0
+size_flags_horizontal = 3
+text = "Cruise Control +5:"
+
+[node name="CruiseUpButton" type="Button" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
+margin_left = 204.0
+margin_top = 650.0
+margin_right = 400.0
+margin_bottom = 696.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CruiseDownLabel" type="Label" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
+margin_top = 708.0
+margin_right = 196.0
+margin_bottom = 738.0
 size_flags_horizontal = 3
 text = "Cruise Control -5:"
 
 [node name="CruiseDownButton" type="Button" parent="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid"]
 margin_left = 204.0
-margin_top = 650.0
+margin_top = 700.0
 margin_right = 400.0
-margin_bottom = 696.0
+margin_bottom = 746.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -637,6 +654,7 @@ __meta__ = {
 [connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/TurnLeftButton" to="." method="_change_keybind" binds= [ "vehicle_light_turn_left" ]]
 [connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/TurnRightButton" to="." method="_change_keybind" binds= [ "vehicle_light_turn_right" ]]
 [connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/HazardsButton" to="." method="_change_keybind" binds= [ "vehicle_light_hazards" ]]
+[connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/ResetButton" to="." method="_change_keybind" binds= [ "vehicle_reset" ]]
 [connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CameraButton" to="." method="_change_keybind" binds= [ "vehicle_change_camera" ]]
 [connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseControlButton" to="." method="_change_keybind" binds= [ "vehicle_set_cruise_control" ]]
 [connection signal="pressed" from="SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseUpButton" to="." method="_change_keybind" binds= [ "vehicle_increase_cruise_control" ]]

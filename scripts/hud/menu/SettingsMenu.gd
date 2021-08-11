@@ -44,6 +44,7 @@ onready var changeable_inputs : Dictionary = {
 	"vehicle_light_turn_left": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/TurnLeftButton,
 	"vehicle_light_turn_right": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/TurnRightButton,
 	"vehicle_light_hazards": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/HazardsButton,
+	"vehicle_reset": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/ResetButton,
 	"vehicle_change_camera": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CameraButton,
 	"vehicle_set_cruise_control": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseControlButton,
 	"vehicle_increase_cruise_control": $SettingsContainer/MenuBox/ContentContainer/Keys/ScrollContainer/KeysGrid/CruiseUpButton,
