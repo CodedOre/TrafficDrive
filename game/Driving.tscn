@@ -21,7 +21,6 @@ pause_mode = 1
 
 [node name="OuterMirror" parent="." instance=ExtResource( 1 )]
 pause_mode = 1
-visible = false
 
 [node name="PauseBackdrop" type="ColorRect" parent="."]
 visible = false
