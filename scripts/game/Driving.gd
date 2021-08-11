@@ -54,10 +54,15 @@ func setup_driving(vehicle_path: String, paint: int, spawn: Transform) -> void:
 
 # - Places the vehicle at a new transform -
 func replace_vehicle(position: Transform) -> void:
-	# Stop vehicle movement
-	driven_vehicle.engine_force = 0
-	driven_vehicle.steering     = 0
-	driven_vehicle.brake        = driven_vehicle.Data.MaxBrakeForce
+	# Stop vehicle forces
+	driven_vehicle.engine_force  = 0
+	driven_vehicle.steering      = 0
+	driven_vehicle.brake         = driven_vehicle.Data.MaxBrakeForce
+	driven_vehicle._current_gear = 1
+	# Remove vehicle movement
+	driven_vehicle.linear_velocity  = Vector3(0, 0, 0)
+	driven_vehicle.angular_velocity = Vector3(0, 0, 0)
+	# Set vehicle to respawn position
 	driven_vehicle.global_transform = position
 
 # - Check for input to pause the game -
