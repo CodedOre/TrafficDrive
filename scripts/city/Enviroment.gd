@@ -13,7 +13,6 @@ export (Texture) var wind_tex
 # - External nodes -
 export (NodePath) var sun
 export (NodePath) var sky
-export (NodePath) var water
 
 # - Sky colors -
 export (Color) var day_color_sun        = Color(1,          1,        1,        1)
@@ -60,7 +59,6 @@ func _ready():
 	# Get nodes
 	sun   = get_node(sun)
 	sky   = get_node(sky)
-	water = get_node(water)
 	env   = get_environment()
 	var vp : Viewport = get_viewport()
 	
@@ -172,7 +170,6 @@ func upd_sun():
 	sky.material_override.set_shader_param("sky_color", sky_c)
 	sky.material_override.set_shader_param("horizon_color", hor_c)
 	sky.set_cloud_colors(sky_c.linear_interpolate(Color.black, 0.1), hor_c.linear_interpolate(Color.white, 0.1), hor_c)
-	#water.set_water_colors(sky_c, (sky_c + hor_c) / 2.0, hor_c)
 
 # - Update fog color -
 func upd_fog():
