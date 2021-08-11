@@ -39,6 +39,7 @@ func setup_driving(vehicle_path: String, paint: int, spawn: Transform) -> void:
 	driven_vehicle = vehicle_scene.instance()
 	add_child(driven_vehicle)
 	# Setup nodes
+	driven_vehicle.pause_mode = PAUSE_MODE_STOP
 	driven_vehicle.VehiclePaint = paint
 	driven_vehicle.global_transform = spawn
 	gimbalcam.set_vehicle(driven_vehicle)
