@@ -5,6 +5,36 @@
 
 extends Spatial
 
+# -- Contants --
+
+# - Basises according to cell rotation index
+const GRIDMAP_BASIS = [
+	Basis( Vector3( 1,  0,  0), Vector3( 0,  1,  0), Vector3( 0,  0,  1)), #  0
+	Basis( Vector3( 0,  1,  0), Vector3(-1,  0,  0), Vector3( 0,  0,  1)), #  1
+	Basis( Vector3(-1,  0,  0), Vector3( 0, -1,  0), Vector3( 0,  0,  1)), #  2
+	Basis( Vector3( 0, -1,  0), Vector3( 1,  0,  0), Vector3( 0,  0,  1)), #  3
+	Basis( Vector3( 1,  0,  0), Vector3( 0,  0,  1), Vector3( 0, -1,  0)), #  4
+	Basis( Vector3( 0,  1,  0), Vector3( 0,  0,  1), Vector3( 1,  0,  0)), #  5
+	Basis( Vector3(-1,  0,  0), Vector3( 0,  0,  1), Vector3( 0,  1,  0)), #  6
+	Basis( Vector3( 0, -1,  0), Vector3( 0,  0,  1), Vector3(-1,  0,  0)), #  7
+	Basis( Vector3( 1,  0,  0), Vector3( 0, -1,  0), Vector3( 0,  0, -1)), #  8
+	Basis( Vector3( 0,  1,  0), Vector3( 1,  0,  0), Vector3( 0,  0, -1)), #  9
+	Basis( Vector3(-1,  0,  0), Vector3( 0,  1,  0), Vector3( 0,  0, -1)), # 10
+	Basis( Vector3( 0, -1,  0), Vector3(-1,  0,  0), Vector3( 0,  0, -1)), # 11
+	Basis( Vector3( 1,  0,  0), Vector3( 0,  0, -1), Vector3( 0,  1,  0)), # 12
+	Basis( Vector3( 0,  1,  0), Vector3( 0,  0, -1), Vector3(-1,  0,  0)), # 13
+	Basis( Vector3(-1,  0,  0), Vector3( 0,  0, -1), Vector3( 0, -1,  0)), # 14
+	Basis( Vector3( 0, -1,  0), Vector3( 0,  0, -1), Vector3( 1,  0,  0)), # 15
+	Basis( Vector3( 0,  0, -1), Vector3( 0,  1,  0), Vector3( 1,  0,  0)), # 16
+	Basis( Vector3( 0,  0, -1), Vector3(-1,  0,  0), Vector3( 0,  1,  0)), # 17
+	Basis( Vector3( 0,  0, -1), Vector3( 0, -1,  0), Vector3(-1,  0,  0)), # 18
+	Basis( Vector3( 0,  0, -1), Vector3( 1,  0,  0), Vector3( 0, -1,  0)), # 19
+	Basis( Vector3( 0,  0,  1), Vector3( 0, -1,  0), Vector3( 1,  0,  0)), # 20
+	Basis( Vector3( 0,  0,  1), Vector3( 1,  0,  0), Vector3( 0,  1,  0)), # 21
+	Basis( Vector3( 0,  0,  1), Vector3( 0,  1,  0), Vector3(-1,  0,  0)), # 22
+	Basis( Vector3( 0,  0,  1), Vector3(-1,  0,  0), Vector3( 0, -1,  0)), # 23
+]
+
 # -- Properties --
 
 # - Where a vehicle can (and can't) spawn -
@@ -74,4 +104,5 @@ func get_respawn_point(vehicle_pos: Transform) -> Transform:
 				closest_grid = ground
 	# Create transform for spawn pos
 	var spawn_position : Vector3 = _spawn_grid.map_to_world(closest_grid.x, closest_grid.y, closest_grid.z)
-	return Transform(Basis(), spawn_position)
+	var spawn_rotation : Basis   = GRIDMAP_BASIS[_spawn_grid.get_cell_item_orientation(closest_grid.x, closest_grid.y, closest_grid.z)]
+	return Transform(spawn_rotation, spawn_position)
