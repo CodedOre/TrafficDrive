@@ -11,5 +11,5 @@ signal request_reset()
 # -- Functions --
 
 # - Sends the reset signal -
-func _send_reset_request() -> void:
+func _send_reset_request(_body) -> void:
 	emit_signal("request_reset")

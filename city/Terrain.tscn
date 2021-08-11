@@ -28,4 +28,4 @@ collision_mask = 2
 [node name="CollisionShape" type="CollisionShape" parent="Collider"]
 shape = SubResource( 1 )
 
-[connection signal="area_entered" from="Collider" to="." method="_send_reset_request"]
+[connection signal="body_entered" from="Collider" to="." method="_send_reset_request"]
