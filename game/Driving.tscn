@@ -14,7 +14,7 @@ script = ExtResource( 8 )
 StateCamera = NodePath("GimbalCamera")
 
 [node name="GimbalCamera" parent="." instance=ExtResource( 7 )]
-pause_mode = 1
+pause_mode = 2
 
 [node name="VehicleInfo" parent="." instance=ExtResource( 6 )]
 pause_mode = 1

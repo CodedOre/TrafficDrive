@@ -11,7 +11,6 @@ extends GameState
 var driven_vehicle : Vehicle
 
 # - Internal nodes -
-onready var spawnpoint  : Position3D = $PlayerSpawn
 onready var gimbalcam   : Spatial    = $GimbalCamera
 onready var vehicleinfo : Control    = $VehicleInfo
 onready var outermirror : Control    = $OuterMirror
@@ -70,6 +69,8 @@ func _toggle_pause() -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	# Pause the tree
 	get_tree().paused   =   paused
+	# Pause Camera input
+	gimbalcam.set_process_input(! paused)
 	# Change visibility of HUD elements
 	vehicleinfo.visible = ! paused
 	outermirror.visible = ! paused
