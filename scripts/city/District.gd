@@ -62,7 +62,7 @@ func get_respawn_point(vehicle_pos: Transform) -> Transform:
 			# Check if grid has no elements on top
 			var possible_spawn : bool = true
 			for height in range(ground.y, 20):
-				if _spawn_grid.get_cell_item(ground.x, height, ground.z) != -1:
+				if _spawn_grid.get_cell_item(ground.x, height + 1, ground.z) != -1:
 					possible_spawn = false
 					break
 				for grid in _non_spawn_grid:
@@ -70,6 +70,7 @@ func get_respawn_point(vehicle_pos: Transform) -> Transform:
 						possible_spawn = false
 						break
 			if possible_spawn:
+				closest_distance = ground_distance
 				closest_grid = ground
 	# Create transform for spawn pos
 	var spawn_position : Vector3 = _spawn_grid.map_to_world(closest_grid.x, closest_grid.y, closest_grid.z)
