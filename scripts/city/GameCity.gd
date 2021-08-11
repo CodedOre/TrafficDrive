@@ -14,6 +14,9 @@ onready var env       : WorldEnvironment = $Environment
 # - Runtime states -
 var active_district : Spatial
 
+# -- Signal --
+signal request_reset()
+
 # -- Functions --
 
 # - Runs at startup -
@@ -44,3 +47,11 @@ func _update_settings() -> void:
 # - Set the current active district -
 func set_active_district(district: Spatial) -> void:
 	active_district = district
+
+# - Gets the respawn position for the vehicle -
+func get_respawn_position(vehicle_pos: Transform) -> Transform:
+	return active_district.get_respawn_point(vehicle_pos)
+
+# - Emits the "request_reset" signal
+func _send_reset_request() -> void:
+	emit_signal("request_reset")

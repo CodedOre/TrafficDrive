@@ -7,6 +7,7 @@
 
 [node name="Downtown" type="Spatial"]
 script = ExtResource( 4 )
+NonSpawnGrid = [ NodePath("Enviroment/Buildings"), NodePath("Enviroment/LowerBuildings"), NodePath("Enviroment/Foundation") ]
 
 [node name="DistrictArea" type="Area" parent="."]
 

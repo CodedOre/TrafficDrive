@@ -46,3 +46,5 @@ sun = NodePath("../SunLight")
 
 [node name="Terrain" parent="Environment" instance=ExtResource( 8 )]
 pause_mode = 1
+
+[connection signal="request_reset" from="Environment/Terrain" to="." method="_send_reset_request"]

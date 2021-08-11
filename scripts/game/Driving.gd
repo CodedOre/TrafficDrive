@@ -25,6 +25,7 @@ var paused   : bool = false
 
 # -- Signals --
 signal check_pause()
+signal request_reset()
 signal return_to_main()
 
 # -- Functions --
@@ -51,6 +52,14 @@ func setup_driving(vehicle_path: String, paint: int, spawn: Transform) -> void:
 	driven_vehicle.Running = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
+# - Places the vehicle at a new transform -
+func replace_vehicle(position: Transform) -> void:
+	# Stop vehicle movement
+	driven_vehicle.engine_force = 0
+	driven_vehicle.steering     = 0
+	driven_vehicle.brake        = driven_vehicle.Data.MaxBrakeForce
+	driven_vehicle.global_transform = position
+
 # - Check for input to pause the game -
 func _process(_delta) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -58,6 +67,8 @@ func _process(_delta) -> void:
 			_toggle_pause()
 		if submenud and ! settingmenu.visible:
 			submenud = false
+	if Input.is_action_just_pressed("vehicle_reset"):
+		emit_signal("request_reset")
 
 # - Manages the pause -
 func _toggle_pause() -> void:

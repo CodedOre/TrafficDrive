@@ -36,8 +36,10 @@ NodePath("Vehicles/Ambulance"): NodePath("Vehicles/Ambulance/ViewPoint")
 [node name="Driving" parent="States" instance=ExtResource( 3 )]
 transform = Transform( 0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, 0.258819, 52, 0, -64 )
 
+[connection signal="request_reset" from="GameCity" to="." method="reset_vehicle"]
 [connection signal="start_game" from="States/TitleScreen" to="." method="select_a_vehicle"]
 [connection signal="menu_confirm" from="States/VehicleSelect" to="." method="drive_selected_vehicle"]
 [connection signal="menu_return" from="States/VehicleSelect" to="." method="return_to_main"]
 [connection signal="check_pause" from="States/Driving" to="." method="check_pause"]
+[connection signal="request_reset" from="States/Driving" to="." method="reset_vehicle"]
 [connection signal="return_to_main" from="States/Driving" to="." method="return_to_main"]

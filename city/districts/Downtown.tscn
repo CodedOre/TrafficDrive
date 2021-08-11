@@ -11,6 +11,8 @@ points = PoolVector3Array( -115, -5, -170, -115, 50, -170, -115, -5, 120, -115, 
 
 [node name="Downtown" type="Spatial"]
 script = ExtResource( 5 )
+SpawnGrid = NodePath("Enviroment/Ground")
+NonSpawnGrid = [ NodePath("Enviroment/Buildings"), NodePath("Enviroment/BuildingAdditionals"), NodePath("Enviroment/Foundation") ]
 
 [node name="DistrictArea" type="Area" parent="."]
 collision_layer = 0

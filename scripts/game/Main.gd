@@ -88,5 +88,13 @@ func return_to_main() -> void:
 	set_active_state(GameState.TITLE)
 
 # - Stops the city time when paused -
-func check_pause():
+func check_pause() -> void:
 	city.set_pause(game_states[GameState.DRIVE].paused)
+
+# - Resets a driven vehicle -
+func reset_vehicle() -> void:
+	if ! game_states[GameState.DRIVE].is_inside_tree():
+		push_error("Main: Can not reset vehicle outside of Driving!")
+		return
+	var vehicle_pos : Transform = game_states[GameState.DRIVE].driven_vehicle.global_transform
+	game_states[GameState.DRIVE].replace_vehicle(city.get_respawn_position(vehicle_pos))
