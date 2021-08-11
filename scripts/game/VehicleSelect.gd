@@ -119,6 +119,8 @@ func chosen_vehicle() -> String:
 	return vehicle_pool[selected_vehicle].filename
 func chosen_paint() -> int:
 	return color_option.selected
+func vehicle_spawn() -> Transform:
+	return vehicle_pool[selected_vehicle].global_transform
 
 # - Sets the paint of the vehicle -
 func set_paint(index : int):

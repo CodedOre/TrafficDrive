@@ -13,9 +13,6 @@ pause_mode = 2
 script = ExtResource( 8 )
 StateCamera = NodePath("GimbalCamera")
 
-[node name="PlayerSpawn" type="Position3D" parent="."]
-pause_mode = 1
-
 [node name="GimbalCamera" parent="." instance=ExtResource( 7 )]
 pause_mode = 1
 

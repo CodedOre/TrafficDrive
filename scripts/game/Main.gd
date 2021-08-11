@@ -67,14 +67,15 @@ func select_a_vehicle() -> void:
 # - State change from VehicleSelect to Driving -
 func drive_selected_vehicle() -> void:
 	# Get selected vehicle
-	var selected_vehicle : String = state_vehicle_select.chosen_vehicle()
-	var paint            : int    = state_vehicle_select.chosen_paint()
+	var selected_vehicle : String    = state_vehicle_select.chosen_vehicle()
+	var paint            : int       = state_vehicle_select.chosen_paint()
+	var vehicle_spawn    : Transform = state_vehicle_select.vehicle_spawn()
 	# Change states
 	set_active_state(GameState.DRIVE)
 	# Activates the city time
 	city.set_pause(false)
 	# Setup new scene
-	state_driving.setup_driving(selected_vehicle, paint)
+	state_driving.setup_driving(selected_vehicle, paint, vehicle_spawn)
 
 # - State change to TitleScreen -
 func return_to_main() -> void:
