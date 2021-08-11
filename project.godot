@@ -145,6 +145,11 @@ vehicle_decrease_cruise_control={
  ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="World"
+3d_physics/layer_2="Vehicles"
+
 [physics]
 
 common/enable_pause_aware_picking=true
